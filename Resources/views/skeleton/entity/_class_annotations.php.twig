@@ -1,0 +1,20 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block class_annotations %}
+{% if meta_entity.entityAnnotations | length %}
+/**
+{% for annotation in meta_entity.entityAnnotations %}
+ * @{{ annotation.namespace }}
+{%- if annotation.annotationProperties |length -%}
+    (
+        {%- for propertyName, value in annotation.annotationProperties -%}
+            {{- loop.first ? '' : ', ' }}
+            {{- propertyName }}="{{ value }}"
+        {%- endfor -%}
+    )
+{% else %}
+
+{% endif %}
+{% endfor %}
+ */
+{% endif %}
+{% endblock %}

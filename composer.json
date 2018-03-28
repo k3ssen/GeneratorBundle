@@ -1,0 +1,35 @@
+{
+    "name": "k3ssen/generator",
+    "description": "Generate content for your symfony4 project",
+    "keywords": ["generator", "crud","entity", "entities", "meta", "metadata", "symfony", "symfony4"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Kevin Driessen",
+            "email": "k3ssen@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "k3ssen/base-admin": "dev-master"
+    },
+    "require-dev": {
+        "symfony/yaml": "~4.0",
+        "symfony/config": "~4.0",
+        "symfony/dependency-injection": "~4.0",
+        "symfony/process": "~4.0",
+        "symfony/validator": "~4.0",
+        "symfony/orm-pack": "~1.0",
+        "symfony/console": "~4.0",
+        "symfony/expression-language": "~4.0"
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": { "K3ssen\\GeneratorBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    }
+}

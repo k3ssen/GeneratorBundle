@@ -1,0 +1,31 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block methods %}
+
+    protected function getEntity(): string
+    {
+        return {{ meta_entity.name }}::class;
+    }
+
+    /**
+     * @var {{ meta_entity.name }}|null $object the entity object
+     */
+    protected function voteOnAttribute(UserRoleInfoProvider $userInfo, $attribute, $object = null): bool
+    {
+        switch ($attribute) {
+            case self::INDEX:
+{% if generate_options.usingDatatable %}
+            case self::SEARCH:
+{% endif %}
+            case self::CREATE:
+                return $userInfo->isAdmin();
+            case self::VIEW:
+{% if generate_options.usingWriteActions %}
+            case self::EDIT:
+            case self::DELETE:
+{% endif %}
+                return $object && $userInfo->isAdmin();
+        }
+        return false;
+    }
+{% endblock %}

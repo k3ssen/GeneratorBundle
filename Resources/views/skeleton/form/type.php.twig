@@ -1,0 +1,25 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
+{% use '@Generator/skeleton/form/_namespace.php.twig' %}
+{% use '@Generator/skeleton/form/_usages.php.twig' %}
+{% use '@Generator/skeleton/form/_class_annotations.php.twig' %}
+{% use '@Generator/skeleton/form/_class_definition.php.twig' %}
+{% use '@Generator/skeleton/form/_traits.php.twig' %}
+{% use '@Generator/skeleton/form/_build_form.php.twig' %}
+{% use '@Generator/skeleton/form/_configure_options.php.twig' %}
+<?php
+{% block strict_types_declaration %}{{ parent() }}{% endblock %}
+
+{% block namespace %}{{ parent() }}{% endblock %}
+
+{% block usages %}{{ parent() }}{% endblock %}
+
+{% block class_annotations %}{{ parent() }}{% endblock %}
+{% block class_definition %}{{ parent() }}{% endblock %}
+{
+{%- block class_body %}
+{% block traits %}{{ parent() }}{% endblock %}
+{% block build_form %}{{ parent() }}{% endblock %}
+{% block configure_options %}{{ parent() }}{% endblock %}
+{% endblock %}
+}

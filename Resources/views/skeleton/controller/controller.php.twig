@@ -1,0 +1,28 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% set view_prefix = (meta_entity.subDir ? meta_entity.subDir|tabalize~'/': '') ~ (meta_entity.name| tabalize)  %}
+{% set route_prefix = view_prefix | replace({'/':'_'}) %}
+{% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tabalize : 'id' %}
+{% set entity_variable = meta_entity.name | camelize %}
+{% set id_getter = 'get' ~ (id_name|classify) ~ '()' %}
+{% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
+{% use '@Generator/skeleton/controller/_namespace.php.twig' %}
+{% use '@Generator/skeleton/controller/_usages.php.twig' %}
+{% use '@Generator/skeleton/controller/_class_annotations.php.twig' %}
+{% use '@Generator/skeleton/controller/_class_definition.php.twig' %}
+{% use '@Generator/skeleton/controller/_traits.php.twig' %}
+{% use '@Generator/skeleton/controller/_actions.php.twig' %}
+<?php
+{% block strict_types_declaration %}{{ parent() }}{% endblock %}
+
+{% block namespace %}{{ parent() }}{% endblock %}
+
+{% block usages %}{{ parent() }}{% endblock %}
+
+{% block class_annotations %}{{ parent() }}{% endblock %}
+{% block class_definition %}{{ parent() }}{% endblock %}
+{
+{%- block class_body %}
+{% block traits %}{{ parent() }}{% endblock %}
+{% block actions %}{{ parent() }}{% endblock %}
+{% endblock %}
+}

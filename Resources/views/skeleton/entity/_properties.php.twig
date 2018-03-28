@@ -1,0 +1,26 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var property \K3ssen\GeneratorBundle\MetaData\Property\AbstractProperty #}
+{% block properties %}
+{%- if meta_entity.idProperty is null and skip_id is not defined %}
+
+    /**
+    * @var int
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $id;
+{% endif %}
+{%- for property in meta_entity.properties %}
+
+    /**
+     * @var {{ property.returnType(property) }}{{ property.returnType(property) == 'Collection' ? '|ArrayCollection|'~property.targetEntity.name~'[]' }}
+     {%- for annotation_line in property.annotationLines %}
+
+     * {{ annotation_line | raw }}
+     {%- endfor %}
+
+     */
+    private ${{ property.name }};
+{% endfor %}
+{% endblock %}

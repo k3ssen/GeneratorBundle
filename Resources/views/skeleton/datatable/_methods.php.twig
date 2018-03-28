@@ -1,0 +1,24 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
+{% block methods %}
+
+    public function addColumns(array $options = []): void
+    {
+        $this->columnBuilder
+            ->add('id', Column::class)
+{%- for property in meta_entity.properties if property.ormType not in 'OneToManyToManyToOneToOne' %}
+
+{% if property.ormType in 'datetime' %}
+            ->add('{{ property.name }}', DateTimeColumn::class)
+{% else %}
+            ->add('{{ property.name }}', Column::class)
+{% endif %}
+{% endfor %}
+        ;
+    }
+
+    public function getEntity()
+    {
+        return {{ meta_entity.name }}::class;
+    }
+{% endblock %}

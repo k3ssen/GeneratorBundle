@@ -1,0 +1,6 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block traits %}
+{% for trait in meta_entity.traits %}
+    use {{ trait.name }};
+{% endfor %}
+{% endblock %}

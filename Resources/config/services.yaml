@@ -1,0 +1,80 @@
+# TODO: define aliased services explicitly, see: http://symfony.com/doc/current/bundles/best_practices.html#services
+
+parameters:
+    # The default_attributes to be used as MetaAttribute objects for MetaProperties.
+    # With the 'entity_generator.attributes' config, these attributes can be extended and/or partially overridden:
+    # The names and types cannot be altered. Also, meta_properties can be added, but not removed.
+    default_attributes:
+        name:
+            type: 'string'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface']
+            question: null
+        id:
+            type: 'bool'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface']
+            default: false
+            requirement_expression: 'metaEntity.getIdProperty() == null or metaEntity.getIdProperty() != metaProperty'
+        unique:
+            type: 'bool'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface']
+            default: false
+        nullable:
+            type: 'bool'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface']
+            default: false
+        length:
+            type: 'int'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\HasLengthInterface']
+        precision:
+            type: 'int'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\DecimalMetaPropertyInterface']
+        scale:
+            type: 'int'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\DecimalMetaPropertyInterface']
+        targetEntity:
+            type: 'object'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface']
+            question: 'K3ssen\GeneratorBundle\Command\AttributeQuestion\TargetEntityQuestion'
+        referencedColumnName:
+            type: 'string'
+            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface']
+            default: 'id'
+        orphanRemoval:
+            type: 'bool'
+            meta_properties:
+                - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
+                - 'K3ssen\GeneratorBundle\MetaData\Property\OneToManyMetaPropertyInterface'
+            default: false
+        inversedBy:
+            type: 'string'
+            meta_properties:
+                - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToOneMetaPropertyInterface'
+                - 'K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface'
+                - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
+            requirement_expression: 'metaProperty.getMappedBy() == null'
+        mappedBy:
+            type: 'string'
+            meta_properties:
+                - 'K3ssen\GeneratorBundle\MetaData\Property\OneToManyMetaPropertyInterface'
+                - 'K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface'
+                - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
+            requirement_expression: 'metaProperty.getInversedBy() == null'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $attributes: '%generator.attributes%'
+            $autoGenerateRepository: true #'%entity_generator.auto_generate_repository%' //TODO: make configurable
+            $bundlesMetaData: '%kernel.bundles_metadata%'
+            $entityQuestions: !tagged generator.entity_question
+            $propertyQuestions: !tagged generator.property_question
+            $attributeQuestions: !tagged generator.attribute_question
+            $projectDir: '%kernel.project_dir%'
+            $bundles: '%kernel.bundles%'
+
+    K3ssen\GeneratorBundle\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations,Tests}'

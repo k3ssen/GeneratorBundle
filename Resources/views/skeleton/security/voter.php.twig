@@ -1,0 +1,26 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% set constant_prefix = ((meta_entity.subDir ? meta_entity.subDir|tabalize~'_': '') ~ (meta_entity.name| tabalize)) | upper  %}
+{% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
+{% use '@Generator/skeleton/security/_namespace.php.twig' %}
+{% use '@Generator/skeleton/security/_usages.php.twig' %}
+{% use '@Generator/skeleton/security/_class_annotations.php.twig' %}
+{% use '@Generator/skeleton/security/_class_definition.php.twig' %}
+{% use '@Generator/skeleton/security/_constants.php.twig' %}
+{% use '@Generator/skeleton/security/_traits.php.twig' %}
+{% use '@Generator/skeleton/security/_methods.php.twig' %}
+<?php
+{% block strict_types_declaration %}{{ parent() }}{% endblock %}
+
+{% block namespace %}{{ parent() }}{% endblock %}
+
+{% block usages %}{{ parent() }}{% endblock %}
+
+{% block class_annotations %}{{ parent() }}{% endblock %}
+{% block class_definition %}{{ parent() }}{% endblock %}
+{
+{%- block class_body %}
+{% block constants %}{{ parent() }}{% endblock %}
+{% block traits %}{{ parent() }}{% endblock %}
+{% block methods %}{{ parent() }}{% endblock %}
+{% endblock %}
+}

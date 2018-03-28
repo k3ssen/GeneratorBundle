@@ -1,0 +1,18 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block usages %}
+use {{ meta_entity.fullClassName }};
+use {{ meta_entity.repositoryFullClassName }};
+use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
+{% if generate_options.usingVoters %}
+use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
+{% endif %}
+{% if generate_options.usingDatatable %}
+    use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
+{% endif %}
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+{% endblock %}

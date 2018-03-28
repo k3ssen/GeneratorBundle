@@ -1,0 +1,30 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block index_action %}
+
+{% block index_action_annotations %}
+    /**
+     * @Route("/", name="{{ route_prefix }}_index")
+     */
+{% endblock %}
+{% block index_action_method_definition %}
+    public function indexAction({{ meta_entity.name }}{% if generate_options.usingDatatable %}Datatable $datatable{% else %}Repository $repo{% endif %}): Response
+{% endblock %}
+    {
+{% block index_actions_security_check %}
+{%- if generate_options.usingVoters %}
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::INDEX, {{ meta_entity.name }}::class);
+
+{% endif %}
+{% endblock %}
+{% block index_action_return_response %}
+        return $this->render('{{ view_prefix }}/index.html.twig', [
+{% if generate_options.usingDatatable %}
+            'datatable' => $datatable->buildDatatable(),
+{% else %}
+            '{{ meta_entity.name | pluralize | tabalize }}' => $repo->findAll(),
+{% endif %}
+        ]);
+{% endblock %}
+    }
+{% endblock index_action %}

@@ -1,0 +1,44 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block edit_action %}
+
+{% block edit_action_annotations %}
+    /**
+     * @Route("/{{ '{' ~ id_name ~ '}' }}/edit", name="{{ route_prefix }}_edit")
+     * @Method({"GET", "POST"})
+     */
+{% endblock %}
+{% block edit_action_method_definition %}
+    public function editAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}, {{ meta_entity.name }}Repository $repo): Response
+{% endblock %}
+    {
+{% block edit_actions_security_check %}
+{%- if generate_options.usingVoters %}
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::EDIT, ${{ entity_variable }});
+
+{% endif %}
+{% endblock %}
+{% block edit_action_form_creation %}
+        $form = $this->createForm({{ meta_entity.name }}Type::class, ${{ entity_variable }});
+{% endblock %}
+{% block edit_action_form_handling %}
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+{% block edit_action_save_entity %}
+            $repo->save(${{ entity_variable }});
+{% endblock %}
+{% block edit_action_flash_message %}
+            $this->addFlash('success', '{{ meta_entity.name }} has been save');
+{% endblock %}
+{% block edit_action_redirect_response %}
+            return $this->redirectToRoute('{{ route_prefix }}_show', ['{{ id_name }}' => ${{ entity_variable }}->{{ id_getter }}]);
+{% endblock %}
+        }
+{% endblock %}
+{% block edit_action_return_response %}
+        return $this->render('{{ view_prefix }}/edit.html.twig', [
+            '{{ meta_entity.name | tabalize }}' => ${{ entity_variable }},
+            'form' => $form->createView(),
+        ]);
+{% endblock %}
+    }
+{% endblock edit_action %}

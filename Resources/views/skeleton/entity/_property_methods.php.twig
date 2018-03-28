@@ -1,0 +1,52 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var property \K3ssen\GeneratorBundle\MetaData\Property\AbstractProperty #}
+{% block property_methods %}
+{% if meta_entity.idProperty is null and skip_id is not defined %}
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+{% endif %}
+{% for property in meta_entity.properties %}
+
+{% if 'Collection' in property.returnType %}{{ block('property_collection_methods') }}{% else %}
+    public function set{{ property.name | classify }}({{ property.nullable ? '?' : '' }}{{ property.returnType(property) }} ${{ property.name }}): self
+    {
+        $this->{{ property.name }} = ${{ property.name }};
+        return $this;
+    }
+
+    public function get{{ property.name | classify }}(): ?{{ property.returnType(property) }}
+    {
+        return $this->{{ property.name }};
+    }
+{% endif %}
+{% endfor %}
+{% endblock %}
+
+{% block property_collection_methods %}
+{# @var property \K3ssen\GeneratorBundle\MetaData\Property\AbstractRelationshipProperty #}
+    /**
+     * @return Collection|ArrayCollection|{{ property.targetEntity.name }}[]
+     */
+    public function get{{ property.name | classify }}(): ?Collection
+    {
+        return $this->{{ property.name }};
+    }
+
+    public function add{{ property.name | singularize | classify }}({{ property.targetEntity.name }} ${{ property.name | singularize }}): self
+    {
+        $this->{{ property.name }}->add(${{ property.name | singularize }});
+{% if property.mappedBy %}
+        ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}($this);
+{% endif %}
+        return $this;
+    }
+
+    public function remove{{ property.name | singularize | classify }}({{ property.targetEntity.name }} ${{ property.name | singularize }}): self
+    {
+        $this->{{ property.name }}->removeElement(${{ property.name | singularize }});
+        return $this;
+    }
+{% endblock %}

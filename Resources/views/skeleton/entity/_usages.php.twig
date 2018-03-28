@@ -1,0 +1,6 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block usages %}
+{% for namespace, alias in meta_entity.usages %}
+use {{ namespace }}{{ alias ? ' as '~alias : '' }};
+{% endfor %}
+{% endblock %}

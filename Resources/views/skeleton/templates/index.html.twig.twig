@@ -1,0 +1,25 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% set entity_singularized = meta_entity.name|tabalize %}
+{{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
+{{ "{% extends 'base.html.twig' %}" }}
+
+{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{% if meta_entity.displayProperty %}
+    {{ "{% set sub_title = "~entity_singularized~" %}" }}
+{% endif %}
+
+{{ "{% block content %}" }}
+    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: '\\\\"~meta_entity.fullClassName|replace({'\\':'\\\\'})~"', use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
+        {{ "{% block box_title %}" }}
+            Overview
+        {{ "{% endblock %}" }}
+        {{ "{% block box_body %}" }}
+{% if generate_options.usingDatatable %}
+            {{ " {{ sg_datatables_render(datatable) }}" }}
+{% else %}
+{% include '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
+{% endif %}
+        {{ "{% endblock %}" }}
+    {{ "{% endembed %}" }}
+{{ "{% endblock %}" }}

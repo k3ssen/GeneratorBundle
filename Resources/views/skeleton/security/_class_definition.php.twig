@@ -1,0 +1,14 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block class_definition %}
+    {%- block class_type -%}
+        class
+    {%- endblock -%}
+    {%- block class_name -%}
+        {{ ' ' ~ meta_entity.name }}Voter
+    {%- endblock %}
+    {%- block extends_class %} extends AbstractVoter{%- endblock %}
+    {%- block implements -%}
+
+    {%- endblock %}
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block usages %}
+use {{ meta_entity.fullClassName }};
+use K3ssen\BaseAdminBundle\Datatable\AbstractDatatable;
+use Sg\DatatablesBundle\Datatable\Column\Column;
+{%- for property in meta_entity.properties if property.ormType in 'datetime' and break is not defined %}
+
+use Sg\DatatablesBundle\Datatable\Column\DateTimeColumn;
+{% set break = true %}
+{% endfor %}
+
+{% endblock %}

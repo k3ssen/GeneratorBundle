@@ -1,0 +1,12 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block class_definition %}
+    {%- block class_type -%}
+        class
+    {%- endblock -%}
+    {%- block class_name -%}
+        {{ ' ' ~ meta_entity.name }}Repository
+    {%- endblock %}
+    {%- block extends_class %} extends ServiceEntityRepository{%- endblock %}
+    {%- block implements %} implements PersistableInterface{%- endblock %}
+
+{% endblock %}

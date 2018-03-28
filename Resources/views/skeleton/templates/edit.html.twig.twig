@@ -1,0 +1,22 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% set entity_singularized = meta_entity.name|tabalize %}
+{{ "{% extends 'base.html.twig' %}" }}
+
+{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{% if meta_entity.displayProperty %}
+    {{ "{% set sub_title = "~entity_singularized~" %}" }}
+{% endif %}
+
+{{ "{% block content %}" }}
+    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: "~entity_singularized~", use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
+        {{ "{% block box_title %}" }}
+            Edit
+        {{ "{% endblock %}" }}
+        {{ "{% block box_body %}" }}
+            {{ '{{ form_start(form) }}' }}
+            {{ '{{ form_widget(form) }}' }}
+            <button class="btn btn-primary">Save</button>
+            {{ '{{ form_end(form) }}' }}
+        {{ "{% endblock %}" }}
+    {{ "{% endembed %}" }}
+{{ "{% endblock %}" }}

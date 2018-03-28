@@ -1,0 +1,10 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block configure_options %}
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => {{ meta_entity.name }}::class,
+        ]);
+    }
+{% endblock %}

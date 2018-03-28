@@ -1,0 +1,15 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block constants %}
+
+    public const INDEX = '{{ constant_prefix }}_INDEX';
+    public const VIEW = '{{ constant_prefix }}_VIEW';
+{% if generate_options.usingDatatable %}
+    public const SEARCH = '{{ constant_prefix }}_SEARCH';
+{% endif %}
+{% if generate_options.usingWriteActions %}
+    public const CREATE = '{{ constant_prefix }}_CREATE';
+    public const EDIT = '{{ constant_prefix }}_EDIT';
+    public const DELETE = '{{ constant_prefix }}_DELETE';
+{% endif %}
+{% endblock %}

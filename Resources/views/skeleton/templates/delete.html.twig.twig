@@ -1,0 +1,29 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% set route_prefix = (meta_entity.subDir ? meta_entity.subDir|tabalize~'_': '') ~ (meta_entity.name| tabalize)  %}
+{% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tabalize : 'id' %}
+{% set entity_singularized = meta_entity.name|tabalize %}
+{{ "{% extends 'base.html.twig' %}" }}
+
+{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{% if meta_entity.displayProperty %}
+    {{ "{% set sub_title = "~entity_singularized~" %}" }}
+{% endif %}
+
+{{ "{% block content %}" }}
+    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: "~entity_singularized~", use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
+        {{ "{% block box_title %}" }}
+            Delete
+        {{ "{% endblock %}" }}
+        {{ "{% block box_body %}" }}
+            {{ '{{ form_start(form) }}' }}
+            {{ '{{ form_widget(form) }}' }}
+            <p>
+                Are you sure you want to delete this {{ meta_entity.name }}?
+            </p>
+            <button class="btn btn-danger">Yes, delete</button>
+            <a href="{{ ("{{ path('"~route_prefix ~"_show', {'"~id_name~"' : "~meta_entity.name | tabalize~"."~id_name~"}) }}") | raw }}" class="btn btn-default">No, go back</a>
+            {{ '{{ form_end(form) }}' }}
+        {{ "{% endblock %}" }}
+    {{ "{% endembed %}" }}
+{{ "{% endblock %}" }}

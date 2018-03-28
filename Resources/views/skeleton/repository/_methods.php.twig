@@ -1,0 +1,19 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block methods %}
+
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, {{ meta_entity.name }}::class);
+    }
+
+    /** @return {{ meta_entity.name }}[] */
+    public function findAll()
+    {
+        return parent::findAll();
+    }
+
+    public function createBasicQueryBuilder($alias = self::DEFAULT_ALIAS, $indexBy = '{{ meta_entity.idProperty ? meta_entity.idProperty.name : 'id' }}')
+    {
+        return parent::createQueryBuilder($alias, $indexBy);
+    }
+{% endblock %}

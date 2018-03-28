@@ -1,0 +1,26 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block show_action %}
+
+{% block show_actions_annotations %}
+    /**
+     * @Route("/{{ '{' ~ id_name ~ '}' }}/show", name="{{ route_prefix }}_show")
+     */
+{% endblock %}
+{% block show_actions_method_definition %}
+    public function showAction({{ meta_entity.name }} ${{ entity_variable }}): Response
+{% endblock %}
+    {
+{% block show_actions_security_check %}
+{%- if generate_options.usingVoters %}
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::VIEW, ${{ entity_variable }});
+
+{% endif %}
+{% endblock %}
+{% block show_actions_return_response %}
+        return $this->render('{{ view_prefix }}/show.html.twig', [
+            '{{ meta_entity.name | tabalize }}' => ${{ entity_variable }},
+        ]);
+{% endblock %}
+    }
+{% endblock show_action %}

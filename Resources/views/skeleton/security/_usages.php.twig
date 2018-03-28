@@ -1,0 +1,7 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block usages %}
+use {{ meta_entity.fullClassName }};
+use K3ssen\BaseAdminBundle\Security\UserRoleInfoProvider;
+use K3ssen\BaseAdminBundle\Security\AbstractVoter;
+{% endblock %}

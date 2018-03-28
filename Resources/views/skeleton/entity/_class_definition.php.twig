@@ -1,0 +1,16 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block class_definition %}
+    {%- block class_type -%}
+        class
+    {%- endblock -%}
+    {%- block class_name -%}
+        {{ ' ' ~ meta_entity.name }}
+    {%- endblock %}
+    {%- block extends_class -%}
+        {# TODO: add parent-class to meta_entity #}
+    {%- endblock %}
+    {%- block implements -%}
+        {# TODO: add interface array to meta_entity #}
+    {%- endblock %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
+{% use '@Generator/skeleton/repository/_namespace.php.twig' %}
+{% use '@Generator/skeleton/repository/_usages.php.twig' %}
+{% use '@Generator/skeleton/repository/_class_annotations.php.twig' %}
+{% use '@Generator/skeleton/repository/_class_definition.php.twig' %}
+{% use '@Generator/skeleton/repository/_traits.php.twig' %}
+{% use '@Generator/skeleton/repository/_constants.php.twig' %}
+{% use '@Generator/skeleton/repository/_methods.php.twig' %}
+<?php
+{% block strict_types_declaration %}{{ parent() }}{% endblock %}
+
+{% block namespace %}{{ parent() }}{% endblock %}
+
+{% block usages %}{{ parent() }}{% endblock %}
+
+{% block class_annotations %}{{ parent() }}{% endblock %}
+{% block class_definition %}{{ parent() }}{% endblock %}
+{
+{%- block class_body %}
+{% block traits %}{{ parent() }}{% endblock %}
+{% block constants %}{{ parent() }}{% endblock %}
+{% block methods %}{{ parent() }}{% endblock %}
+{% endblock %}
+}

@@ -1,0 +1,44 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block delete_action %}
+
+{% block delete_action_annotations %}
+    /**
+     * @Route("/{{ '{' ~ id_name ~ '}' }}/delete", name="{{ route_prefix }}_delete")
+     * @Method({"GET", "DELETE"})
+     */
+{% endblock %}
+{% block delete_action_method_definition %}
+    public function deleteAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}, {{ meta_entity.name }}Repository $repo): Response
+{% endblock %}
+    {
+{% block delete_actions_security_check %}
+{%- if generate_options.usingVoters %}
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::DELETE, ${{ entity_variable }});
+
+{% endif %}
+{% endblock %}
+{% block delete_action_form_creation %}
+        $form = $this->createFormBuilder()->setMethod('DELETE')->getForm();
+{% endblock %}
+{% block delete_action_form_handling %}
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+{% block delete_action_save_entity %}
+            $repo->delete(${{ entity_variable }});
+{% endblock %}
+{% block delete_action_flash_message %}
+            $this->addFlash('success', '{{ meta_entity.name }} has been deleted');
+{% endblock %}
+{% block delete_action_redirect_response %}
+            return $this->redirectToRoute('{{ route_prefix }}_index');
+{% endblock %}
+        }
+{% endblock %}
+{% block delete_action_return_response %}
+        return $this->render('{{ view_prefix }}/delete.html.twig', [
+            '{{ meta_entity.name | tabalize }}' => ${{ entity_variable }},
+            'form' => $form->createView(),
+        ]);
+{% endblock %}
+    }
+{% endblock delete_action %}
