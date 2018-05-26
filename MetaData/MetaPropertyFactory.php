@@ -58,33 +58,33 @@ class MetaPropertyFactory
 
     public function createMetaProperty(MetaEntityInterface $metaEntity, string $type, string $name): ?MetaPropertyInterface
     {
-        if (array_key_exists($type, $this->getTypes())) {
-            /** @var MetaPropertyInterface $typeClass */
-            $typeClass = $this->getTypes()[$type];
-            /** @var MetaAttributeInterface[] $metaAttributes */
-            $metaAttributes = new ArrayCollection();
-
-            foreach ($this->metaAttributeFactory->getAttributesList() as $attributeName => $attributeInfo) {
-                $classes = $attributeInfo['meta_properties'] ?? [];
-                if (is_string($classes)) {
-                    $classes = [$classes];
-                }
-                if (empty($classes)) {
-                    $metaAttributes->set($attributeName, $this->metaAttributeFactory->createMetaAttribute($attributeName, $attributeInfo));
-                    continue;
-                }
-                foreach ($classes as $class) {
-                    if (is_a($typeClass, $class, true)) {
-                        $metaAttributes->set($attributeName, $this->metaAttributeFactory->createMetaAttribute($attributeName, $attributeInfo));
-                    }
-                }
-            }
-            $metaProperty = new $typeClass($metaEntity, $metaAttributes, $name);
-            foreach ($metaAttributes as $metaAttribute) {
-                $metaAttribute->setMetaProperty($metaProperty);
-            }
-            return $metaProperty;
+        if (!array_key_exists($type, $this->getTypes())) {
+            return null;
         }
-        return null;
+        /** @var MetaPropertyInterface $typeClass */
+        $typeClass = $this->getTypes()[$type];
+        /** @var MetaAttributeInterface[]|ArrayCollection $metaAttributes */
+        $metaAttributes = new ArrayCollection();
+
+        foreach ($this->metaAttributeFactory->getAttributesList() as $attributeName => $attributeInfo) {
+            $classes = $attributeInfo['meta_properties'] ?? [];
+            if (is_string($classes)) {
+                $classes = [$classes];
+            }
+            if (empty($classes)) {
+                $metaAttributes->set($attributeName, $this->metaAttributeFactory->createMetaAttribute($attributeName, $attributeInfo));
+                continue;
+            }
+            foreach ($classes as $class) {
+                if (is_a($typeClass, $class, true)) {
+                    $metaAttributes->set($attributeName, $this->metaAttributeFactory->createMetaAttribute($attributeName, $attributeInfo));
+                }
+            }
+        }
+        $metaProperty = new $typeClass($metaEntity, $metaAttributes, $name);
+        foreach ($metaAttributes as $metaAttribute) {
+            $metaAttribute->setMetaProperty($metaProperty);
+        }
+        return $metaProperty;
     }
 }

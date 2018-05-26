@@ -54,6 +54,7 @@ class EntityCommand extends Command
         foreach ($affectedFiles as $fileName) {
             $commandInfo->getIo()->success(sprintf('Created/updated file %s', $fileName));
         }
+        $commandInfo->getIo()->note('Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.');
     }
 
     protected function makeEntity(CommandInfo $commandInfo): ?MetaEntityInterface

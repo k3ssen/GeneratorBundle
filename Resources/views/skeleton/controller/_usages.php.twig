@@ -8,9 +8,11 @@ use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
 {% if generate_options.usingDatatable %}
-    use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
+use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
 {% endif %}
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+{% if meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
+use {{ generate_options.defaultBundleNamespace }}\Controller\CrudController;
+{% endif %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;

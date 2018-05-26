@@ -8,13 +8,29 @@ use K3ssen\GeneratorBundle\Command\Helper\CommandInfo;
 class DisplayFieldQuestion implements EntityQuestionInterface
 {
     public const PRIORITY = 40;
+    /**
+     * @var bool
+     */
+    protected $askDisplayField;
+
+    public function __construct(bool $askDisplayField)
+    {
+        $this->askDisplayField = $askDisplayField;
+    }
 
     public function addActions(CommandInfo $commandInfo, array &$actions) {
-        $actions['Edit display field'] = function() use($commandInfo) { $this->doQuestion($commandInfo); };
+        if ($this->askDisplayField) {
+            $actions['Edit display field'] = function () use ($commandInfo) {
+                $this->doQuestion($commandInfo);
+            };
+        }
     }
 
     public function doQuestion(CommandInfo $commandInfo)
     {
+        if ($this->askDisplayField === false) {
+            return;
+        }
         $propertyOptions = ['' => null];
         foreach ($commandInfo->getMetaEntity()->getProperties() as $property) {
             if (in_array($property->getReturnType(), ['string', 'int'], true)) {

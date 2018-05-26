@@ -10,6 +10,7 @@
 {% use '@Generator/skeleton/controller/_class_annotations.php.twig' %}
 {% use '@Generator/skeleton/controller/_class_definition.php.twig' %}
 {% use '@Generator/skeleton/controller/_traits.php.twig' %}
+{% use '@Generator/skeleton/controller/_constants.php.twig' %}
 {% use '@Generator/skeleton/controller/_actions.php.twig' %}
 <?php
 {% block strict_types_declaration %}{{ parent() }}{% endblock %}
@@ -23,6 +24,7 @@
 {
 {%- block class_body %}
 {% block traits %}{{ parent() }}{% endblock %}
+{% block constants %}{{ parent() }}{% endblock %}
 {% block actions %}{{ parent() }}{% endblock %}
 {% endblock %}
 }

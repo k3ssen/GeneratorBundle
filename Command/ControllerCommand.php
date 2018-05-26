@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CrudCommand extends Command
+class ControllerCommand extends Command
 {
     protected static $defaultName = 'generator:create:controller';
 

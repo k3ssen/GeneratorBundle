@@ -5,15 +5,5 @@
 {{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
 
 {{ "{% block content %}" }}
-    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: "~entity_singularized~", use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
-        {{ "{% block box_title %}" }}
-            New
-        {{ "{% endblock %}" }}
-        {{ "{% block box_body %}" }}
-            {{ '{{ form_start(form) }}' }}
-            {{ '{{ form_widget(form) }}' }}
-            <button class="btn btn-primary">Save</button>
-            {{ '{{ form_end(form) }}' }}
-        {{ "{% endblock %}" }}
-    {{ "{% endembed %}" }}
+    {{ ("{{ entity_form_box('New', "~entity_singularized~", "~(generate_options.usingVoters?'true':'false')~") }}") | raw  }}
 {{ "{% endblock %}" }}

@@ -1,2 +1,7 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
-{% block class_annotations %}{% endblock %}
+{% block class_annotations %}
+/**
+ * @method {{ meta_entity.name }}[] findAll()
+ * @method {{ meta_entity.name }} find($id, $lockMode = null, $lockVersion = null)
+ */
+{% endblock %}

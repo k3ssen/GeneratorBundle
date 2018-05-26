@@ -9,59 +9,54 @@
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: "~entity_singularized~", use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
-        {{ "{% block box_title %}" }}
-            Details
-        {{ "{% endblock %}" }}
-        {{ "{% block box_body %}" }}
+    {{ ("{% set entity_box('Details', "~entity_singularized~", "~(generate_options.usingVoters?'true':'false')~") %}") | raw  }}
 {% for property in meta_entity.properties %}
 {# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
-            <div class="form-group row">
-                <label class="col-md-2">
-                    {{ property.name }}
-                </label>
-                <div class="col-md-10">
-                {%- if property.ormType in ['datetime'] %}
+        <div class="form-group row">
+            <label class="col-md-2">
+                {{ property.name }}
+            </label>
+            <div class="col-md-10">
+            {%- if property.ormType in ['datetime'] %}
 
-                    {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}
+                {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}
 
-                {%- elseif property.ormType in ['date'] %}
+            {%- elseif property.ormType in ['date'] %}
 
-                    {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'Y-m-d\') }}{% endif %}' }}
+                {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'Y-m-d\') }}{% endif %}' }}
 
-                {%- elseif property.ormType in ['time'] %}
+            {%- elseif property.ormType in ['time'] %}
 
-                    {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'H:i:s\') }}{% endif %}' }}
+                {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|date(\'H:i:s\') }}{% endif %}' }}
 
-                {%- elseif property.ormType in ['array'] %}
+            {%- elseif property.ormType in ['array'] %}
 
-                    {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|join(\', \') }}{% endif %}' }}
+                {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|join(\', \') }}{% endif %}' }}
 
-                {%- elseif property.ormType in ['boolean'] %}
+            {%- elseif property.ormType in ['boolean'] %}
 
-                    {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}Yes{% else %}No{% endif %}' }}
+                {{ '{% if ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}Yes{% else %}No{% endif %}' }}
 
-                {%- elseif property.ormType in ['text'] %}
+            {%- elseif property.ormType in ['text'] %}
 
-                    {{ '{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|nl2br }}' }}
+                {{ '{{ ' ~ entity_singularized ~ '.' ~ property.name ~ '|nl2br }}' }}
 
-                {%- elseif property.ormType in 'OneToManyToMany' %}
+            {%- elseif property.ormType in 'OneToManyToMany' %}
 
-                    <ul>
-                        {{ '{% for ' ~ property.name|singularize|tabalize ~ ' in ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}' }}
-                            <li>{{ '{{ ' ~ property.name|singularize|tabalize ~ ' }}' }}</li>
-                        {{ '{% endfor %}' }}
-                    </ul>
+                <ul>
+                    {{ '{% for ' ~ property.name|singularize|tabalize ~ ' in ' ~ entity_singularized ~ '.' ~ property.name ~ ' %}' }}
+                        <li>{{ '{{ ' ~ property.name|singularize|tabalize ~ ' }}' }}</li>
+                    {{ '{% endfor %}' }}
+                </ul>
 
-                {%- else %}
+            {%- else %}
 
-                    {{ '{{ ' ~ entity_singularized ~ '.' ~ property.name ~ ' }}' }}
+                {{ '{{ ' ~ entity_singularized ~ '.' ~ property.name ~ ' }}' }}
 
-                {%- endif %}
+            {%- endif %}
 
-                </div>
             </div>
+        </div>
 {% endfor %}
-        {{ "{% endblock %}" }}
-    {{ "{% endembed %}" }}
+    {{ "{% endset %}" }}
 {{ "{% endblock %}" }}

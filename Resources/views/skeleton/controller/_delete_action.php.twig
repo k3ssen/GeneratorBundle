@@ -8,7 +8,7 @@
      */
 {% endblock %}
 {% block delete_action_method_definition %}
-    public function deleteAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}, {{ meta_entity.name }}Repository $repo): Response
+    public function deleteAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}): Response
 {% endblock %}
     {
 {% block delete_actions_security_check %}
@@ -18,17 +18,10 @@
 {% endif %}
 {% endblock %}
 {% block delete_action_form_creation %}
-        $form = $this->createFormBuilder()->setMethod('DELETE')->getForm();
+        $form = $this->createDeleteForm(${{ entity_variable }});
 {% endblock %}
 {% block delete_action_form_handling %}
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-{% block delete_action_save_entity %}
-            $repo->delete(${{ entity_variable }});
-{% endblock %}
-{% block delete_action_flash_message %}
-            $this->addFlash('success', '{{ meta_entity.name }} has been deleted');
-{% endblock %}
+        if ($this->handleDeleteForm($form, $request)) {
 {% block delete_action_redirect_response %}
             return $this->redirectToRoute('{{ route_prefix }}_index');
 {% endblock %}

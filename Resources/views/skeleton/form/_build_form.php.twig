@@ -8,6 +8,14 @@
 
             ->add('{{ property.name }}', null, [
                 'label' => '{{ property.name }}',
+                {#- Only relationship properties like 'OneToMany' contain 'To' in their ormType -#}
+                {%- if 'To' in property.ormType %}
+
+                'attr' => [
+                    'data-role' => 'select2',
+                ],
+                {%- endif %}
+
             ])
         {%- endfor %}
 

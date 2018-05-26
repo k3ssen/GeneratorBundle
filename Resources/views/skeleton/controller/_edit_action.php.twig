@@ -8,7 +8,7 @@
      */
 {% endblock %}
 {% block edit_action_method_definition %}
-    public function editAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}, {{ meta_entity.name }}Repository $repo): Response
+    public function editAction(Request $request, {{ meta_entity.name }} ${{ entity_variable }}): Response
 {% endblock %}
     {
 {% block edit_actions_security_check %}
@@ -21,16 +21,9 @@
         $form = $this->createForm({{ meta_entity.name }}Type::class, ${{ entity_variable }});
 {% endblock %}
 {% block edit_action_form_handling %}
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-{% block edit_action_save_entity %}
-            $repo->save(${{ entity_variable }});
-{% endblock %}
-{% block edit_action_flash_message %}
-            $this->addFlash('success', '{{ meta_entity.name }} has been save');
-{% endblock %}
+        if ($this->handleForm($form, $request)) {
 {% block edit_action_redirect_response %}
-            return $this->redirectToRoute('{{ route_prefix }}_show', ['{{ id_name }}' => ${{ entity_variable }}->{{ id_getter }}]);
+            return $this->redirectToRoute('{{ route_prefix }}_show', ${{ entity_variable }});
 {% endblock %}
         }
 {% endblock %}

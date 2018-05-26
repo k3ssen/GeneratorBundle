@@ -1,4 +1,5 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}
 {% set entity_singularized = meta_entity.name|tabalize %}
 {{ "{% extends 'base.html.twig' %}" }}
 
@@ -8,15 +9,5 @@
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: "~entity_singularized~", use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
-        {{ "{% block box_title %}" }}
-            Edit
-        {{ "{% endblock %}" }}
-        {{ "{% block box_body %}" }}
-            {{ '{{ form_start(form) }}' }}
-            {{ '{{ form_widget(form) }}' }}
-            <button class="btn btn-primary">Save</button>
-            {{ '{{ form_end(form) }}' }}
-        {{ "{% endblock %}" }}
-    {{ "{% endembed %}" }}
+    {{ ("{{ entity_form_box('Edit', "~entity_singularized~", "~(generate_options.usingVoters?'true':'false')~") }}") | raw  }}
 {{ "{% endblock %}" }}

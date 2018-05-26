@@ -10,16 +10,11 @@
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% embed '@BaseAdmin/components/box.html.twig' with {entity: '\\\\"~meta_entity.fullClassName|replace({'\\':'\\\\'})~"', use_voter: "~(generate_options.usingVoters ? 'true': 'false')~"} %}")|raw }}
-        {{ "{% block box_title %}" }}
-            Overview
-        {{ "{% endblock %}" }}
-        {{ "{% block box_body %}" }}
+    {{ ("{% set entity_box('Overview', null, "~(generate_options.usingVoters?'true':'false')~") with {action_prefix: '"~entity_singularized~"'}%}") | raw }}
 {% if generate_options.usingDatatable %}
-            {{ " {{ sg_datatables_render(datatable) }}" }}
+        {{ " {{ sg_datatables_render(datatable) }}" }}
 {% else %}
 {% include '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
 {% endif %}
-        {{ "{% endblock %}" }}
-    {{ "{% endembed %}" }}
+    {{ "{% endset %}" }}
 {{ "{% endblock %}" }}

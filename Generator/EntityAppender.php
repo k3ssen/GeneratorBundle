@@ -53,7 +53,7 @@ class EntityAppender
     protected function addConstructorContent(MetaEntityInterface $pseudoMetaEntity, string &$currentContent)
     {
         $hasConstructor = strpos($currentContent, 'public function __construct(') !== false;
-        $propertyContent = $this->twig->render('@Generator/skeleton/entity/_magic_method_construct.php.twig', [
+        $propertyContent = $this->twig->render('@Generator/skeleton/entity/_construct.php.twig', [
             'meta_entity' => $pseudoMetaEntity,
             'inner_content_only' => $hasConstructor,
         ]);

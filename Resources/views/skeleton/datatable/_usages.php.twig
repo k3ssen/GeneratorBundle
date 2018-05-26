@@ -2,7 +2,9 @@
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block usages %}
 use {{ meta_entity.fullClassName }};
-use K3ssen\BaseAdminBundle\Datatable\AbstractDatatable;
+{% if meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
+use {{ generate_options.defaultBundleNamespace }}\Datatable\AbstractDatatable;
+{% endif %}
 use Sg\DatatablesBundle\Datatable\Column\Column;
 {%- for property in meta_entity.properties if property.ormType in 'datetime' and break is not defined %}
 

@@ -78,6 +78,9 @@ class MetaEntity implements MetaEntityInterface
      */
     public function getBundleName(): ?string
     {
+        if ($this->getBundleNamespace() === static::NO_BUNDLE_NAMESPACE) {
+            return null;
+        }
         if (strpos('\\', $this->getBundleNamespace()) !== false) {
             $parts = explode('\\', $this->getBundleNamespace());
             return array_pop($parts);

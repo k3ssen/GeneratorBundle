@@ -53,7 +53,7 @@ class CommandInfo
         throw new \RuntimeException(sprintf('No metaEntity set in %s; Make sure "setMetaEntity" is called before calling "getMetaEntity"', static::class));
     }
 
-    public function getIo(): SymfonyStyle
+    public function getIo(): CommandStyle
     {
         if (!isset($this->io)) {
             $this->io = new CommandStyle($this->input, $this->output);

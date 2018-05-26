@@ -15,7 +15,7 @@ class ManyToOneMetaProperty extends AbstractRelationMetaProperty implements Many
     public function __construct(MetaEntityInterface $metaEntity, ArrayCollection $metaAttributes, string $name)
     {
         parent::__construct($metaEntity, $metaAttributes, $name);
-        $this->setInversedBy(lcfirst($metaEntity->getName()));
+        $this->setInversedBy(Inflector::pluralize(lcfirst($metaEntity->getName())));
     }
 
     public static function getReturnType(self $property = null): string

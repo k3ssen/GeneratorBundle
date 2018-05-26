@@ -72,7 +72,7 @@ class EntityAppendCommand extends Command
         } else {
             $choices = $this->metaEntityFactory->getEntityOptions();
             if (count($choices) === 0) {
-                $commandInfo->getIo()->error('No entities found; Use \'entity:generate\' instead to add new entities.');
+                $commandInfo->getIo()->error('No entities found; Use \'generator:create:entity\' instead to add new entities.');
             }
             $choice = $commandInfo->getIo()->choice('Entity', $choices);
 

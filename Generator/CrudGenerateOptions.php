@@ -8,6 +8,7 @@ class CrudGenerateOptions
     protected $usingVoters = false;
     protected $usingWriteActions = false;
     protected $usingDatatable = false;
+    protected $defaultBundleNamespace;
 
     public function isUsingVoters(): bool
     {
@@ -37,5 +38,18 @@ class CrudGenerateOptions
     public function setUsingDatatable(bool $usingDatatable)
     {
         $this->usingDatatable = $usingDatatable;
+    }
+
+    public function getDefaultBundleNamespace(): string
+    {
+        if (!$this->defaultBundleNamespace) {
+            throw new \RuntimeException('No default bundle has been set yet for the GenerateOptions.');
+        }
+        return $this->defaultBundleNamespace;
+    }
+
+    public function setDefaultBundleNamespace(string $defaultBundleNamespace)
+    {
+        $this->defaultBundleNamespace = $defaultBundleNamespace;
     }
 }

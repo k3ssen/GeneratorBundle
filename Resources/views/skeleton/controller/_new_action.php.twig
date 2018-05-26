@@ -8,7 +8,7 @@
      */
 {% endblock %}
 {% block new_action_method_definition %}
-    public function newAction(Request $request, {{ meta_entity.name }}Repository $repo): Response
+    public function newAction(Request $request): Response
 {% endblock %}
     {
 {% block new_action_object_creation %}
@@ -24,16 +24,9 @@
         $form = $this->createForm({{ meta_entity.name }}Type::class, ${{ entity_variable }});
 {% endblock %}
 {% block new_action_form_handling %}
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-{% block new_action_save_entity %}
-            $repo->save(${{ entity_variable }});
-{% endblock %}
-{% block new_action_flash_message %}
-            $this->addFlash('success', '{{ meta_entity.name }} has been created');
-{% endblock %}
+        if ($this->handleForm($form, $request)) {
 {% block new_action_redirect_response %}
-            return $this->redirectToRoute('{{ route_prefix }}_show', ['{{ id_name }}' => ${{ entity_variable }}->{{ id_getter }}]);
+            return $this->redirectToRoute('{{ route_prefix }}_show', ${{ entity_variable }});
 {% endblock %}
         }
 {% endblock %}

@@ -15,7 +15,7 @@ class ManyToManyMetaProperty extends AbstractRelationMetaProperty implements Man
     public function __construct(MetaEntityInterface $metaEntity, ArrayCollection $metaAttributes, string $name)
     {
         parent::__construct($metaEntity, $metaAttributes, $name);
-        $this->setInversedBy(lcfirst($metaEntity->getName()));
+        $this->setInversedBy(Inflector::pluralize(lcfirst($metaEntity->getName())));
 
         $metaEntity->addUsage('Doctrine\Common\Collections\Collection');
         $metaEntity->addUsage('Doctrine\Common\Collections\ArrayCollection');

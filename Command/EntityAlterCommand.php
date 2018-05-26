@@ -59,7 +59,7 @@ class EntityAlterCommand extends Command
         $commandInfo->getIo()->title('Alter entity');
         $choices = $this->metaEntityFactory->getEntityOptions();
         if (count($choices) === 0) {
-            $commandInfo->getIo()->error('No entities found; Use \'entity:generate\' instead to add new entities.');
+            $commandInfo->getIo()->error('No entities found; Use \'generator:create:entity\' instead to add new entities.');
             return;
         } else {
 

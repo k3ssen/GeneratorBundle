@@ -74,6 +74,11 @@ services:
             $attributeQuestions: !tagged generator.attribute_question
             $projectDir: '%kernel.project_dir%'
             $bundles: '%kernel.bundles%'
+            $defaultBundle: '%generator.default_bundle%'
+            $askBundle: '%generator.ask_bundle%'
+            $defaultSubdirectory: '%generator.default_subdirectory%'
+            $askSubdirectory: '%generator.ask_subdirectory%'
+            $askDisplayField: '%generator.ask_display_field%'
 
     K3ssen\GeneratorBundle\:
         resource: '../../*'

@@ -102,14 +102,14 @@ class EntityGenerator
 
     protected function getRepositoryContent(MetaEntityInterface $metaEntity)
     {
-        return $this->twig->render('@Generator/skeleton/repository/repository.php.twig', [
+        return $this->twig->render('@Generator/skeleton/repository/Repository.php.twig', [
             'meta_entity' => $metaEntity,
         ]);
     }
 
     protected function getEntityContent(MetaEntityInterface $metaEntity)
     {
-        return $this->twig->render('@Generator/skeleton/entity/entity.php.twig', [
+        return $this->twig->render('@Generator/skeleton/entity/Entity.php.twig', [
             'meta_entity' => $metaEntity,
         ]);
     }

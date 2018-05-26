@@ -6,14 +6,8 @@
         parent::__construct($registry, {{ meta_entity.name }}::class);
     }
 
-    /** @return {{ meta_entity.name }}[] */
-    public function findAll()
+    public function createBasicQueryBuilder($alias = self::DEFAULT_ALIAS)
     {
-        return parent::findAll();
-    }
-
-    public function createBasicQueryBuilder($alias = self::DEFAULT_ALIAS, $indexBy = '{{ meta_entity.idProperty ? meta_entity.idProperty.name : 'id' }}')
-    {
-        return parent::createQueryBuilder($alias, $indexBy);
+        return parent::createQueryBuilder($alias);
     }
 {% endblock %}

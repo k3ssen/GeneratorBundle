@@ -13,13 +13,23 @@ class BundleQuestion implements EntityQuestionInterface
 
     /** @var BundleProvider */
     protected $bundleProvider;
+    /** @var bool */
+    protected $askBundle;
+    /** @var string */
+    protected $defaultBundleName;
 
-    public function __construct(BundleProvider $bundleProvider)
+    public function __construct(BundleProvider $bundleProvider, bool $askBundle, string $defaultBundle = null)
     {
         $this->bundleProvider = $bundleProvider;
+        $this->askBundle = $askBundle;
+        $this->defaultBundleName = $defaultBundle;
     }
 
-    public function addActions(CommandInfo $commandInfo, array &$actions) {
+    public function addActions(CommandInfo $commandInfo, array &$actions)
+    {
+        if ($this->askBundle === false) {
+            return;
+        }
         $actions['Edit bundle'] = function() use($commandInfo) {
             $this->doQuestion($commandInfo);
         };
@@ -27,6 +37,12 @@ class BundleQuestion implements EntityQuestionInterface
 
     public function doQuestion(CommandInfo $commandInfo)
     {
+        if ($this->askBundle === false) {
+            $bundleNamespace = $this->bundleProvider->getBundleNamespaceByName($this->defaultBundleName);
+
+            $commandInfo->getMetaEntity()->setBundleNamespace($bundleNamespace);
+            return;
+        }
         $options = $this->bundleProvider->getBundleNameOptions();
         $commandInfo->getIo()->listing($options);
         $question = new Question('Bundle (optional)', $commandInfo->getMetaEntity()->getBundleName());

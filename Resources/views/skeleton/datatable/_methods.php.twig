@@ -8,11 +8,9 @@
             ->add('id', Column::class)
 {%- for property in meta_entity.properties if property.ormType not in 'OneToManyToManyToOneToOne' %}
 
-{% if property.ormType in 'datetime' %}
-            ->add('{{ property.name }}', DateTimeColumn::class)
-{% else %}
-            ->add('{{ property.name }}', Column::class)
-{% endif %}
+            ->add('{{ property.name }}', {{ property.ormType in 'datetime' ? 'DateTimeColumn::class' : 'Column::class' }}, [
+                'title' => '{{ property.name|humanize }}'
+            ])
 {% endfor %}
         ;
     }
