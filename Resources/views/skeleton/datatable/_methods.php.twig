@@ -1,5 +1,6 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block methods %}
 
     public function addColumns(array $options = []): void
@@ -19,4 +20,12 @@
     {
         return {{ meta_entity.name }}::class;
     }
+    {%- if generate_options.controllerSubdirectory  %}
+
+
+    public function getRoute($suffix): string
+    {
+        return '{{ generate_options.controllerSubdirectory }}_'.parent::getRoute($suffix);
+    }
+    {% endif %}
 {% endblock %}

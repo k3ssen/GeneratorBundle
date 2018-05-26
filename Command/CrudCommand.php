@@ -10,6 +10,7 @@ use K3ssen\GeneratorBundle\Reader\ExistingEntityToMetaEntityReader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -46,6 +47,7 @@ class CrudCommand extends Command
     {
         $this->setDescription('Generate crud for existing entity')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Argument description')
+            ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
         ;
     }
 
@@ -62,6 +64,17 @@ class CrudCommand extends Command
         $metaEntity = $this->metaEntityFactory->getMetaEntityByChosenOption($choice);
 
         $generateOptions = new CrudGenerateOptions();
+
+        $defaultSubdir = $input->getOption('controller-subdirectory');
+        $defaultSubdir = $defaultSubdir ?: $metaEntity->getSubDir();
+        $subdir = $io->ask('Subdirectory for controller (optional)', $defaultSubdir);
+        if (!$subdir || strtolower($subdir) === 'null' || $subdir === '~' || is_numeric($subdir)) {
+            $subdir = null;
+            $io->text('Using no subdirectory');
+        } else {
+            $io->text(sprintf('Using subdirectory "%s"', $subdir));
+        }
+        $generateOptions->setControllerSubdirectory($subdir);
 
         $generateOptions->setUsingWriteActions($io->confirm('Include write actions (new, edit, delete)?', true));
 

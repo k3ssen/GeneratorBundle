@@ -9,6 +9,8 @@ class CrudGenerateOptions
     protected $usingWriteActions = false;
     protected $usingDatatable = false;
     protected $defaultBundleNamespace;
+    /** @var string|null */
+    protected $controllerSubdirectory = null;
 
     public function isUsingVoters(): bool
     {
@@ -51,5 +53,15 @@ class CrudGenerateOptions
     public function setDefaultBundleNamespace(string $defaultBundleNamespace)
     {
         $this->defaultBundleNamespace = $defaultBundleNamespace;
+    }
+
+    public function getControllerSubdirectory()
+    {
+        return $this->controllerSubdirectory;
+    }
+
+    public function setControllerSubdirectory($controllerSubdirectory)
+    {
+        $this->controllerSubdirectory = $controllerSubdirectory;
     }
 }

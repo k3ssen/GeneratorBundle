@@ -2,7 +2,6 @@
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block usages %}
 use {{ meta_entity.fullClassName }};
-use {{ meta_entity.repositoryFullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
 {% if generate_options.usingVoters %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
@@ -10,7 +9,7 @@ use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Vote
 {% if generate_options.usingDatatable %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
 {% endif %}
-{% if meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
+{% if subdir or (meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace) %}
 use {{ generate_options.defaultBundleNamespace }}\Controller\CrudController;
 {% endif %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;

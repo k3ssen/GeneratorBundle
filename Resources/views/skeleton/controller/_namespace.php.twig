@@ -1,4 +1,4 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {% block namespace %}
-namespace {{ meta_entity.namespace | replace({'\\Entity': '\\Controller'}) }};
+namespace {{ meta_entity.namespace | replace({'\\Entity': '\\Controller'}) ~ (subdir ? '\\'~subdir | classify : '') }};
 {% endblock %}

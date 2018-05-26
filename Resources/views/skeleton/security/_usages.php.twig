@@ -2,7 +2,6 @@
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block usages %}
 use {{ meta_entity.fullClassName }};
-use K3ssen\BaseAdminBundle\Security\UserRoleInfoProvider;
 {% if meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
 use {{ generate_options.defaultBundleNamespace }}\Security\AbstractVoter;
 {% endif %}

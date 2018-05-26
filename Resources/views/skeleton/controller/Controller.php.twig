@@ -1,5 +1,6 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
-{% set view_prefix = (meta_entity.subDir ? meta_entity.subDir|tabalize~'/': '') ~ (meta_entity.name| tabalize)  %}
+{% set subdir = generate_options.controllerSubdirectory %}
+{% set view_prefix = (subdir ? subdir|tabalize~'/': '') ~ (meta_entity.name| tabalize)  %}
 {% set route_prefix = view_prefix | replace({'/':'_'}) %}
 {% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tabalize : 'id' %}
 {% set entity_variable = meta_entity.name | camelize %}

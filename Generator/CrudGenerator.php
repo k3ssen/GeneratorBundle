@@ -47,7 +47,7 @@ class CrudGenerator
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
         $files[] = $this->createBaseClassIfMissing('Controller', 'CrudController');
-        $files[] = $this->createFile($metaEntity,'Controller', 'Controller');
+        $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $generateOptions->getControllerSubdirectory());
         $files[] = $this->createFile($metaEntity,'Form', 'Type');;
         if ($this->generateOptions->isUsingVoters()) {
             $files[] = $this->createBaseClassIfMissing('Security', 'AbstractVoter');
@@ -81,9 +81,10 @@ class CrudGenerator
         return $targetFile;
     }
 
-    protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName): ?string
+    protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string
     {
-        $targetFile = str_replace(['/Entity', '.php'], ['/'.$dirName, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
+        $targetDir = '/'.$dirName. ($subDirName ? '/'.Inflector::classify($subDirName) : '');
+        $targetFile = str_replace(['/Entity', '.php'], [$targetDir, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
         $fileContent = $this->render(strtolower($dirName).'/'.$fileSuffixName.'.php.twig', $metaEntity);
         $this->getFileSystem()->dumpFile($targetFile, $fileContent);
 
@@ -94,8 +95,9 @@ class CrudGenerator
     {
         $fileContent = $this->render('templates/'.$action.'.html.twig.twig', $metaEntity);
 
+        $targetSubdir = $this->generateOptions->getControllerSubdirectory();
         $targetFile = $this->projectDir .'/templates/'.
-            ($metaEntity->getSubDir() ? Inflector::tableize($metaEntity->getSubDir()).'/' : '').
+            ($targetSubdir ? Inflector::tableize($targetSubdir).'/' : '').
             Inflector::tableize($metaEntity->getName()). '/'.
             $action.'.html.twig';
         ;

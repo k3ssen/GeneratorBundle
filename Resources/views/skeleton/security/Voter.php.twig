@@ -1,5 +1,6 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
-{% set constant_prefix = ((meta_entity.subDir ? meta_entity.subDir|tabalize~'_': '') ~ (meta_entity.name| tabalize)) | upper  %}
+{% set controller_subdir = generate_options.controllerSubdirectory %}
+{% set constant_prefix = ((controller_subdir ? controller_subdir|tabalize~'_': '') ~ (meta_entity.name| tabalize)) | upper  %}
 {% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
 {% use '@Generator/skeleton/security/_namespace.php.twig' %}
 {% use '@Generator/skeleton/security/_usages.php.twig' %}

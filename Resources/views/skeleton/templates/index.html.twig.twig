@@ -1,6 +1,8 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% set entity_singularized = meta_entity.name|tabalize %}
+{% set subdir = generate_options.controllerSubdirectory %}
+{% set action_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
 {{ "{% extends 'base.html.twig' %}" }}
 
@@ -10,7 +12,7 @@
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% set entity_box('Overview', null, "~(generate_options.usingVoters?'true':'false')~") with {action_prefix: '"~entity_singularized~"'}%}") | raw }}
+    {{ ("{% set entity_box('Overview', null, "~(generate_options.usingVoters?'true':'false')~") with {action_prefix: '"~action_prefix~"'}%}") | raw }}
 {% if generate_options.usingDatatable %}
         {{ " {{ sg_datatables_render(datatable) }}" }}
 {% else %}
