@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace K3ssen\GeneratorBundle\MetaData;
+namespace K3ssen\GeneratorBundle\MetaData\Validation;
 
 use K3ssen\GeneratorBundle\MetaData\Property\BooleanMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\DateMetaPropertyInterface;

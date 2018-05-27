@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\MetaData;
 
-use K3ssen\GeneratorBundle\MetaData\EntityAnnotation\AnnotationInterface;
+use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
@@ -40,14 +40,18 @@ interface MetaEntityInterface
 
     public function getUsages(): ?array;
 
-    public function addUsage($namespace, $alias = null);
+    public function addUsage(string $namespace, string $alias = null);
 
+    /** @return static */
     public function removeUsage($namespace);
 
     /** @return MetaTraitInterface[] */
-    public function getTraits(): ?array;
+    public function getTraits(): array;
 
     public function addTrait(MetaTraitInterface $trait);
+
+    /** @return static */
+    public function removeTrait(MetaTraitInterface $trait);
 
     public function getTableName(): ?string;
 
@@ -55,10 +59,14 @@ interface MetaEntityInterface
 
     public function getRepositoryNamespace(): ?string;
 
-    /** @return AnnotationInterface[] */
-    public function getEntityAnnotations(): ?array;
+    /** @return MetaAnnotationInterface[] */
+    public function getEntityAnnotations(): array;
 
-    public function addEntityAnnotation(AnnotationInterface $entityAnnotation);
+    /** @return static */
+    public function addEntityAnnotation(MetaAnnotationInterface $entityAnnotation);
+
+    /** @return static */
+    public function removeEntityAnnotation(MetaAnnotationInterface $entityAnnotation);
 
     /** @return MetaPropertyInterface[]|ArrayCollection */
     public function getProperties(): ArrayCollection;

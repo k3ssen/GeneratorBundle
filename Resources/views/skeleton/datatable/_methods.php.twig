@@ -6,13 +6,17 @@
     public function addColumns(array $options = []): void
     {
         $this->columnBuilder
-            ->add('id', Column::class)
-{%- for property in meta_entity.properties if property.ormType not in 'OneToManyToManyToOneToOne' %}
+            ->add('id', Column::class, [
+                'title' => '#'
+            ])
+            {#- only add properties that are no relationship-type (ormType that contains 'To' are a relationtype, like ManyToOne) #}
+            {%- for property in meta_entity.properties if 'To' not in property.ormType %}
 
             ->add('{{ property.name }}', {{ property.ormType in 'datetime' ? 'DateTimeColumn::class' : 'Column::class' }}, [
                 'title' => '{{ property.name|humanize }}'
             ])
-{% endfor %}
+            {%- endfor %}
+
         ;
     }
 

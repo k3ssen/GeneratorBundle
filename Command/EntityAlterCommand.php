@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EntityAlterCommand extends Command
 {
-    protected static $defaultName = 'generator:alter:entity';
+    protected static $defaultName = 'generator:entity:alter';
 
     /** @var ExistingEntityToMetaEntityReader */
     protected $existingEntityToMetaEntityReader;
@@ -59,7 +59,7 @@ class EntityAlterCommand extends Command
         $commandInfo->getIo()->title('Alter entity');
         $choices = $this->metaEntityFactory->getEntityOptions();
         if (count($choices) === 0) {
-            $commandInfo->getIo()->error('No entities found; Use \'generator:create:entity\' instead to add new entities.');
+            $commandInfo->getIo()->error('No entities found; Use \'generator:entity\' instead to add new entities.');
             return;
         } else {
 

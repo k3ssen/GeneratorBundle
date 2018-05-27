@@ -2,7 +2,7 @@
 
 parameters:
     # The default_attributes to be used as MetaAttribute objects for MetaProperties.
-    # With the 'entity_generator.attributes' config, these attributes can be extended and/or partially overridden:
+    # With the 'generator.attributes' config, these attributes can be extended and/or partially overridden:
     # The names and types cannot be altered. Also, meta_properties can be added, but not removed.
     default_attributes:
         name:
@@ -60,6 +60,12 @@ parameters:
                 - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
             requirement_expression: 'metaProperty.getInversedBy() == null'
 
+    # Can be overridden and extended in 'generator.trait_options'
+    default_trait_options:
+        SoftDeleteable: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
+        Timestampable: 'Gedmo\Timestampable\Traits\TimestampableEntity'
+        Blameable: 'Gedmo\Blameable\Traits\BlameableEntity'
+
 services:
     _defaults:
         autowire: true
@@ -76,9 +82,11 @@ services:
             $bundles: '%kernel.bundles%'
             $defaultBundle: '%generator.default_bundle%'
             $askBundle: '%generator.ask_bundle%'
+            $askBundle: '%generator.ask_traits%'
             $defaultSubdirectory: '%generator.default_subdirectory%'
             $askSubdirectory: '%generator.ask_subdirectory%'
             $askDisplayField: '%generator.ask_display_field%'
+            $traitOptions: '%generator.trait_options%'
 
     K3ssen\GeneratorBundle\:
         resource: '../../*'

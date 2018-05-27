@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace K3ssen\GeneratorBundle\MetaData;
+namespace K3ssen\GeneratorBundle\MetaData\PropertyAttribute;
 
 class MetaAttributeFactory
 {

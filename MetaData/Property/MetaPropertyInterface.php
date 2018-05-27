@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeInterface;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
-use K3ssen\GeneratorBundle\MetaData\MetaValidationInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\Validation\MetaValidationInterface;
 
 interface MetaPropertyInterface
 {

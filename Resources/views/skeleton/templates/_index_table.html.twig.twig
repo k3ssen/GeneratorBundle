@@ -1,4 +1,5 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block index_table %}
 {% set entity_singularized = meta_entity.name|tabalize %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
         <table class="table table-striped">
@@ -49,3 +50,4 @@
                 {{ '{% endfor %}' }}
             </tbody>
         </table>
+{% endblock %}

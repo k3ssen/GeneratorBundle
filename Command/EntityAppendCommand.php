@@ -17,7 +17,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 
 class EntityAppendCommand extends Command
 {
-    protected static $defaultName = 'generator:append:entity';
+    protected static $defaultName = 'generator:entity:append';
 
     /** @var EntityAppender */
     protected $entityAppender;
@@ -72,7 +72,7 @@ class EntityAppendCommand extends Command
         } else {
             $choices = $this->metaEntityFactory->getEntityOptions();
             if (count($choices) === 0) {
-                $commandInfo->getIo()->error('No entities found; Use \'generator:create:entity\' instead to add new entities.');
+                $commandInfo->getIo()->error('No entities found; Use \'generator:entity\' instead to add new entities.');
             }
             $choice = $commandInfo->getIo()->choice('Entity', $choices);
 

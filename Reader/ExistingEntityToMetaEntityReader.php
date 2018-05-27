@@ -4,17 +4,17 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\Reader;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeFactory;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
-use K3ssen\GeneratorBundle\MetaData\MetaPropertyFactory;
-use K3ssen\GeneratorBundle\MetaData\MetaValidationFactory;
 use K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\ManyToOneMetaPropertyInterface;
+use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyFactory;
 use K3ssen\GeneratorBundle\MetaData\Property\OneToManyMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeFactory;
+use K3ssen\GeneratorBundle\MetaData\Validation\MetaValidationFactory;
 
 class ExistingEntityToMetaEntityReader
 {

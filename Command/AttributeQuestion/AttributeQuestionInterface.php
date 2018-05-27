@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\Command\AttributeQuestion;
 
 use K3ssen\GeneratorBundle\Command\Helper\CommandInfo;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
 
 interface AttributeQuestionInterface
 {

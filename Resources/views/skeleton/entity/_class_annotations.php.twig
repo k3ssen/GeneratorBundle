@@ -3,12 +3,23 @@
 {% if meta_entity.entityAnnotations | length %}
 /**
 {% for annotation in meta_entity.entityAnnotations %}
- * @{{ annotation.namespace }}
-{%- if annotation.annotationProperties |length -%}
+ * @{{ annotation.annotationName }}
+{%- if annotation.annotationAttributes |length -%}
     (
-        {%- for propertyName, value in annotation.annotationProperties -%}
+        {%- for attributeName, value in annotation.annotationAttributes -%}
             {{- loop.first ? '' : ', ' }}
-            {{- propertyName }}="{{ value }}"
+            {{- attributeName }}=
+            {%- if value is same as(false) -%}
+                false
+            {%- elseif value is same as(true) -%}
+                true
+            {%- elseif value is same as(null) -%}
+                null
+            {%- elseif value matches '/^\\d+$/' -%}
+                {{ value }}
+            {%- else -%}
+                "{{ value }}"
+            {%- endif -%}
         {%- endfor -%}
     )
 {% else %}

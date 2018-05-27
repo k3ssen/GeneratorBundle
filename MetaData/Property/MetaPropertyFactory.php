@@ -1,10 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace K3ssen\GeneratorBundle\MetaData;
+namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
+use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeFactory;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
 
 class MetaPropertyFactory
 {
@@ -35,12 +37,12 @@ class MetaPropertyFactory
     public static function getInversedType($type): string
     {
         switch ($type) {
-            case Property\ManyToOneMetaPropertyInterface::ORM_TYPE:
-                return Property\OneToManyMetaPropertyInterface::ORM_TYPE;
-            case Property\OneToManyMetaPropertyInterface::ORM_TYPE:
-                return Property\ManyToOneMetaPropertyInterface::ORM_TYPE;
-            case Property\ManyToManyMetaPropertyInterface::ORM_TYPE:
-            case Property\OneToOneMetaPropertyInterface::ORM_TYPE:
+            case ManyToOneMetaPropertyInterface::ORM_TYPE:
+                return OneToManyMetaPropertyInterface::ORM_TYPE;
+            case OneToManyMetaPropertyInterface::ORM_TYPE:
+                return ManyToOneMetaPropertyInterface::ORM_TYPE;
+            case ManyToManyMetaPropertyInterface::ORM_TYPE:
+            case OneToOneMetaPropertyInterface::ORM_TYPE:
                 return $type;
             default:
                 throw new \InvalidArgumentException(sprintf('Type "%s" has no inversed type.', $type));

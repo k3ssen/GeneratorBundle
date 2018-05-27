@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\MetaData;
 
-use K3ssen\GeneratorBundle\MetaData\EntityAnnotation\AnnotationInterface;
-use K3ssen\GeneratorBundle\MetaData\EntityAnnotation\OrmEntityAnnotation;
-use K3ssen\GeneratorBundle\MetaData\EntityAnnotation\OrmTableAnnotation;
+use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
@@ -46,9 +44,6 @@ class MetaEntity implements MetaEntityInterface
         }
 
         $this->properties = new ArrayCollection();
-
-        $this->addEntityAnnotation(new OrmTableAnnotation($this));
-        $this->addEntityAnnotation(new OrmEntityAnnotation($this));
     }
 
     public function getName(): string
@@ -144,7 +139,7 @@ class MetaEntity implements MetaEntityInterface
         return $this->usages;
     }
 
-    public function addUsage($namespace, $alias = null)
+    public function addUsage(string $namespace, string $alias = null)
     {
         $this->usages[$namespace] = $alias;
         return $this;
@@ -159,14 +154,31 @@ class MetaEntity implements MetaEntityInterface
     /**
      * @return MetaTraitInterface[]
      */
-    public function getTraits(): ?array
+    public function getTraits(): array
     {
         return $this->traits;
     }
 
     public function addTrait(MetaTraitInterface $trait)
     {
-        $this->traits[] = $trait;
+        $this->traits[$trait->getNamespace()] = $trait;
+    }
+
+    public function removeTrait(MetaTraitInterface $removeTrait)
+    {
+        unset($this->traits[$removeTrait->getNamespace()]);
+        foreach ($this->getTraits() as $trait) {
+            if ($trait->getNamespace() === $removeTrait->getNamespace()) {
+                return $this;
+            }
+        }
+        foreach ($this->getEntityAnnotations() as $annotation) {
+            if ($annotation->getNamespace() === $removeTrait->getNamespace()) {
+                return $this;
+            }
+        }
+        // If there was no other trait or annotation with the same namespace, then unset the namespace.
+        return $this->removeUsage($removeTrait->getNamespace());
     }
 
     public function getTableName(): ?string
@@ -185,16 +197,27 @@ class MetaEntity implements MetaEntityInterface
     }
 
     /**
-     * @return AnnotationInterface[]
+     * @return MetaAnnotationInterface[]
      */
-    public function getEntityAnnotations(): ?array
+    public function getEntityAnnotations(): array
     {
         return $this->entityAnnotations;
     }
 
-    public function addEntityAnnotation(AnnotationInterface $entityAnnotation)
+    public function addEntityAnnotation(MetaAnnotationInterface $entityAnnotation)
     {
         $this->entityAnnotations[] = $entityAnnotation;
+        return $this;
+    }
+
+    public function removeEntityAnnotation(MetaAnnotationInterface $removeEntityAnnotation)
+    {
+        foreach ($this->getEntityAnnotations() as $index => $entityAnnotation) {
+            if ($entityAnnotation === $removeEntityAnnotation) {
+                unset($this->entityAnnotations[$index]);
+            }
+        }
+        return $this;
     }
 
     /**

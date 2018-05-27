@@ -5,9 +5,9 @@ namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Util\Inflector;
 use Doctrine\Common\Collections\ArrayCollection;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeInterface;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
-use K3ssen\GeneratorBundle\MetaData\MetaValidationInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\Validation\MetaValidationInterface;
 
 abstract class AbstractMetaProperty implements MetaPropertyInterface
 {

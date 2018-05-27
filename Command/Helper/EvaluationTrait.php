@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Command\Helper;
 
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 trait EvaluationTrait

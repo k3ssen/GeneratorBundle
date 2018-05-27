@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData;
 
 use Doctrine\ORM\EntityManagerInterface;
+use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyFactory;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
+use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationFactory;
 use K3ssen\GeneratorBundle\Reader\BundleProvider;
 
 class MetaEntityFactory
@@ -26,16 +28,21 @@ class MetaEntityFactory
     /** @var ClassMetadataFactory */
     protected $classMetadataFactory;
 
+    /** @var MetaAnnotationFactory */
+    protected $metaAnnotationFactory;
+
     public function __construct(
         BundleProvider $bundleProvider,
         ?bool $autoGenerateRepository,
         MetaPropertyFactory $metaPropertyFactory,
+        MetaAnnotationFactory $metaAnnotationFactory,
         EntityManagerInterface $em
     )
     {
         $this->bundleProvider = $bundleProvider;
         $this->autoGenerateRepository = $autoGenerateRepository;
         $this->metaPropertyFactory = $metaPropertyFactory;
+        $this->metaAnnotationFactory = $metaAnnotationFactory;
         $this->classMetadataFactory = $em->getMetadataFactory();
     }
 
@@ -53,8 +60,24 @@ class MetaEntityFactory
     {
         /** @var MetaEntityInterface $metaEntity */
         $metaEntity = new $this->metaEntityClass($nameOrFullClassName);
+        $metaEntity->setUseCustomRepository($this->autoGenerateRepository);
+        $ormTableAnnotation = $this->metaAnnotationFactory->createMetaAnnotation(
+            $metaEntity,
+            ['Doctrine\ORM\Mapping' => 'ORM'],
+            'ORM\Table',
+            ['name' => $metaEntity->getTableName()]
+        ) ;
+        $ormEntityAnnotation = $this->metaAnnotationFactory->createMetaAnnotation(
+            $metaEntity,
+            ['Doctrine\ORM\Mapping' => 'ORM'],
+            'ORM\Entity'
+        ) ;
+        if ($metaEntity->hasCustomRepository()) {
+            $ormEntityAnnotation->addAnnotationAttribute('repositoryClass', $metaEntity->getRepositoryFullClassName());
+        }
         return $metaEntity
-            ->setUseCustomRepository($this->autoGenerateRepository)
+            ->addEntityAnnotation($ormTableAnnotation)
+            ->addEntityAnnotation($ormEntityAnnotation)
         ;
     }
 
@@ -101,7 +124,7 @@ class MetaEntityFactory
 
         $entities = [];
         foreach ($entityMetadata as $meta) {
-            $entities[] = new $this->metaEntityClass($meta->getName());
+            $entities[] = $this->createByClassName($meta->getName());
         }
         return $this->existingEntities = $entities;
     }

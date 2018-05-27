@@ -4,6 +4,7 @@
 use {{ meta_entity.fullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
 {% if generate_options.usingVoters %}
+use {{ meta_entity.repositoryFullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
 {% if generate_options.usingDatatable %}

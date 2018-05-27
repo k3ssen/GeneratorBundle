@@ -26,6 +26,10 @@ class GeneratorExtension extends Extension
             $container->setParameter('generator.'.$key, $value);
         }
 
+        $defaultTraitOptions = $container->getParameter('default_trait_options');
+        $configuredAttributes = $container->getParameter('generator.trait_options');
+        $container->setParameter('generator.trait_options', array_merge($defaultTraitOptions, $configuredAttributes));
+
         $defaultAttributes = $container->getParameter('default_attributes');
         $configuredAttributes = $container->getParameter('generator.attributes');
         $attributesMerged = array_merge_recursive($defaultAttributes, $configuredAttributes);

@@ -7,14 +7,18 @@ use K3ssen\GeneratorBundle\Command\AttributeQuestion\AttributeQuestionInterface;
 use K3ssen\GeneratorBundle\Command\AttributeQuestion\BasicAttributeQuestion;
 use K3ssen\GeneratorBundle\Command\EntityQuestion\EntityQuestionInterface;
 use K3ssen\GeneratorBundle\Command\PropertyQuestion\PropertyQuestionInterface;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeFactory;
-use K3ssen\GeneratorBundle\MetaData\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
-use K3ssen\GeneratorBundle\MetaData\MetaPropertyFactory;
-use K3ssen\GeneratorBundle\MetaData\MetaValidationFactory;
-use K3ssen\GeneratorBundle\MetaData\MetaValidationInterface;
+use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyFactory;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeFactory;
+use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
+use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationFactory;
+use K3ssen\GeneratorBundle\MetaData\Traits\MetaTraitFactory;
+use K3ssen\GeneratorBundle\MetaData\Traits\MetaTraitInterface;
+use K3ssen\GeneratorBundle\MetaData\Validation\MetaValidationFactory;
+use K3ssen\GeneratorBundle\MetaData\Validation\MetaValidationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidDefinitionException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -39,6 +43,14 @@ class GeneratorCompilerPass implements CompilerPassInterface
                 }
                 if (is_subclass_of($definition->getClass(), MetaValidationInterface::class, true)) {
                     $container->getDefinition(MetaValidationFactory::class)->addMethodCall('setMetaValidationClass', [$definition->getClass()]);
+                    continue;
+                }
+                if (is_subclass_of($definition->getClass(), MetaTraitInterface::class, true)) {
+                    $container->getDefinition(MetaTraitFactory::class)->addMethodCall('setMetaTraitClass', [$definition->getClass()]);
+                    continue;
+                }
+                if (is_subclass_of($definition->getClass(), MetaAnnotationInterface::class, true)) {
+                    $container->getDefinition(MetaAnnotationFactory::class)->addMethodCall('setMetaAnnotationClass', [$definition->getClass()]);
                     continue;
                 }
 

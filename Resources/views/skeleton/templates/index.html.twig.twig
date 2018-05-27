@@ -3,6 +3,7 @@
 {% set entity_singularized = meta_entity.name|tabalize %}
 {% set subdir = generate_options.controllerSubdirectory %}
 {% set action_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% use '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
 {{ "{% extends 'base.html.twig' %}" }}
 
@@ -13,10 +14,12 @@
 
 {{ "{% block content %}" }}
     {{ ("{% set entity_box('Overview', null, "~(generate_options.usingVoters?'true':'false')~") with {action_prefix: '"~action_prefix~"'}%}") | raw }}
+{% block index_table %}
 {% if generate_options.usingDatatable %}
         {{ " {{ sg_datatables_render(datatable) }}" }}
 {% else %}
-{% include '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
+{{ parent() }}
 {% endif %}
+{% endblock %}
     {{ "{% endset %}" }}
 {{ "{% endblock %}" }}

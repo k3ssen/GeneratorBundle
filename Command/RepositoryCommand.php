@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RepositoryCommand extends Command
 {
-    protected static $defaultName = 'generator:create:repository';
+    protected static $defaultName = 'generator:repository';
 
     /** @var ExistingEntityToMetaEntityReader */
     protected $existingEntityToMetaEntityReader;

@@ -16,7 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CrudCommand extends Command
 {
-    protected static $defaultName = 'generator:create:crud';
+    protected static $defaultName = 'generator:crud';
 
     /** @var ExistingEntityToMetaEntityReader */
     protected $existingEntityToMetaEntityReader;

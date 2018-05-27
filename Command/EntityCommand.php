@@ -16,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class EntityCommand extends Command
 {
-    protected static $defaultName = 'generator:create:entity';
+    protected static $defaultName = 'generator:entity:create';
 
     /** @var EntityGenerator */
     protected $entityGenerator;
