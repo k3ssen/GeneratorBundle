@@ -4,11 +4,12 @@
 use {{ meta_entity.fullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
 {% if generate_options.usingVoters %}
-use {{ meta_entity.repositoryFullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
 {% if generate_options.usingDatatable %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
+{% else %}
+use {{ meta_entity.repositoryFullClassName }};
 {% endif %}
 {% if subdir or (meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace) %}
 use {{ generate_options.defaultBundleNamespace }}\Controller\CrudController;

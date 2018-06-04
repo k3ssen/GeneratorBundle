@@ -36,7 +36,7 @@ class ManyToOneMetaProperty extends AbstractRelationMetaProperty implements Many
         $manyToOneOptions = 'targetEntity="'.$this->getTargetEntity()->getFullClassName().'"';
         $manyToOneOptions .= $this->getInversedBy() ? ', inversedBy="'.$this->getInversedBy().'"' : '';
 
-        $joinColumnOptions = 'name="'. Inflector::tableize($this->getName()) . ($this->getReferencedColumnName() === 'id' ? '_id"': '');
+        $joinColumnOptions = 'name="' . Inflector::tableize($this->getName()) .'_'. $this->getReferencedColumnName() . '"';
         $joinColumnOptions .= ', referencedColumnName="'.$this->getReferencedColumnName().'"';
         $joinColumnOptions .= $this->isNullable() ? ', nullable=true' : ', nullable=false';
 

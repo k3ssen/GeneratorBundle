@@ -12,16 +12,22 @@ parameters:
         id:
             type: 'bool'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface']
+            question: 'K3ssen\GeneratorBundle\Command\AttributeQuestion\IdAttributeQuestion'
             default: false
-            requirement_expression: 'metaEntity.getIdProperty() == null or metaEntity.getIdProperty() != metaProperty'
+            # Only ask id if an id hasn't been assigned already
+            requirement_expression: 'metaEntity.getIdProperty() === null or metaEntity.getIdProperty() === metaProperty'
         unique:
             type: 'bool'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface']
             default: false
+            # Unique should not be asked if the property is the id property, since id already requires to be unique
+            requirement_expression: 'metaEntity.getIdProperty() !== metaProperty'
         nullable:
             type: 'bool'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface']
             default: false
+            # Nullable should not be asked if the property is the id property: id cannot be null
+            requirement_expression: 'metaEntity.getIdProperty() !== metaProperty'
         length:
             type: 'int'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\HasLengthInterface']
@@ -35,10 +41,6 @@ parameters:
             type: 'object'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface']
             question: 'K3ssen\GeneratorBundle\Command\AttributeQuestion\TargetEntityQuestion'
-        referencedColumnName:
-            type: 'string'
-            meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface']
-            default: 'id'
         orphanRemoval:
             type: 'bool'
             meta_properties:
@@ -51,14 +53,14 @@ parameters:
                 - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToOneMetaPropertyInterface'
                 - 'K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface'
                 - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
-            requirement_expression: 'metaProperty.getMappedBy() == null'
+            requirement_expression: 'metaProperty.getMappedBy() === null'
         mappedBy:
             type: 'string'
             meta_properties:
                 - 'K3ssen\GeneratorBundle\MetaData\Property\OneToManyMetaPropertyInterface'
                 - 'K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface'
                 - 'K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface'
-            requirement_expression: 'metaProperty.getInversedBy() == null'
+            requirement_expression: 'metaProperty.getInversedBy() === null'
 
     # Can be overridden and extended in 'generator.trait_options'
     default_trait_options:
@@ -79,12 +81,17 @@ services:
             $propertyQuestions: !tagged generator.property_question
             $attributeQuestions: !tagged generator.attribute_question
             $projectDir: '%kernel.project_dir%'
-            $bundles: '%kernel.bundles%'
             $defaultBundle: '%generator.default_bundle%'
             $askBundle: '%generator.ask_bundle%'
-            $askBundle: '%generator.ask_traits%'
-            $defaultSubdirectory: '%generator.default_subdirectory%'
-            $askSubdirectory: '%generator.ask_subdirectory%'
+            $askTraits: '%generator.ask_traits%'
+            $askVoter: '%generator.ask_voter%'
+            $useVoterDefault: '%generator.use_voter_default%'
+            $askDatatable: '%generator.ask_datatable%'
+            $useDatatableDefault: '%generator.use_datatable_default%'
+            $defaultEntitySubdirectory: '%generator.default_entity_subdirectory%'
+            $askEntitySubdirectory: '%generator.ask_entity_subdirectory%'
+            $defaultControllerSubdirectory: '%generator.default_controller_subdirectory%'
+            $askControllerSubdirectory: '%generator.ask_controller_subdirectory%'
             $askDisplayField: '%generator.ask_display_field%'
             $traitOptions: '%generator.trait_options%'
 

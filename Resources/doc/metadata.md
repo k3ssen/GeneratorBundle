@@ -1,43 +1,51 @@
-MetaData
+Metadata
 ----
 
-To store and build information about the entity to be created MetaData classes are used. 
-Though doctrine already has classes for MetaData, this bundle uses different classes to fit the
+To store and build information about the entity metadata classes are used. 
+Though doctrine already has classes for metadata, this bundle uses different classes to fit the
 needs for our generator.
 
 The structure for our meta data is as follows:
 
 * **MetaEntity**  
-  All meta-data will be stored in the MetaEntity class. 
+  Ultimately, all metadata will be stored in the MetaEntity class. 
+    * **MetaAnnotation**  
+       Annotation objects will be used for the entity's class annotation.
+       For example, the '@ORM\Table(name="tablename")' will be defined in
+       a metaAnnotation object.
+    * **MetaTrait**  
+       Optionally traits can be used for the entity. Definitions for traits
+       are stored in metaTrait objects.   
     * **MetaProperty**  
        Information about fields/columns are stored in MetaProperty objects.
         * **MetaAttributes**  
         Information about the property, such as its name, type, length or whether it's nullable
-        or not is all stored in MetaAttributes.
+        or not is stored in MetaAttribute objects.
         * **MetaValidations**  
         Validator-constraint, used as @Assert annotations, are defined in the MetaValidation.
 
-Using this structures, the meta data is very dynamic, so it can be configured to very specific
-needs.
+Using this structure the entity can be build to very specific needs.
 
-To make sure this meta data can be configured in whichever way you need, each meta data class
+To make sure this metadata can be configured in whichever way you need, each meta data class
 is created through a corresponding factory. 
 Furthermore, the metaAttributes which ultimately hold most of the actual values, can be defined
 in the configuration `entity_generator: {attributes: {...}}`.
 
-### Extending MetaEntity
+### Extending metadata classes
 
-Overwriting or extending the MetaEntity simply can be done by either implementing
-the MetaEntityInterface or by extending the already existing MetaEntity class. 
-That's all there's to it! The compiler pass wil recognize the interface and makes sure the
-MetaEntityFactory uses this class.
+Most classes (MetaEntity, MetaAttribute, MetaAnnotation, MetaTrait and MetaValidation)
+can be overwritten by simply implementing the same interface, or extending the class you need to override.
 
-Note: It is not recommended to mess with the MetaEntity unless you really know what you're doing or
-if it's only a very small addition you need to make. 
+For example, to overwrite the MetaEntity, you'll only need to create your own MetaEntity class
+that implements the MetaEntityInterface. Alternatively you can extend
+the MetaEntity.
+
+Note: a lot depends on the metadata. To overwrite metadata, 
+you need to make sure that you really know what you're doing. 
 
 ### Extending MetaProperties
 
-While there's only one MetaEntity, there are several MetaProperty classes. Simply extend one
+While there's only one class for most metadata, there are several MetaProperty classes. Simply extend one
 of the classes or implement one of their corresponding interfaces to extend or overwrite them. 
 
 You can also add new MetaProperty classes: just make sure the MetaPropertyInterface is implemented
@@ -47,18 +55,31 @@ The simplest way to get started is by extending the `AbstractMetaProperty` or th
 
 ### Extending MetaAttribute
 
-The MetaAttribute class can be extended or overwritten by implementing the MetaAttributeInterface.
-
 When you want to change or add a MetaAttribute, you'll probably want to use the configuration
-setting `entity_generator.attributes` instead of messing around with the class.
+setting `generator.attributes` instead of messing around with the class.
 
 For example, if you want to add a new attribute called `private_only`, you could add the
 following to your config:
 
-    entity_generator:
+    generator:
         attributes:
             private_only:
                 type: 'bool'
                 default: false
+                meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface']
 
-##### TODO: refer to more details
+The attribute-settings are composed of the following options:
+
+- **type**: must be either 'string', 'int', 'bool', 'array' or 'object'
+- **meta_properties**: array of interfaces. Properties that implement one of these interfaces will use this attribute.
+- **default**: a default value to be used. If no default is provided, then `null` will be the default.
+- **question**: reference to any question that implements 'AttributeQuestionInterface'. 
+    - If no question is provided, the 'BasicAttributeQuestion' will be used.
+    - If `null` is provided, no question will be used.
+- **requirement_expression**: an expression (ExpressionLanguage is used for evaluation) to decide if this attribute should be
+    asked or not. (this is only used in BasicAttributeQuestion)
+    
+    
+The default_attributes defined in `Resources/config/services.yaml` of this bundle can be
+overridden in `generator.attributes`. However, attribute names and types
+cannot be overridden.

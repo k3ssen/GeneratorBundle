@@ -11,7 +11,7 @@ trait EvaluationTrait
     protected function evaluateMetaAttribute(MetaAttributeInterface $metaAttribute, string $expression)
     {
         return $this->getExpressionLanguage()->evaluate($expression, [
-            'this' => $metaAttribute,
+            'metaAttribute' => $metaAttribute,
             'metaProperty' => $metaAttribute->getMetaProperty(),
             'metaEntity' => $metaAttribute->getMetaProperty()->getMetaEntity(),
         ]);

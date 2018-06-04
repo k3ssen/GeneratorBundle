@@ -4,7 +4,7 @@
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        {%- for property in meta_entity.properties if property != meta_entity.idProperty %}
+        {%- for property in meta_entity.properties %}
 
             ->add('{{ property.name }}', null, [
                 'label' => '{{ property.name }}',

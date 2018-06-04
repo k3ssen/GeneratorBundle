@@ -8,6 +8,8 @@ use K3ssen\GeneratorBundle\Command\AttributeQuestion\BasicAttributeQuestion;
 use K3ssen\GeneratorBundle\Command\EntityQuestion\EntityQuestionInterface;
 use K3ssen\GeneratorBundle\Command\PropertyQuestion\PropertyQuestionInterface;
 use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceFactory;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceInterface;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyFactory;
@@ -39,6 +41,10 @@ class GeneratorCompilerPass implements CompilerPassInterface
                 }
                 if (is_subclass_of($definition->getClass(), MetaAttributeInterface::class, true)) {
                     $container->getDefinition(MetaAttributeFactory::class)->addMethodCall('setMetaAttributeClass', [$definition->getClass()]);
+                    continue;
+                }
+                if (is_subclass_of($definition->getClass(), MetaInterfaceInterface::class, true)) {
+                    $container->getDefinition(MetaInterfaceFactory::class)->addMethodCall('setMetaInterfaceClass', [$definition->getClass()]);
                     continue;
                 }
                 if (is_subclass_of($definition->getClass(), MetaValidationInterface::class, true)) {

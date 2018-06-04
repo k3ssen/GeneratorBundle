@@ -6,6 +6,7 @@
 {% use '@Generator/skeleton/entity/_traits.php.twig' %}
 {% use '@Generator/skeleton/entity/_constants.php.twig' %}
 {% use '@Generator/skeleton/entity/_properties.php.twig' %}
+{% use '@Generator/skeleton/entity/_static_methods.php.twig' %}
 {% use '@Generator/skeleton/entity/_magic_methods.php.twig' %}
 {% use '@Generator/skeleton/entity/_property_methods.php.twig' %}
 {% use '@Generator/skeleton/entity/_construct.php.twig' %}
@@ -23,7 +24,7 @@
 {% block traits %}{{ parent() }}{% endblock %}
 {% block constants %}{{ parent() }}{% endblock %}
 {% block properties %}{{ parent() }}{% endblock %}
-{% block static_methods %}{% endblock %}
+{% block static_methods %}{{ parent() }}{% endblock %}
 {% block construct %}{{ parent() }}{% endblock %}
 {% block magic_methods %}{{ parent() }}{% endblock %}
 {% block property_methods %}{{ parent() }}{% endblock %}

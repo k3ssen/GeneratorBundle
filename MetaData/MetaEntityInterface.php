@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData;
 
 use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
@@ -48,10 +49,20 @@ interface MetaEntityInterface
     /** @return MetaTraitInterface[] */
     public function getTraits(): array;
 
+    /** @return static */
     public function addTrait(MetaTraitInterface $trait);
 
     /** @return static */
     public function removeTrait(MetaTraitInterface $trait);
+
+    /** @return MetaInterfaceInterface[] */
+    public function getInterfaces(): array;
+
+    /** @return static */
+    public function addInterface(MetaInterfaceInterface $trait);
+
+    /** @return static */
+    public function removeInterface(MetaInterfaceInterface $trait);
 
     public function getTableName(): ?string;
 

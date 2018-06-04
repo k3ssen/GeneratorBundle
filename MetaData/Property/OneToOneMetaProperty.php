@@ -37,7 +37,7 @@ class OneToOneMetaProperty extends AbstractRelationMetaProperty implements OneTo
             '@ORM\OneToOne('.$oneToOneOptions.')',
         ];
         if (!$this->getMappedBy()) {
-            $joinColumnOptions = 'name="' . Inflector::tableize($this->getName()) . ($this->getReferencedColumnName() === 'id' ? '_id"' : '');
+            $joinColumnOptions = 'name="' . Inflector::tableize($this->getName()) .'_'. $this->getReferencedColumnName() . '"';
             $joinColumnOptions .= ', referencedColumnName="'.$this->getReferencedColumnName().'"';
             $joinColumnOptions .= $this->isNullable() ? ', nullable=true' : ', nullable=false';
             $annotationLines[] = '@ORM\JoinColumn('.$joinColumnOptions.')';

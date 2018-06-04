@@ -6,9 +6,12 @@
     public function addColumns(array $options = []): void
     {
         $this->columnBuilder
+            {%- if meta_entity.idProperty is null %}
+
             ->add('id', Column::class, [
                 'title' => '#'
             ])
+            {%- endif %}
             {#- only add properties that are no relationship-type (ormType that contains 'To' are a relationtype, like ManyToOne) #}
             {%- for property in meta_entity.properties if 'To' not in property.ormType %}
 

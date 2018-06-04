@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Command;
 
+use K3ssen\GeneratorBundle\Command\Style\CommandStyle;
 use K3ssen\GeneratorBundle\Generator\CrudGenerator;
 use K3ssen\GeneratorBundle\Generator\CrudGenerateOptions;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
+use K3ssen\GeneratorBundle\Reader\BundleProvider;
 use K3ssen\GeneratorBundle\Reader\ExistingEntityToMetaEntityReader;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,20 +29,53 @@ class CrudCommand extends Command
     /** @var CrudGenerator */
     protected $crudGenerator;
 
-    protected $bundles;
+    /** @var bool */
+    protected $askVoter;
+
+    /** @var bool */
+    protected $askDatatable;
+
+    /** @var bool */
+    protected $askControllerSubdirectory;
+
+    /** @var null|string */
+    protected $defaultControllerSubdirectory;
+
+    /** @var bool */
+    protected $useVoterDefault;
+
+    /** @var bool */
+    protected $useDatatableDefault;
+    /**
+     * @var BundleProvider
+     */
+    protected $bundleProvider;
 
     public function __construct(
         ?string $name = null,
         CrudGenerator $crudGenerator,
         MetaEntityFactory $metaEntityFactory,
         ExistingEntityToMetaEntityReader $existingEntityToMetaEntityReader,
-        array $bundles
+        BundleProvider $bundleProvider,
+        bool $askVoter,
+        bool $useVoterDefault,
+        bool $askDatatable,
+        bool $useDatatableDefault,
+        bool $askControllerSubdirectory,
+        ?string $defaultControllerSubdirectory
     ) {
         parent::__construct($name);
         $this->crudGenerator = $crudGenerator;
         $this->metaEntityFactory = $metaEntityFactory;
         $this->existingEntityToMetaEntityReader = $existingEntityToMetaEntityReader;
-        $this->bundles = $bundles;
+        $this->bundleProvider = $bundleProvider;
+        // TODO: refactor these config settings into a new class/service
+        $this->askVoter = $askVoter;
+        $this->askDatatable = $askDatatable;
+        $this->askControllerSubdirectory = $askControllerSubdirectory;
+        $this->defaultControllerSubdirectory = $defaultControllerSubdirectory;
+        $this->useVoterDefault = $useVoterDefault;
+        $this->useDatatableDefault = $useDatatableDefault;
     }
 
     protected function configure()
@@ -48,12 +83,14 @@ class CrudCommand extends Command
         $this->setDescription('Generate crud for existing entity')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
+            ->addOption('use-voter', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
+            ->addOption('use-datatable', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new SymfonyStyle($input, $output);
+        $io = new CommandStyle($input, $output);
         $io->title('Generate CRUD');
         $choices = $this->metaEntityFactory->getEntityOptions();
         if (count($choices) === 0) {
@@ -65,36 +102,63 @@ class CrudCommand extends Command
 
         $generateOptions = new CrudGenerateOptions();
 
-        $defaultSubdir = $input->getOption('controller-subdirectory');
-        $defaultSubdir = $defaultSubdir ?: $metaEntity->getSubDir();
-        $subdir = $io->ask('Subdirectory for controller (optional)', $defaultSubdir);
-        if (!$subdir || strtolower($subdir) === 'null' || $subdir === '~' || is_numeric($subdir)) {
-            $subdir = null;
-            $io->text('Using no subdirectory');
-        } else {
-            $io->text(sprintf('Using subdirectory "%s"', $subdir));
-        }
-        $generateOptions->setControllerSubdirectory($subdir);
+        $this->determineControllerSubDirectory($input, $io, $generateOptions);
 
         $generateOptions->setUsingWriteActions($io->confirm('Include write actions (new, edit, delete)?', true));
 
-        if (array_key_exists('SgDatatablesBundle', $this->bundles)) {
-            $generateOptions->setUsingDatatable($io->confirm('Generate Datatable class?', true));
-        } else {
-            $generateOptions->setUsingDatatable(false);
-        }
+        $this->determineUseDatatable($input, $io, $generateOptions);
+        $this->determineUseVoter($input, $io, $generateOptions);
 
-        if (array_key_exists('SecurityBundle', $this->bundles)) {
-            $generateOptions->setUsingVoters($io->confirm('Generate Voter class?', true));
-        } else {
-            $generateOptions->setUsingVoters(false);
-        }
 
         $this->existingEntityToMetaEntityReader->extractExistingClassToMetaEntity($metaEntity);
 
         $files = $this->crudGenerator->createCrud($metaEntity, $generateOptions);
         foreach ($files as $file) {
             $io->success(sprintf('Created/Updated file %s', $file));
+        }
+    }
+
+    protected function determineControllerSubDirectory(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
+    {
+        $subdir = $input->getOption('controller-subdirectory');
+        $subdir = $subdir ?: $this->defaultControllerSubdirectory;
+        if ($this->askControllerSubdirectory) {
+            $subdir = $io->ask('Subdirectory for controller (optional)', $subdir);
+            if (!$subdir || strtolower($subdir) === 'null' || $subdir === '~' || is_numeric($subdir)) {
+                $subdir = null;
+                $io->text('Using no subdirectory');
+            } else {
+                $io->text(sprintf('Using subdirectory "%s"', $subdir));
+            }
+        }
+        $generateOptions->setControllerSubdirectory($subdir);
+    }
+
+    protected function determineUseVoter(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
+    {
+        if ($this->bundleProvider->isEnabled('SecurityBundle')) {
+            $useVoter = $input->getOption('use-voter');
+            $useVoter = $useVoter !== null ? $useVoter : $this->useVoterDefault;
+            if ($this->askVoter) {
+                $useVoter = $io->confirm('Generate Voter class?', true);
+            }
+            $generateOptions->setUsingVoters($useVoter);
+        } else {
+            $generateOptions->setUsingVoters(false);
+        }
+    }
+
+    protected function determineUseDatatable(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
+    {
+        if ($this->bundleProvider->isEnabled('SgDatatablesBundle')) {
+            $useDatatable = $input->getOption('use-datatable');
+            $useDatatable = $useDatatable !== null ? $useDatatable : $this->useDatatableDefault;
+            if ($this->askDatatable) {
+                $useDatatable = $io->confirm('Generate Datatable class?', $useDatatable);
+            }
+            $generateOptions->setUsingDatatable($useDatatable);
+        } else {
+            $generateOptions->setUsingDatatable(false);
         }
     }
 }

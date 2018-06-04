@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData;
 
 use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationInterface;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
@@ -24,6 +25,8 @@ class MetaEntity implements MetaEntityInterface
     protected $entityAnnotations = [];
 
     protected $traits = [];
+
+    protected $interfaces = [];
 
     /** @var array */
     protected $properties = [];
@@ -161,24 +164,53 @@ class MetaEntity implements MetaEntityInterface
 
     public function addTrait(MetaTraitInterface $trait)
     {
-        $this->traits[$trait->getNamespace()] = $trait;
+        $this->traits[$trait->getTraitUsage()] = $trait;
     }
 
     public function removeTrait(MetaTraitInterface $removeTrait)
     {
-        unset($this->traits[$removeTrait->getNamespace()]);
+        unset($this->traits[$removeTrait->getTraitUsage()]);
+        $this->removeNamespaceIfNotUsed($removeTrait->getNamespace());
+        return $this;
+    }
+
+    protected function removeNamespaceIfNotUsed(string $namespace)
+    {
         foreach ($this->getTraits() as $trait) {
-            if ($trait->getNamespace() === $removeTrait->getNamespace()) {
-                return $this;
+            if ($trait->getNamespace() === $namespace) {
+                return;
             }
         }
         foreach ($this->getEntityAnnotations() as $annotation) {
-            if ($annotation->getNamespace() === $removeTrait->getNamespace()) {
-                return $this;
+            if ($annotation->getNamespace() === $namespace) {
+                return;
+            }
+        }
+        foreach ($this->getInterfaces() as $interface) {
+            if ($interface->getNamespace() === $namespace) {
+                return;
             }
         }
         // If there was no other trait or annotation with the same namespace, then unset the namespace.
-        return $this->removeUsage($removeTrait->getNamespace());
+        $this->removeUsage($namespace);
+    }
+
+    public function getInterfaces(): array
+    {
+        return $this->interfaces;
+    }
+
+    public function addInterface(MetaInterfaceInterface $metaInterface)
+    {
+        $this->interfaces[$metaInterface->getInterfaceUsage()] = $metaInterface;
+        return $this;
+    }
+
+    public function removeInterface(MetaInterfaceInterface $metaInterface)
+    {
+        $this->interfaces[$metaInterface->getInterfaceUsage()] = $metaInterface;
+        $this->removeNamespaceIfNotUsed($metaInterface->getNamespace());
+        return $this;
     }
 
     public function getTableName(): ?string
@@ -276,7 +308,7 @@ class MetaEntity implements MetaEntityInterface
     public function getIdProperty(): ?PrimitiveMetaPropertyInterface
     {
         foreach ($this->getProperties() as $property) {
-            if ($property instanceof  PrimitiveMetaPropertyInterface && $property->isId()) {
+            if ($property instanceof PrimitiveMetaPropertyInterface && $property->isId()) {
                 return $property;
             }
         }

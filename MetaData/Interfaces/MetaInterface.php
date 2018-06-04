@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace K3ssen\GeneratorBundle\MetaData\Traits;
+namespace K3ssen\GeneratorBundle\MetaData\Interfaces;
 
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 
-class MetaTrait implements MetaTraitInterface
+class MetaInterface implements MetaInterfaceInterface
 {
     /**
      * @var MetaEntityInterface
@@ -18,21 +18,21 @@ class MetaTrait implements MetaTraitInterface
     /**
      * @var null|string
      */
-    protected $traitUsage;
+    protected $interfaceUsage;
 
     /**
      * @param MetaEntityInterface $metaEntity
      * @param string|array $namespace the namespace to be used in the entity. Can be an array to provide an alias
      *      string-format= namespace / array-format= [namespace=>alias]
-     *      Note that the namespace should be the fullClassName if no traitUsage is proved
-     * @param string|null $traitUsage the string to be used in the 'use Trait;' part.
+     *      Note that the namespace should be the fullClassName if no interfaceUsage is proved
+     * @param string|null $interfaceUsage the string to be used in the 'use Interface;' part.
      *      if no name is provided, the name is derived from the namespace
      */
-    public function __construct(MetaEntityInterface $metaEntity, $namespace, string $traitUsage = null)
+    public function __construct(MetaEntityInterface $metaEntity, $namespace, string $interfaceUsage = null)
     {
         $this->metaEntity = $metaEntity;
         $this->setNamespace($namespace);
-        $this->traitUsage = $traitUsage;
+        $this->interfaceUsage = $interfaceUsage;
 
         $metaEntity->addUsage($this->getNamespace(), $this->getNamespaceAlias());
     }
@@ -40,11 +40,11 @@ class MetaTrait implements MetaTraitInterface
     protected function setNamespace($namespace)
     {
         if (empty($namespace)) {
-            throw new \InvalidArgumentException('Namespace for MetaTrait cannot be empty.');
+            throw new \InvalidArgumentException('Namespace for MetaInterface cannot be empty.');
         }
         if (is_array($namespace)) {
             if (count($namespace) > 1) {
-                throw new \InvalidArgumentException('Only one namespace can be provided for a MetaTrait');
+                throw new \InvalidArgumentException('Only one namespace can be provided for a MetaInterface');
             }
             if (is_numeric(current(array_keys($namespace)))) {
                 throw new \InvalidArgumentException('When providing namespace as an array, the key must contain the namespace (string), but numeric key was found.');
@@ -75,11 +75,11 @@ class MetaTrait implements MetaTraitInterface
         return null;
     }
 
-    public function getTraitUsage(): string
+    public function getInterfaceUsage(): string
     {
-        return $this->traitUsage
+        return $this->interfaceUsage
             ?: $this->getNamespaceAlias()
-            ?: (new \ReflectionClass($this->getNamespace()))->getShortName()
-        ;
+                ?: (new \ReflectionClass($this->getNamespace()))->getShortName()
+            ;
     }
 }

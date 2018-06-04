@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Util\Inflector;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 
 abstract class AbstractRelationMetaProperty extends AbstractMetaProperty implements RelationMetaPropertyInterface
@@ -29,12 +30,8 @@ abstract class AbstractRelationMetaProperty extends AbstractMetaProperty impleme
 
     public function getReferencedColumnName(): ?string
     {
-        return $this->getAttribute('referencedColumnName');
-    }
-
-    public function setReferencedColumnName(string $referencedColumnName)
-    {
-        return $this->setAttribute('referencedColumnName', $referencedColumnName);
+        $targetIdProperty = $this->getTargetEntity()->getIdProperty();
+        return $targetIdProperty ? Inflector::tableize($targetIdProperty->getName()) : 'id';
     }
 
     public function getInversedBy(): ?string

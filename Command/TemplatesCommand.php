@@ -43,9 +43,17 @@ class TemplatesCommand extends Command
 
         foreach ($finder as $file) {
             $relativePathname = $file->getRelativePathname();
-            $content = "{% extends '@!Generator/".$relativePathname."' %}";
+
+            $content = "{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}";
+            // With the exception of the entity and repository all files should have 'generate_options'
+            if (stripos($relativePathname, 'entity') === false && stripos($relativePathname, 'repository') === false) {
+                $content .= "\n{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}";
+            }
+
             if ($file->getFilename()[0] === '_') {
-                $content = "{% use '@!Generator/".$relativePathname."' %}";
+                $content .= "\n{% use '@!Generator/".$relativePathname."' %}";
+            } else {
+                $content .= "\n{% extends '@!Generator/".$relativePathname."' %}";
             }
             $targetPath = $targetDir.$relativePathname;
             if ($fs->exists($targetPath)) {

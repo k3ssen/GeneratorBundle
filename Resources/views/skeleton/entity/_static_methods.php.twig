@@ -1,0 +1,12 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var id_property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
+{% block static_methods %}
+{% set id_property = meta_entity.idProperty %}
+{% if id_property %}
+
+    public static function getIdName(): string
+    {
+        return '{{ id_property.name }}';
+    }
+{% endif %}
+{% endblock %}

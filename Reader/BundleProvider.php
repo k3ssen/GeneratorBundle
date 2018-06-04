@@ -64,6 +64,11 @@ class BundleProvider
         return $this->projectDir.'/src';
     }
 
+    public function isEnabled(string $bundleName): bool
+    {
+        return array_key_exists($bundleName, $this->bundlesMetaData);
+    }
+
     public function getDefaultBundleName(): ?string
     {
         return $this->defaultBundleName;

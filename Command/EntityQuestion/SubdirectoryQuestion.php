@@ -17,10 +17,10 @@ class SubdirectoryQuestion implements EntityQuestionInterface
      */
     protected $defaultSubdirectory;
 
-    public function __construct(bool $askSubdirectory, string $defaultSubdirectory = null)
+    public function __construct(bool $askEntitySubdirectory, string $defaultEntitySubdirectory = null)
     {
-        $this->askSubdirectory = $askSubdirectory;
-        $this->defaultSubdirectory = $defaultSubdirectory;
+        $this->askSubdirectory = $askEntitySubdirectory;
+        $this->defaultSubdirectory = $defaultEntitySubdirectory;
     }
 
     public function addActions(CommandInfo $commandInfo, array &$actions) {

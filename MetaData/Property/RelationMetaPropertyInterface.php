@@ -13,8 +13,6 @@ interface RelationMetaPropertyInterface extends MetaPropertyInterface
 
     public function getReferencedColumnName(): ?string;
 
-    public function setReferencedColumnName(string $referencedColumnName);
-
     public function getInversedBy(): ?string;
 
     public function setInversedBy(?string $inversedBy);

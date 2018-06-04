@@ -14,7 +14,7 @@
     {
 {% block result_actions_security_check %}
 {%- if generate_options.usingVoters %}
-        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::SEARCH, {{ meta_entity.name }}::class);
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::SEARCH);
 
 {% endif %}
 {% endblock %}
