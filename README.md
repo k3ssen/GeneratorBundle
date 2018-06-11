@@ -13,7 +13,7 @@ Symfony 4 bundle for quickly generating/prototyping a CRUD application:
     - Add fields to existing entities
     - Read existing entities and interactively add/edit/remove properties.
 * Generate Controller and templates file.
-* Generate FormType for controller actions (new, edit, delete)
+* Generate FormType for controller actions (new, edit)
 * Optionally use/generate Datatables
 * Optionally use/generate Voters
 

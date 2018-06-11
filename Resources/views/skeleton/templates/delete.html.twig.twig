@@ -3,21 +3,23 @@
 {% set route_prefix = (meta_entity.subDir ? meta_entity.subDir|tabalize~'_': '') ~ (meta_entity.name| tabalize)  %}
 {% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tabalize : 'id' %}
 {% set entity_singularized = meta_entity.name|tabalize %}
+{% autoescape false %}
 {{ "{% extends 'base.html.twig' %}" }}
 
-{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{{ "{% set title = '"~meta_entity.name~"' %}" }}
 {% if meta_entity.displayProperty %}
     {{ "{% set sub_title = "~entity_singularized~" %}" }}
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% set entity_form_box('Delete', "~entity_singularized~", "~(generate_options.usingVoters?'true':'false')~") }}") | raw  }}
+    {{ "{% embed '@BaseAdmin/components/entity_form_box.html.twig' with {title: 'Delete', entity: "~entity_singularized~",vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
         <p>
             Are you sure you want to delete this {{ meta_entity.name }}?
         </p>
         {{ "{% block box_body_form_buttons %}" }}
             <button class="btn btn-danger">Yes, delete</button>
-            <a href="{{ ("{{ path('"~route_prefix ~"_show', {'"~id_name~"' : "~meta_entity.name | tabalize~"."~id_name~"}) }}") | raw }}" class="btn btn-default">No, go back</a>
+            <a href="{{ "{{ path('"~route_prefix ~"_show', {'"~id_name~"' : "~meta_entity.name | tabalize~"."~id_name~"}) }}" }}" class="btn btn-secondary">No, go back</a>
         {{ "{% endblock %}" }}
-    {{ "{% endset %}" }}
+    {{ "{% endembed %}" }}
 {{ "{% endblock %}" }}
+{% endautoescape %}

@@ -43,7 +43,7 @@ file and have the line with 'TODO' removed.
 Similarly you can change any other file. 
 
 
-**Note:** The above example is a small exception, since it's the only file
+**Note:** The above example is a bit of an exception, since it's the only file
 that is being used across different files.
 
 

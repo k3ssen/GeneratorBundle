@@ -1,9 +1,11 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {% set entity_singularized = meta_entity.name|tabalize %}
+{% autoescape false %}
 {{ "{% extends 'base.html.twig' %}" }}
 
-{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{{ "{% set title = '"~meta_entity.name~"' %}" }}
 
 {{ "{% block content %}" }}
-    {{ ("{{ entity_form_box('New', "~entity_singularized~", "~(generate_options.usingVoters?'true':'false')~") }}") | raw  }}
+    {{ "{% include '@BaseAdmin/components/entity_form_box.html.twig' with {title: 'New', entity: "~entity_singularized~",vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
 {{ "{% endblock %}" }}
+{% endautoescape %}

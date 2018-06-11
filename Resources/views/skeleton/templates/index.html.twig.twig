@@ -3,17 +3,18 @@
 {% set entity_singularized = meta_entity.name|tabalize %}
 {% set subdir = generate_options.controllerSubdirectory %}
 {% set action_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% autoescape false %}
 {% use '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
 {{ "{% extends 'base.html.twig' %}" }}
 
-{{ ("{% set title = '"~meta_entity.name~"' %}") | raw }}
+{{ "{% set title = '"~meta_entity.name~"' %}" }}
 {% if meta_entity.displayProperty %}
     {{ "{% set sub_title = "~entity_singularized~" %}" }}
 {% endif %}
 
 {{ "{% block content %}" }}
-    {{ ("{% set entity_box('Overview', null, "~(generate_options.usingVoters?'true':'false')~") with {action_prefix: '"~action_prefix~"'}%}") | raw }}
+    {{ "{% embed '@BaseAdmin/components/entity_box.html.twig' with {action_prefix: '"~entity_singularized~"', title: 'Overview', vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
 {% block index_table %}
 {% if generate_options.usingDatatable %}
         {{ " {{ sg_datatables_render(datatable) }}" }}
@@ -21,5 +22,6 @@
 {{ parent() }}
 {% endif %}
 {% endblock %}
-    {{ "{% endset %}" }}
+    {{ "{% endembed %}" }}
 {{ "{% endblock %}" }}
+{% endautoescape %}
