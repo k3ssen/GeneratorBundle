@@ -1,5 +1,7 @@
-Configuration settings
-----
+GeneratorBundle
+===============
+
+## Configuration settings
 
 Changes are that the defaults of this bundle are not to your liking. 
 Perhaps you don't need to be bothered with 

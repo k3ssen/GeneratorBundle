@@ -13,8 +13,8 @@ use K3ssen\GeneratorBundle\MetaData\Property\ManyToOneMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyFactory;
 use K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\OneToManyMetaPropertyInterface;
-use K3ssen\GeneratorBundle\MetaData\Property\OneToOneMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface;
+use K3ssen\GeneratorBundle\Reader\ExistingEntityToMetaEntityReader;
 
 class NameAndTypeQuestion implements PropertyQuestionInterface
 {
@@ -26,13 +26,17 @@ class NameAndTypeQuestion implements PropertyQuestionInterface
     protected $metaPropertyFactory;
     /** @var MetaEntityInterface */
     protected $guessedEntity;
+    /** @var ExistingEntityToMetaEntityReader*/
+    protected $existingEntityToMetaEntityReader;
 
     public function __construct(
         MetaEntityFactory $metaEntityFactory,
-        MetaPropertyFactory $metaPropertyFactory
+        MetaPropertyFactory $metaPropertyFactory,
+        ExistingEntityToMetaEntityReader $existingEntityToMetaEntityReader
     ) {
         $this->metaPropertyFactory = $metaPropertyFactory;
         $this->metaEntityFactory = $metaEntityFactory;
+        $this->existingEntityToMetaEntityReader = $existingEntityToMetaEntityReader;
     }
 
     public function doQuestion(CommandInfo $commandInfo, MetaPropertyInterface $metaProperty = null)
@@ -128,6 +132,10 @@ class NameAndTypeQuestion implements PropertyQuestionInterface
         $columnName = Inflector::tableize($name);
         foreach ($this->metaEntityFactory->getEntityOptions() as $metaEntityOption) {
             if ($columnName === Inflector::tableize($metaEntityOption->getName())) {
+                if (class_exists($metaEntityOption->getFullClassName())) {
+                    $this->existingEntityToMetaEntityReader->extractExistingClassToMetaEntity($metaEntityOption);
+                }
+
                 return $this->guessedEntity = $metaEntityOption;
             }
         }

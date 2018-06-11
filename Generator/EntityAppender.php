@@ -47,7 +47,7 @@ class EntityAppender
             'meta_entity' => $pseudoMetaEntity,
         ]);
 
-        $this->insertStrAfterLastMatch($currentContent, $usageContent, '/use .*;/');
+        $this->insertStrAfterLastMatch($currentContent, $usageContent, '/use (\w+\\\\.+);/');
     }
 
     protected function addConstructorContent(MetaEntityInterface $pseudoMetaEntity, string &$currentContent)

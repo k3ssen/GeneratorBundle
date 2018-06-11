@@ -1,5 +1,7 @@
-Templates
-----
+GeneratorBundle
+===============
+
+## Templates
 
 Every generated file is rendered through twig. This enables you to override any
 twig file to decide what the final output should look like.

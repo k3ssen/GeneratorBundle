@@ -1,5 +1,7 @@
-Metadata
-----
+GeneratorBundle
+===============
+
+## Metadata
 
 To store and build information about the entity metadata classes are used. 
 Though doctrine already has classes for metadata, this bundle uses different classes to fit the
@@ -15,7 +17,9 @@ The structure for our meta data is as follows:
        a metaAnnotation object.
     * **MetaTrait**  
        Optionally traits can be used for the entity. Definitions for traits
-       are stored in metaTrait objects.   
+       are stored in metaTrait objects.  
+    * **MetaInterface**  
+    Information about which interfaces this entity implements.    
     * **MetaProperty**  
        Information about fields/columns are stored in MetaProperty objects.
         * **MetaAttributes**  
@@ -40,15 +44,21 @@ For example, to overwrite the MetaEntity, you'll only need to create your own Me
 that implements the MetaEntityInterface. Alternatively you can extend
 the MetaEntity.
 
-Note: a lot depends on the metadata. To overwrite metadata, 
+> **Note:** a lot depends on the metadata. To overwrite metadata, 
 you need to make sure that you really know what you're doing. 
+> You might need extensive knowledge about the code in  the GeneratorBundle for this.
 
 ### Extending MetaProperties
 
 While there's only one class for most metadata, there are several MetaProperty classes. Simply extend one
-of the classes or implement one of their corresponding interfaces to extend or overwrite them. 
+of the classes to overwrite them. Alternatively you can implement the corresponding Interface. 
 
-You can also add new MetaProperty classes: just make sure the MetaPropertyInterface is implemented
+MetaProperties are in fact not overwritten by their interfaces or class names, but by the value that
+the static `getOrmType` methods returns. In other words: there can only be one
+MetaProperty for each OrmType. Therefore, by defining a MetaProperty with an OrmType
+that has already been defined, you overwrite the existing definition.
+
+Consequently, you can add new MetaProperties by returning different OrmTypes. Just make sure the MetaPropertyInterface is implemented
 and your class will automatically be injected. 
 The simplest way to get started is by extending the `AbstractMetaProperty` or the
 `AbstractPrimitiveMetaProperty`.

@@ -26,4 +26,4 @@ To make things simpler, you can use the command `generate:templates` to
 add files to this directory that extend the generatorBundle. 
 
 For complex usage, the bundle is built in a very extensible way, allowing
-you to override nearly every single file independently.
+you to override nearly everything independently.

@@ -1,5 +1,7 @@
-Usage
-----
+GeneratorBundle
+===============
+
+## Usage
 
 This bundle consist of two main parts:
 1) Entity generation

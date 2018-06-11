@@ -39,7 +39,7 @@ By default, generated files will use php 7.1+ and take
 
 The many forks of SensioGeneratorBundle clarify that no generator will fit
 everyone's exact needs.
-**A lot** of effort is put in making this GeneratorBundle as extensible as possible, so that even if
+Extra effort is put in making this GeneratorBundle as extensible as possible, so that even if
 this bundle doesn't fit your needs, it might still provide an excellent base for creating your
 own generator.
 

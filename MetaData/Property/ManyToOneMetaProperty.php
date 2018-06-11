@@ -41,7 +41,7 @@ class ManyToOneMetaProperty extends AbstractRelationMetaProperty implements Many
         $joinColumnOptions .= $this->isNullable() ? ', nullable=true' : ', nullable=false';
 
         $annotationLines = [
-            '@ORM\ManyToOne('.$manyToOneOptions.', cascade={"persist"})',
+            '@ORM\ManyToOne('.$manyToOneOptions.', cascade={"persist"})', //TODO: what about cascading remove?
             '@ORM\JoinColumn('.$joinColumnOptions.')',
         ];
         return array_merge($annotationLines, parent::getAnnotationLines());

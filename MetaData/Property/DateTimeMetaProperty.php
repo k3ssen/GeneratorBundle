@@ -5,7 +5,7 @@ namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\DBAL\Types\Type;
 
-class DateTimeMetaProperty extends AbstractPrimitiveMetaProperty
+class DateTimeMetaProperty extends AbstractPrimitiveMetaProperty implements DateTimeMetaPropertyInterface
 {
     public const ORM_TYPE = Type::DATETIME;
     public const RETURN_TYPE = '\DateTime';
