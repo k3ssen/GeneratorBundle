@@ -3,27 +3,17 @@ GeneratorBundle
 
 ## Getting Started
 
-Make sure `"k3ssen/BaseAdminBundle": "dev-master"` (in require-dev) and 
-the repository to this git are included in your `composer.json`
-file:
+Add this git repository to your `composer.json` file:
 
     //...
-    
-    "require-dev": {
-        //...
-        "k3ssen/GeneratorBundle": "dev-master"
-    }
-    
-    //...
-
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/k3ssen/GeneratorBundle"
+            "url": "https://github.com/k3ssen/GeneratorBundle.git"
         }
     ],
     
-Run `composer install` in your console.
+Run `composer require k3ssen/generator:dev-master --dev` in your console.
 
 Symfony Flex should add the bundle automatically to your `config/bundles.php`.
 To make sure, open this file and check if the following line 
