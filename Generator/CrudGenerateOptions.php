@@ -7,7 +7,6 @@ class CrudGenerateOptions
 {
     protected $usingVoters = false;
     protected $usingWriteActions = false;
-    protected $usingDatatable = false;
     protected $defaultBundleNamespace;
     /** @var string|null */
     protected $controllerSubdirectory = null;
@@ -30,16 +29,6 @@ class CrudGenerateOptions
     public function setUsingWriteActions(bool $usingWriteActions)
     {
         $this->usingWriteActions = $usingWriteActions;
-    }
-
-    public function isUsingDatatable(): bool
-    {
-        return $this->usingDatatable;
-    }
-
-    public function setUsingDatatable(bool $usingDatatable)
-    {
-        $this->usingDatatable = $usingDatatable;
     }
 
     public function getDefaultBundleNamespace(): string

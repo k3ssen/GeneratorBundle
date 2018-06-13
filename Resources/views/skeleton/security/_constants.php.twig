@@ -4,9 +4,6 @@
 
     public const INDEX = '{{ constant_prefix }}_INDEX';
     public const VIEW = '{{ constant_prefix }}_VIEW';
-{% if generate_options.usingDatatable %}
-    public const SEARCH = '{{ constant_prefix }}_SEARCH';
-{% endif %}
 {% if generate_options.usingWriteActions %}
     public const CREATE = '{{ constant_prefix }}_CREATE';
     public const EDIT = '{{ constant_prefix }}_EDIT';

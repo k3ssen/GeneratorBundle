@@ -6,15 +6,11 @@ use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
 {% if generate_options.usingVoters %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
-{% if generate_options.usingDatatable %}
-use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
-{% else %}
 use {{ meta_entity.repositoryFullClassName }};
-{% endif %}
 {% if subdir or (meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace) %}
 use {{ generate_options.defaultBundleNamespace }}\Controller\CrudController;
 {% endif %}
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

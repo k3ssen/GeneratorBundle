@@ -2,25 +2,36 @@
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block methods %}
 
+    protected function supports($attribute, $subject)
+    {
+        if ($subject !== null && $subject instanceOf {{ meta_entity.name }} === false) {
+            return false;
+        }
+        return in_array($attribute, [
+            static::INDEX,
+            static::VIEW,
+            static::CREATE,
+            static::EDIT,
+            static::DELETE,
+        ], true);
+    }
+
     /**
      * @var {{ meta_entity.name }}|null $object the entity object
      */
-    protected function voteOnAttribute($attribute, $object = null): bool
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         switch ($attribute) {
             case self::INDEX:
-{% if generate_options.usingDatatable %}
-            case self::SEARCH:
-{% endif %}
             case self::CREATE:
-                return $this->isAdmin();
+                return true;
             case self::VIEW:
 {% if generate_options.usingWriteActions %}
             case self::EDIT:
             case self::DELETE:
 {% endif %}
-                return $object && $this->isAdmin();
+                return $subject !== null;
         }
-        return false;
+        return null;
     }
 {% endblock %}

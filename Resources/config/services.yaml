@@ -86,8 +86,6 @@ services:
             $askTraits: '%generator.ask_traits%'
             $askVoter: '%generator.ask_voter%'
             $useVoterDefault: '%generator.use_voter_default%'
-            $askDatatable: '%generator.ask_datatable%'
-            $useDatatableDefault: '%generator.use_datatable_default%'
             $defaultEntitySubdirectory: '%generator.default_entity_subdirectory%'
             $askEntitySubdirectory: '%generator.ask_entity_subdirectory%'
             $defaultControllerSubdirectory: '%generator.default_controller_subdirectory%'

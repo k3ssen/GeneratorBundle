@@ -1,35 +1,40 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% set entity_singularized = meta_entity.name|tabalize %}
+{% set subdir = generate_options.controllerSubdirectory %}
+{% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
 {% autoescape false %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
 {{ "{% extends 'base.html.twig' %}" }}
 
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
-{% if meta_entity.displayProperty %}
-{{ "{% set sub_title = "~entity_singularized~" %}" }}
-{% endif %}
+{{ "{% set sub_title = 'Details" ~ (meta_entity.displayProperty ? ' - \' ~' ~entity_singularized : '\'')~" %}" }}
 
-{{ "{% block content %}" }}
-    {{ "{% embed '@BaseAdmin/components/entity_box.html.twig' with {title: 'Details', entity: "~entity_singularized~", vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
+{{ "{% block body %}" }}
 {%- for property in meta_entity.properties %}
+
+    <div class="form-group row">
+        <label class="col-md-2">
+            {{ property.name }}
+        </label>
+        <div class="col-md-10">
 {# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
     {%- set getter = entity_singularized ~ '.' ~ property.name %}
     {%- if property.ormType in 'OneToManyToMany' %}
 
-        {{ "{% embed '@BaseAdmin/components/static_field_row.html.twig' with {title: '"~property.name~"'} %}"}}
             <ul>
                 {{ '{% for ' ~ property.name|singularize|tabalize ~ ' in ' ~ getter ~ ' %}' }}
                 <li>{{ '{{ ' ~ property.name|singularize|tabalize ~ ' }}' }}</li>
                 {{ '{% endfor %}' }}
             </ul>
-        {{ "{% endembed %}" }}
     {%- else %}
         {%- set filter = null %}
-        {%- if property.ormType in ['datetime'] -%}
+        {%- if property.ormType in ['datetime', 'datetime_immutable'] -%}
             {% set filter = "|date('Y-m-d H:i:s')" -%}
-        {%- elseif property.ormType in ['date'] -%}
+        {%- elseif property.ormType in ['date', 'date_immutable'] -%}
             {% set filter = "|date('Y-m-d')" -%}
-        {%- elseif property.ormType in ['time'] -%}
+        {%- elseif property.ormType in ['time', 'time_immutable'] -%}
             {% set filter = "|date('H:i:s')" -%}
         {%- elseif property.ormType in ['array'] -%}
             {% set filter = "|join(, )" -%}
@@ -39,10 +44,21 @@
             {% set filter = "|nl2br" %}
         {%- endif %}
 
-        {{ "{{ static_field_row('"~property.name~"', "~getter~ filter|default('') ~") }}" -}}
+            {{ "{{ "~getter~ filter|default('') ~" }}" -}}
     {%- endif %}
+
+        </div>
+    </div>
 {% endfor %}
 
-    {{ "{% endembed %}" }}
+<a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
+    Overview
+</a>
+<a href="{{"{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
+    Delete
+</a>
+<a href="{{ "{{ path('"~route_prefix ~"_edit', "~route_param~") }}" }}" class="btn btn-warning">
+    Edit
+</a>
 {{ "{% endblock %}" }}
 {% endautoescape %}

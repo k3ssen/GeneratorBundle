@@ -33,9 +33,6 @@ class CrudCommand extends Command
     protected $askVoter;
 
     /** @var bool */
-    protected $askDatatable;
-
-    /** @var bool */
     protected $askControllerSubdirectory;
 
     /** @var null|string */
@@ -43,9 +40,6 @@ class CrudCommand extends Command
 
     /** @var bool */
     protected $useVoterDefault;
-
-    /** @var bool */
-    protected $useDatatableDefault;
     /**
      * @var BundleProvider
      */
@@ -59,8 +53,6 @@ class CrudCommand extends Command
         BundleProvider $bundleProvider,
         bool $askVoter,
         bool $useVoterDefault,
-        bool $askDatatable,
-        bool $useDatatableDefault,
         bool $askControllerSubdirectory,
         ?string $defaultControllerSubdirectory
     ) {
@@ -71,11 +63,9 @@ class CrudCommand extends Command
         $this->bundleProvider = $bundleProvider;
         // TODO: refactor these config settings into a new class/service
         $this->askVoter = $askVoter;
-        $this->askDatatable = $askDatatable;
         $this->askControllerSubdirectory = $askControllerSubdirectory;
         $this->defaultControllerSubdirectory = $defaultControllerSubdirectory;
         $this->useVoterDefault = $useVoterDefault;
-        $this->useDatatableDefault = $useDatatableDefault;
     }
 
     protected function configure()
@@ -83,8 +73,7 @@ class CrudCommand extends Command
         $this->setDescription('Generate crud for existing entity')
             ->addArgument('entity', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
-            ->addOption('use-voter', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
-            ->addOption('use-datatable', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
+            ->addOption('use-voter', null,InputOption::VALUE_OPTIONAL)
         ;
     }
 
@@ -106,7 +95,6 @@ class CrudCommand extends Command
 
         $generateOptions->setUsingWriteActions($io->confirm('Include write actions (new, edit, delete)?', true));
 
-        $this->determineUseDatatable($input, $io, $generateOptions);
         $this->determineUseVoter($input, $io, $generateOptions);
 
 
@@ -145,20 +133,6 @@ class CrudCommand extends Command
             $generateOptions->setUsingVoters($useVoter);
         } else {
             $generateOptions->setUsingVoters(false);
-        }
-    }
-
-    protected function determineUseDatatable(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
-    {
-        if ($this->bundleProvider->isEnabled('SgDatatablesBundle')) {
-            $useDatatable = $input->getOption('use-datatable');
-            $useDatatable = $useDatatable !== null ? $useDatatable : $this->useDatatableDefault;
-            if ($this->askDatatable) {
-                $useDatatable = $io->confirm('Generate Datatable class?', $useDatatable);
-            }
-            $generateOptions->setUsingDatatable($useDatatable);
-        } else {
-            $generateOptions->setUsingDatatable(false);
         }
     }
 }

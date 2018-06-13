@@ -8,7 +8,7 @@
      */
 {% endblock %}
 {% block show_actions_method_definition %}
-    public function showAction({{ meta_entity.name }} ${{ entity_variable }}): Response
+    public function show({{ meta_entity.name }} ${{ entity_variable }}): Response
 {% endblock %}
     {
 {% block show_actions_security_check %}

@@ -1,11 +1,22 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {% set entity_singularized = meta_entity.name|tabalize %}
+{% set subdir = generate_options.controllerSubdirectory %}
+{% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
 {% autoescape false %}
 {{ "{% extends 'base.html.twig' %}" }}
 
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
+    {{ "{% set sub_title = 'New' %}" }}
 
-{{ "{% block content %}" }}
-    {{ "{% include '@BaseAdmin/components/entity_form_box.html.twig' with {title: 'New', entity: "~entity_singularized~",vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
+{{ "{% block body %}" }}
+    {{ "{{ form_start(form) }}" }}
+    {{ "{{ form_widget(form) }}" }}
+    <button class="btn btn-primary">Save</button>
+    {{ "{{ form_end(form) }}" }}
+
+    <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
+        Overview
+    </a>
 {{ "{% endblock %}" }}
 {% endautoescape %}

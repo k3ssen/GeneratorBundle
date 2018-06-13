@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\Generator;
 
 use Doctrine\Common\Util\Inflector;
-use K3ssen\GeneratorBundle\MetaData\MetaEntity;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\Reader\BundleProvider;
 use Symfony\Component\Filesystem\Filesystem;
@@ -46,16 +45,10 @@ class CrudGenerator
         $this->generateOptions = $generateOptions ?: new CrudGenerateOptions();
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
-        $files[] = $this->createBaseClassIfMissing('Controller', 'CrudController');
         $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $generateOptions->getControllerSubdirectory());
         $files[] = $this->createFile($metaEntity,'Form', 'Type');;
         if ($this->generateOptions->isUsingVoters()) {
-            $files[] = $this->createBaseClassIfMissing('Security', 'AbstractVoter');
             $files[] = $this->createFile($metaEntity,'Security', 'Voter');
-        }
-        if ($this->generateOptions->isUsingDatatable()) {
-            $files[] = $this->createBaseClassIfMissing('Datatable', 'AbstractDatatable');
-            $files[] = $this->createFile($metaEntity,'Datatable', 'Datatable');
         }
         $files[] = $this->createViewTemplate($metaEntity, 'index');
         $files[] = $this->createViewTemplate($metaEntity, 'show');
@@ -65,20 +58,6 @@ class CrudGenerator
             $files[] = $this->createViewTemplate($metaEntity, 'delete');
         }
         return array_filter($files);
-    }
-
-    protected function createBaseClassIfMissing(string $dirName, string $fileSuffixName): ?string
-    {
-        $defaultBundlePath = $this->bundleProvider->getDefaultBundlePath();
-        $targetFile = $defaultBundlePath.'/'.$dirName.'/'.$fileSuffixName.'.php';
-        if ($this->getFileSystem()->exists($targetFile)) {
-            return null;
-        }
-        $fileContent = $this->twig->render('@Generator/skeleton/'.strtolower($dirName).'/'.$fileSuffixName.'.php.twig', [
-            'generate_options' => $this->generateOptions,
-        ]);
-        $this->getFileSystem()->dumpFile($targetFile, $fileContent);
-        return $targetFile;
     }
 
     protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string

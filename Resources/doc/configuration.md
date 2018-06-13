@@ -34,8 +34,6 @@ generator:
             default: false
         # You can add more attributes to your liking.   
         
-    ask_datatable: true  #use false if you're never going to use datatables.
-    use_datatable_default: true #Default option for whether or not datatables should be used.
     ask_voter: true  #use false if you don't want to be bothered with this question.
     use_voter_default: true #Default option for whether or not voters should be used.
     ask_controller_subdirectory: true  #use false if you don't want to be bothered with the question what subdirectory a controller should use
@@ -46,5 +44,4 @@ Please note that some options have dependencies on other bundles.
 For instance,  `SecurityBundle` is required to use voters. If that
 bundle isn't enabled, then no voter will be generated, no matter the configured
 settings.
-Likewise, datatables won't be generated without `SgDatatablesBundle` 
-and traits won't be generated if their namespaces can't be resolved.
+Likewise, traits won't be generated if their namespaces can't be resolved.

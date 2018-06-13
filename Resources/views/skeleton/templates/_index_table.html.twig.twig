@@ -3,53 +3,53 @@
 {% autoescape false %}
 {% set entity_singularized = meta_entity.name|tabalize %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    {%- for property in meta_entity.properties if property.name %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {%- for property in meta_entity.properties if property.name %}
 
-                    <th>
-                        {{ property.name }}
-                    </th>
-                    {%- endfor %}
+                <th>
+                    {{ property.name }}
+                </th>
+                {%- endfor %}
+
+            </tr>
+        </thead>
+        <tbody>
+            {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_singularized|pluralize ~ ' %}' }}
+                <tr>
+                {%- for property in meta_entity.properties %}
+                {# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
+                {%- if property.ormType in ['datetime'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
+
+                {%- elseif property.ormType in ['date'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
+
+                {%- elseif property.ormType in ['time'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
+
+                {%- elseif property.ormType in ['array'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
+
+                {%- elseif property.ormType in ['boolean'] %}
+
+                    <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
+
+                {%- else %}
+
+                    <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' }}' }}</td>
+
+                {%- endif %}
+                {%- endfor %}
 
                 </tr>
-            </thead>
-            <tbody>
-                {{ '{% for ' ~ entity_singularized ~ ' in ' ~ entity_singularized|pluralize ~ ' %}' }}
-                    <tr>
-                    {%- for property in meta_entity.properties %}
-                    {# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
-                    {%- if property.ormType in ['datetime'] %}
-
-                        <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
-
-                    {%- elseif property.ormType in ['date'] %}
-
-                        <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'Y-m-d\') }}{% endif %}' }}</td>
-
-                    {%- elseif property.ormType in ['time'] %}
-
-                        <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|date(\'H:i:s\') }}{% endif %}' }}</td>
-
-                    {%- elseif property.ormType in ['array'] %}
-
-                        <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ '|join(\', \') }}{% endif %}' }}</td>
-
-                    {%- elseif property.ormType in ['boolean'] %}
-
-                        <td>{{ '{% if ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' %}Yes{% else %}No{% endif %}' }}</td>
-
-                    {%- else %}
-
-                        <td>{{ '{{ ' ~ entity_singularized ~ '.' ~ property.name|replace({'_': ''}) ~ ' }}' }}</td>
-
-                    {%- endif %}
-                    {%- endfor %}
-
-                    </tr>
-                {{ '{% endfor %}' }}
-            </tbody>
-        </table>
+            {{ '{% endfor %}' }}
+        </tbody>
+    </table>
 {% endautoescape %}
 {% endblock %}
