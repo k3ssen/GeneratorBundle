@@ -17,14 +17,13 @@ generator:
     ask_entity_subdirectory: true #use false if you're not planning on using subdirectories for entities.
     default_entity_subdirectory: null #what default subdirectory should be used for entities?
     ask_traits: true  #use false if you don't want trait-questions.
-    trait_options:
+    trait_options: # Note that trait_options won't matter if 'ask_traits' is set to false.
         # You can alter the trait namespace (must refer to a trait) if you want to use a different one.
         # If you don't want to use a trait-option, you can set the namespace to null.
         Blameable: 'Gedmo\Blameable\Traits\BlameableEntity'
         SoftDeleteable: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
         Timestampable: 'Gedmo\Timestampable\Traits\TimestampableEntity'
-        # You can add more custom traits here.
-        # Note that trait_options won't matter if 'ask_traits' is set to false.
+        # You can add more traits if you want.
     
     # Overwriting attribute-settings are part of a special usecase.
     # You can quite easily choose defaults, but should only be used if you have a good understanding of how these settings work.
@@ -34,13 +33,15 @@ generator:
             default: false
         # You can add more attributes to your liking.   
         
-    ask_voter: true  #use false if you don't want to be bothered with this question.
+    ask_use_voter: true  #use false if you don't want to be bothered with this question.
     use_voter_default: true #Default option for whether or not voters should be used.
+    ask_use_write_actions: true  #use false if you don't want to be bothered with this question.
+    use_write_actions_default: true #Default option for whether or not write actions (new, edit, delete) should be used.
     ask_controller_subdirectory: true  #use false if you don't want to be bothered with the question what subdirectory a controller should use
-    default_controller_subdirectory: null  #what subdirectory controllers should use by default.
+    controller_subdirectory_default: null  #what subdirectory controllers should use by default.
 ```
 
-Please note that some options have dependencies on other bundles.
+Note that some options have dependencies on other bundles.
 For instance,  `SecurityBundle` is required to use voters. If that
 bundle isn't enabled, then no voter will be generated, no matter the configured
 settings.

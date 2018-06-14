@@ -11,7 +11,7 @@
 {% endblock %}
     {
 {% block edit_actions_security_check %}
-{%- if generate_options.usingVoters %}
+{%- if generate_options.useVoter %}
         $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::EDIT, ${{ entity_variable }});
 
 {% endif %}

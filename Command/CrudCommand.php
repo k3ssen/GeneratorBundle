@@ -7,6 +7,7 @@ use K3ssen\GeneratorBundle\Command\Style\CommandStyle;
 use K3ssen\GeneratorBundle\Generator\CrudGenerator;
 use K3ssen\GeneratorBundle\Generator\CrudGenerateOptions;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
+use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\Reader\BundleProvider;
 use K3ssen\GeneratorBundle\Reader\ExistingEntityToMetaEntityReader;
 use Symfony\Component\Console\Command\Command;
@@ -29,21 +30,11 @@ class CrudCommand extends Command
     /** @var CrudGenerator */
     protected $crudGenerator;
 
-    /** @var bool */
-    protected $askVoter;
-
-    /** @var bool */
-    protected $askControllerSubdirectory;
-
-    /** @var null|string */
-    protected $defaultControllerSubdirectory;
-
-    /** @var bool */
-    protected $useVoterDefault;
-    /**
-     * @var BundleProvider
-     */
+    /** @var BundleProvider */
     protected $bundleProvider;
+
+    /** @var CrudGenerateOptions */
+    protected $generateOptions;
 
     public function __construct(
         ?string $name = null,
@@ -51,21 +42,14 @@ class CrudCommand extends Command
         MetaEntityFactory $metaEntityFactory,
         ExistingEntityToMetaEntityReader $existingEntityToMetaEntityReader,
         BundleProvider $bundleProvider,
-        bool $askVoter,
-        bool $useVoterDefault,
-        bool $askControllerSubdirectory,
-        ?string $defaultControllerSubdirectory
+        CrudGenerateOptions $crudGenerateOptions
     ) {
         parent::__construct($name);
         $this->crudGenerator = $crudGenerator;
         $this->metaEntityFactory = $metaEntityFactory;
         $this->existingEntityToMetaEntityReader = $existingEntityToMetaEntityReader;
         $this->bundleProvider = $bundleProvider;
-        // TODO: refactor these config settings into a new class/service
-        $this->askVoter = $askVoter;
-        $this->askControllerSubdirectory = $askControllerSubdirectory;
-        $this->defaultControllerSubdirectory = $defaultControllerSubdirectory;
-        $this->useVoterDefault = $useVoterDefault;
+        $this->generateOptions = $crudGenerateOptions;
     }
 
     protected function configure()
@@ -74,65 +58,96 @@ class CrudCommand extends Command
             ->addArgument('entity', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
             ->addOption('use-voter', null,InputOption::VALUE_OPTIONAL)
+            ->addOption('use-write-actions', null,InputOption::VALUE_OPTIONAL)
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $io = new CommandStyle($input, $output);
-        $io->title('Generate CRUD');
-        $choices = $this->metaEntityFactory->getEntityOptions();
-        if (count($choices) === 0) {
-            $io->error('No entities found; Add some entities first.');
+        $this->showStartInfo($input, $output);
+        $metaEntity = $this->chooseEntity($input, $output);
+        if (!$metaEntity) {
             return;
         }
-        $choice = $io->choice('Entity', $choices, $input->getArgument('entity'));
-        $metaEntity = $this->metaEntityFactory->getMetaEntityByChosenOption($choice);
+        $this->askCrudQuestions($input, $output);
+        $this->process($input, $output, $metaEntity);
+    }
 
-        $generateOptions = new CrudGenerateOptions();
-
-        $this->determineControllerSubDirectory($input, $io, $generateOptions);
-
-        $generateOptions->setUsingWriteActions($io->confirm('Include write actions (new, edit, delete)?', true));
-
-        $this->determineUseVoter($input, $io, $generateOptions);
-
-
+    protected function process(InputInterface $input, OutputInterface $output, MetaEntityInterface $metaEntity)
+    {
+        $io = new CommandStyle($input, $output);
         $this->existingEntityToMetaEntityReader->extractExistingClassToMetaEntity($metaEntity);
 
-        $files = $this->crudGenerator->createCrud($metaEntity, $generateOptions);
+        $files = $this->crudGenerator->createCrud($metaEntity);
         foreach ($files as $file) {
             $io->success(sprintf('Created/Updated file %s', $file));
         }
     }
 
-    protected function determineControllerSubDirectory(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
+    protected function showStartInfo(InputInterface $input, OutputInterface $output)
     {
-        $subdir = $input->getOption('controller-subdirectory');
-        $subdir = $subdir ?: $this->defaultControllerSubdirectory;
-        if ($this->askControllerSubdirectory) {
-            $subdir = $io->ask('Subdirectory for controller (optional)', $subdir);
-            if (!$subdir || strtolower($subdir) === 'null' || $subdir === '~' || is_numeric($subdir)) {
-                $subdir = null;
-                $io->text('Using no subdirectory');
-            } else {
-                $io->text(sprintf('Using subdirectory "%s"', $subdir));
-            }
-        }
-        $generateOptions->setControllerSubdirectory($subdir);
+        $io = new CommandStyle($input, $output);
+        $io->title('Generate CRUD');
     }
 
-    protected function determineUseVoter(InputInterface $input, SymfonyStyle $io, CrudGenerateOptions $generateOptions)
+    protected function chooseEntity(InputInterface $input, OutputInterface $output): ?MetaEntityInterface
     {
-        if ($this->bundleProvider->isEnabled('SecurityBundle')) {
-            $useVoter = $input->getOption('use-voter');
-            $useVoter = $useVoter !== null ? $useVoter : $this->useVoterDefault;
-            if ($this->askVoter) {
-                $useVoter = $io->confirm('Generate Voter class?', true);
-            }
-            $generateOptions->setUsingVoters($useVoter);
-        } else {
-            $generateOptions->setUsingVoters(false);
+        $io = new CommandStyle($input, $output);
+        $choices = $this->metaEntityFactory->getEntityOptions();
+        if (count($choices) === 0) {
+            $io->error('No entities found; Add some entities first.');
+            return null;
         }
+        $choice = $io->choice('Entity', $choices, $input->getArgument('entity'));
+        return $this->metaEntityFactory->getMetaEntityByChosenOption($choice);
+    }
+
+
+    protected function askCrudQuestions(InputInterface $input, OutputInterface $output)
+    {
+        $this->determineControllerSubDirectory($input, $output);
+        $this->determineUseWriteActions($input, $output);
+        $this->determineUseVoter($input, $output);
+    }
+
+    protected function determineUseWriteActions(InputInterface $input, OutputInterface $output)
+    {
+        $io = new CommandStyle($input, $output);
+        $useWriteActions = $input->getOption('use-write-actions') ?? $this->generateOptions->getUseWriteActionsDefault();
+        if ($this->generateOptions->getAskUseWriteActions()) {
+            $useWriteActions = $io->confirm('Include write actions (new, edit, delete)?', $useWriteActions);
+        }
+        $this->generateOptions->setUseWriteActions($useWriteActions);
+    }
+
+    protected function determineControllerSubDirectory(InputInterface $input, OutputInterface $output)
+    {
+        $io = new CommandStyle($input, $output);
+        $subdirectory = $input->getOption('controller-subdirectory') ?? $this->generateOptions->getControllerSubdirectoryDefault();
+        if ($this->generateOptions->getAskControllerSubdirectory()) {
+            $subdirectory = $io->ask('Subdirectory for controller (optional)', $subdirectory);
+            if (!$subdirectory || strtolower($subdirectory) === 'null' || $subdirectory === '~' || is_numeric($subdirectory)) {
+                $subdirectory = null;
+                $io->text('Using no subdirectory');
+            } else {
+                $io->text(sprintf('Using subdirectory "%s"', $subdirectory));
+            }
+        }
+        $this->generateOptions->setControllerSubdirectory($subdirectory);
+    }
+
+    protected function determineUseVoter(InputInterface $input, OutputInterface $output)
+    {
+        $io = new CommandStyle($input, $output);
+        $useVoter = $input->getOption('use-voter') ?? $this->generateOptions->getUseVoterDefault();
+        if ($this->bundleProvider->isEnabled('SecurityBundle')) {
+            if ($this->generateOptions->getAskUseVoter()) {
+                $useVoter = $io->confirm('Generate Voter class?', $useVoter);
+            }
+        } elseif ($useVoter) {
+            $io->warning('Cannot use voter: SecurityBundle is not enabled.');
+            $useVoter = false;
+        }
+        $this->generateOptions->setUseVoter($useVoter);
     }
 }

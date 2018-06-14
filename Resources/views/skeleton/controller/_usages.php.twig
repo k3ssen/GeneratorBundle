@@ -3,7 +3,7 @@
 {% block usages %}
 use {{ meta_entity.fullClassName }};
 use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
-{% if generate_options.usingVoters %}
+{% if generate_options.useVoter %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
 use {{ meta_entity.repositoryFullClassName }};

@@ -15,21 +15,25 @@ class CrudGenerator
 
     /** @var \Twig_Environment */
     protected $twig;
-
+    /** @var string */
     protected $projectDir;
-
     /** @var CrudGenerateOptions */
     protected $generateOptions = null;
-    /**
-     * @var BundleProvider
-     */
-    private $bundleProvider;
+    /** @var BundleProvider */
+    protected $bundleProvider;
 
-    public function __construct(FileLocator $fileLocator, \Twig_Environment $twig, string $projectDir, BundleProvider $bundleProvider) {
+    public function __construct(
+        FileLocator $fileLocator,
+        \Twig_Environment $twig,
+        string $projectDir,
+        BundleProvider $bundleProvider,
+        CrudGenerateOptions $generateOptions
+    ) {
         $this->fileLocator = $fileLocator;
         $this->twig = $twig;
         $this->projectDir = $projectDir;
         $this->bundleProvider = $bundleProvider;
+        $this->generateOptions = $generateOptions;
     }
 
     protected function getFileSystem(): Filesystem
@@ -40,19 +44,18 @@ class CrudGenerator
         return $this->fileSystem;
     }
 
-    public function createCrud(MetaEntityInterface $metaEntity, CrudGenerateOptions $generateOptions = null): array
+    public function createCrud(MetaEntityInterface $metaEntity): array
     {
-        $this->generateOptions = $generateOptions ?: new CrudGenerateOptions();
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
-        $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $generateOptions->getControllerSubdirectory());
+        $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $this->generateOptions->getControllerSubdirectory());
         $files[] = $this->createFile($metaEntity,'Form', 'Type');;
-        if ($this->generateOptions->isUsingVoters()) {
+        if ($this->generateOptions->getUseVoter()) {
             $files[] = $this->createFile($metaEntity,'Security', 'Voter');
         }
         $files[] = $this->createViewTemplate($metaEntity, 'index');
         $files[] = $this->createViewTemplate($metaEntity, 'show');
-        if ($this->generateOptions->isUsingWriteActions()) {
+        if ($this->generateOptions->getUseWriteActions()) {
             $files[] = $this->createViewTemplate($metaEntity, 'new');
             $files[] = $this->createViewTemplate($metaEntity, 'edit');
             $files[] = $this->createViewTemplate($metaEntity, 'delete');

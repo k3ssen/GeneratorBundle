@@ -26,7 +26,7 @@
             case self::CREATE:
                 return true;
             case self::VIEW:
-{% if generate_options.usingWriteActions %}
+{% if generate_options.useWriteActions %}
             case self::EDIT:
             case self::DELETE:
 {% endif %}

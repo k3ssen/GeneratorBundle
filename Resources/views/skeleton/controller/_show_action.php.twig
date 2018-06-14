@@ -12,7 +12,7 @@
 {% endblock %}
     {
 {% block show_actions_security_check %}
-{%- if generate_options.usingVoters %}
+{%- if generate_options.useVoter %}
         $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::VIEW, ${{ entity_variable }});
 
 {% endif %}
