@@ -12,7 +12,6 @@ parameters:
         id:
             type: 'bool'
             meta_properties: ['K3ssen\GeneratorBundle\MetaData\Property\PrimitiveMetaPropertyInterface']
-            question: 'K3ssen\GeneratorBundle\Command\AttributeQuestion\IdAttributeQuestion'
             default: false
             # Only ask id if an id hasn't been assigned already
             requirement_expression: 'metaEntity.getIdProperty() === null or metaEntity.getIdProperty() === metaProperty'
@@ -64,9 +63,27 @@ parameters:
 
     # Can be overridden and extended in 'generator.trait_options'
     default_trait_options:
-        SoftDeleteable: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
-        Timestampable: 'Gedmo\Timestampable\Traits\TimestampableEntity'
-        Blameable: 'Gedmo\Blameable\Traits\BlameableEntity'
+        SoftDeleteable:
+            ask: true
+            default: false
+            namespace: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
+            namespace_alias: 'SoftDeleteable'
+            interface_namespace: null
+            interface_alias: null
+        Timestampable:
+            ask: true
+            default: true
+            namespace: 'Gedmo\Timestampable\Traits\TimestampableEntity'
+            namespace_alias: 'Timestampable'
+            interface_namespace: null
+            interface_alias: null
+        Blameable:
+            ask: true
+            default: true
+            namespace: 'Gedmo\Blameable\Traits\BlameableEntity'
+            namespace_alias: 'Blameable'
+            interface_namespace: null
+            interface_alias: null
 
 services:
     _defaults:
@@ -75,7 +92,7 @@ services:
         public: false
         bind:
             $attributes: '%generator.attributes%'
-            $autoGenerateRepository: true #'%entity_generator.auto_generate_repository%' //TODO: make configurable
+            $useCustomRepository: true #'%entity_generator.use_custom_repository%' //TODO: make configurable
             $bundlesMetaData: '%kernel.bundles_metadata%'
             $entityQuestions: !tagged generator.entity_question
             $propertyQuestions: !tagged generator.property_question

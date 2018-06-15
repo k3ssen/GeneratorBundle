@@ -31,16 +31,16 @@ class ExistingEntityToMetaEntityReader
     protected $metaEntityFactory;
 
     /** @var bool */
-    protected $autoGenerateRepository;
+    protected $useCustomRepository;
 
     public function __construct(
-        ?bool $autoGenerateRepository,
+        ?bool $useCustomRepository,
         MetaPropertyFactory $metaPropertyFactory,
         MetaEntityFactory $metaEntityFactory,
         MetaAttributeFactory $metaAttributeFactory,
         MetaValidationFactory $metaValidationFactory
     ) {
-        $this->autoGenerateRepository = $autoGenerateRepository;
+        $this->useCustomRepository = $useCustomRepository;
         $this->metaEntityFactory = $metaEntityFactory;
         $this->metaPropertyFactory = $metaPropertyFactory;
         $this->metaAttributeFactory = $metaAttributeFactory;

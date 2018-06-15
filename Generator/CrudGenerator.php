@@ -46,6 +46,7 @@ class CrudGenerator
 
     public function createCrud(MetaEntityInterface $metaEntity): array
     {
+        $this->setTwigEscapeStrategy();
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
         $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $this->generateOptions->getControllerSubdirectory());
@@ -61,6 +62,15 @@ class CrudGenerator
             $files[] = $this->createViewTemplate($metaEntity, 'delete');
         }
         return array_filter($files);
+    }
+
+    protected function setTwigEscapeStrategy()
+    {
+        /** @var \Twig_Extension_Escaper $escaper */
+        $escaper = $this->twig->getExtension(\Twig_Extension_Escaper::class);
+        // Set escape strategy to false, so that we don't need '{% autoescape false %} for many statements.
+        // We're generating raw code after all, so escaping is rarely needed in this case.
+        $escaper->setDefaultStrategy(false);
     }
 
     protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string

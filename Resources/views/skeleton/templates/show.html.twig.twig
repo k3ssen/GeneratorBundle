@@ -4,13 +4,19 @@
 {% set subdir = generate_options.controllerSubdirectory %}
 {% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
 {% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
-{% autoescape false %}
+{% block vars %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
+{% endblock %}
+{% block extends %}
 {{ "{% extends 'base.html.twig' %}" }}
+{% endblock %}
 
+{% block title %}
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
 {{ "{% set sub_title = 'Details" ~ (meta_entity.displayProperty ? ' - \' ~' ~entity_singularized : '\'')~" %}" }}
+{% endblock %}
 
+{% block body %}
 {{ "{% block body %}" }}
 {%- for property in meta_entity.properties %}
 
@@ -51,6 +57,7 @@
     </div>
 {% endfor %}
 
+{% block actions %}
 <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
     Overview
 </a>
@@ -60,5 +67,6 @@
 <a href="{{ "{{ path('"~route_prefix ~"_edit', "~route_param~") }}" }}" class="btn btn-warning">
     Edit
 </a>
+{% endblock %}
 {{ "{% endblock %}" }}
-{% endautoescape %}
+{% endblock %}

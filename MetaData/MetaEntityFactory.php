@@ -23,7 +23,7 @@ class MetaEntityFactory
     protected $metaPropertyFactory;
 
     /** @var bool */
-    protected $autoGenerateRepository;
+    protected $useCustomRepository;
 
     /** @var ClassMetadataFactory */
     protected $classMetadataFactory;
@@ -33,14 +33,14 @@ class MetaEntityFactory
 
     public function __construct(
         BundleProvider $bundleProvider,
-        ?bool $autoGenerateRepository,
+        ?bool $useCustomRepository,
         MetaPropertyFactory $metaPropertyFactory,
         MetaAnnotationFactory $metaAnnotationFactory,
         EntityManagerInterface $em
     )
     {
         $this->bundleProvider = $bundleProvider;
-        $this->autoGenerateRepository = $autoGenerateRepository;
+        $this->useCustomRepository = $useCustomRepository;
         $this->metaPropertyFactory = $metaPropertyFactory;
         $this->metaAnnotationFactory = $metaAnnotationFactory;
         $this->classMetadataFactory = $em->getMetadataFactory();
@@ -60,7 +60,7 @@ class MetaEntityFactory
     {
         /** @var MetaEntityInterface $metaEntity */
         $metaEntity = new $this->metaEntityClass($nameOrFullClassName);
-        $metaEntity->setUseCustomRepository($this->autoGenerateRepository);
+        $metaEntity->setUseCustomRepository($this->useCustomRepository);
         $ormTableAnnotation = $this->metaAnnotationFactory->createMetaAnnotation(
             $metaEntity,
             ['Doctrine\ORM\Mapping' => 'ORM'],

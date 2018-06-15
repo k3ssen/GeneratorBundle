@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 class TemplatesCommand extends Command
 {
@@ -35,8 +36,8 @@ class TemplatesCommand extends Command
 
         $fs = new Filesystem();
 
-        $originDir = __DIR__ . '/../Resources/views';
-        $targetDir = $this->projectDir  . '/templates/bundles/GeneratorBundle/';
+        $originDir = $this->getOriginDirectory();
+        $targetDir = $this->getTargetDirectory();
 
         $finder = new Finder();
         $finder->files()->in($originDir);
@@ -44,17 +45,7 @@ class TemplatesCommand extends Command
         foreach ($finder as $file) {
             $relativePathname = $file->getRelativePathname();
 
-            $content = "{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}";
-            // With the exception of the entity and repository all files should have 'generate_options'
-            if (stripos($relativePathname, 'entity') === false && stripos($relativePathname, 'repository') === false) {
-                $content .= "\n{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}";
-            }
-
-            if ($file->getFilename()[0] === '_') {
-                $content .= "\n{% use '@!Generator/".$relativePathname."' %}";
-            } else {
-                $content .= "\n{% extends '@!Generator/".$relativePathname."' %}";
-            }
+            $content = $this->createContentForFile($file);
             $targetPath = $targetDir.$relativePathname;
             if ($fs->exists($targetPath)) {
                 $io->text(sprintf('file %s already exists', $targetPath));
@@ -63,5 +54,33 @@ class TemplatesCommand extends Command
                 $io->text(sprintf('Created file %s', $targetPath));
             }
         }
+    }
+
+    protected function createContentForFile(SplFileInfo $file): string
+    {
+        $relativePathname = $file->getRelativePathname();
+
+        $content = "{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}";
+        // With the exception of the entity and repository all files should have 'generate_options'
+        if (stripos($relativePathname, 'entity') === false && stripos($relativePathname, 'repository') === false) {
+            $content .= "\n{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}";
+        }
+
+        if ($file->getFilename()[0] === '_') {
+            $content .= "\n{% use '@!Generator/".$relativePathname."' %}";
+        } else {
+            $content .= "\n{% extends '@!Generator/".$relativePathname."' %}";
+        }
+        return $content;
+    }
+
+    protected function getOriginDirectory(): string
+    {
+        return __DIR__ . '/../Resources/views';
+    }
+
+    protected function getTargetDirectory(): string
+    {
+        return $this->projectDir  . '/templates/bundles/GeneratorBundle/';
     }
 }

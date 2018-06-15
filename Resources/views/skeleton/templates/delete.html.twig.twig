@@ -4,13 +4,21 @@
 {% set subdir = generate_options.controllerSubdirectory %}
 {% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
 {% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
-{% autoescape false %}
+{% block vars %}
+{{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
+{% endblock %}
+{% block extends %}
 {{ "{% extends 'base.html.twig' %}" }}
+{% endblock %}
 
+{% block title %}
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
 {{ "{% set sub_title = 'Delete" ~ (meta_entity.displayProperty ? ' - \' ~' ~entity_singularized : '\'')~" %}" }}
+{% endblock %}
 
+{% block body %}
 {{ "{% block body %}" }}
+{% block form %}
     {{ "{{ form_start(form) }}" }}
     {{ "{{ form_widget(form) }}" }}
     <p>
@@ -19,12 +27,15 @@
     <button class="btn btn-danger">Yes, delete</button>
     <a href="{{ "{{ path('"~route_prefix ~"_show', "~route_param~") }}" }}" class="btn btn-secondary">No, go back</a>
     {{ "{{ form_end(form) }}" }}
+{% endblock %}
 
+{% block actions %}
     <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
         Overview
     </a>
     <a href="{{ "{{ path('"~route_prefix ~"_show', "~route_param~") }}" }}" class="btn btn-secondary">
         Details
     </a>
+{% endblock %}
 {{ "{% endblock %}" }}
-{% endautoescape %}
+{% endblock %}

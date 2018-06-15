@@ -1,17 +1,30 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block usages %}
+{% block use_entity %}
 use {{ meta_entity.fullClassName }};
+{% endblock %}
+{% block use_form_type %}
 use {{ meta_entity.fullClassName | replace({'\\Entity':'\\Form'}) }}Type;
+{% endblock %}
+{% block usage_voter %}
 {% if generate_options.useVoter %}
 use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Voter;
 {% endif %}
+{% endblock %}
+{% block use_repository %}
 use {{ meta_entity.repositoryFullClassName }};
-{% if subdir or (meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace) %}
-use {{ generate_options.defaultBundleNamespace }}\Controller\CrudController;
-{% endif %}
+{% endblock %}
+{% block use_extended_controller %}
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+{% endblock %}
+{% block use_route %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+{% endblock %}
+{% block use_request %}
 use Symfony\Component\HttpFoundation\Request;
+{% endblock %}
+{% block use_response %}
 use Symfony\Component\HttpFoundation\Response;
+{% endblock %}
 {% endblock %}

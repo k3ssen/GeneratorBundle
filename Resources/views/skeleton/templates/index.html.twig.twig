@@ -3,19 +3,25 @@
 {% set entity_singularized = meta_entity.name|tabalize %}
 {% set subdir = generate_options.controllerSubdirectory %}
 {% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
-{% autoescape false %}
 {% use '@Generator/skeleton/templates/_index_table.html.twig.twig' %}
-{{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
+{% block vars %}{% endblock %}
+{% block extends %}
 {{ "{% extends 'base.html.twig' %}" }}
+{% endblock %}
 
+{% block title %}
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
 {{ "{% set sub_title = 'Overview' %}" }}
+{% endblock %}
 
+{% block body %}
 {{ "{% block body %}" }}
     <h1>{{ meta_entity.name }} <small>Overview</small></h1>
 {% block index_table %}
 {{ parent() }}
 {% endblock %}
+{% block actions %}
     <a href="{{"{{ path('"~route_prefix ~"_new') }}" }}" class="btn btn-success">New</a>
+{% endblock %}
 {{ "{% endblock %}" }}
-{% endautoescape %}
+{% endblock %}
