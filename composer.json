@@ -7,12 +7,11 @@
     "authors": [
         {
             "name": "Kevin Driessen",
-            "email": "k3ssen@gmail.com"
+            "email": "kevin3ssen@gmail.com"
         }
     ],
     "require": {
-        "php": ">=7.1",
-        "k3ssen/base-admin": "dev-master"
+        "php": ">=7.1"
     },
     "require-dev": {
         "symfony/yaml": "~4.0",
@@ -33,11 +32,5 @@
         "exclude-from-classmap": [
             "/Tests/"
         ]
-    },
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/k3ssen/BaseAdminBundle.git"
-        }
-    ]
+    }
 }

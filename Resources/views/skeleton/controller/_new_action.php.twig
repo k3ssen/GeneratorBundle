@@ -3,19 +3,18 @@
 
 {% block new_action_annotations %}
     /**
-     * @Route("/new", name="{{ route_prefix }}_new")
-     * @Method({"GET", "POST"})
+     * @Route("/new", name="{{ route_prefix }}_new", methods="GET|POST")
      */
 {% endblock %}
 {% block new_action_method_definition %}
-    public function newAction(Request $request): Response
+    public function new(Request $request): Response
 {% endblock %}
     {
 {% block new_action_object_creation %}
         ${{ entity_variable }} = new {{ meta_entity.name }}();
 {% endblock %}
 {% block new_actions_security_check %}
-{%- if generate_options.usingVoters %}
+{%- if generate_options.useVoter %}
         $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::CREATE, ${{ entity_variable }});
 
 {% endif %}
@@ -24,9 +23,14 @@
         $form = $this->createForm({{ meta_entity.name }}Type::class, ${{ entity_variable }});
 {% endblock %}
 {% block new_action_form_handling %}
-        if ($this->handleForm($form, $request)) {
+
+        $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist(${{ entity_variable }});
+            $em->flush();
 {% block new_action_redirect_response %}
-            return $this->redirectToRoute('{{ route_prefix }}_show', ${{ entity_variable }});
+            return $this->redirectToRoute('{{ route_prefix }}_show', ['{{ id_name }}' => ${{ entity_variable }}->{{ id_getter }}]);
 {% endblock %}
         }
 {% endblock %}

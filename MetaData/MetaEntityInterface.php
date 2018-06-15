@@ -59,7 +59,7 @@ interface MetaEntityInterface
     public function getInterfaces(): array;
 
     /** @return static */
-    public function addInterface(MetaInterfaceInterface $trait);
+    public function addInterface(MetaInterfaceInterface $interface);
 
     /** @return static */
     public function removeInterface(MetaInterfaceInterface $trait);

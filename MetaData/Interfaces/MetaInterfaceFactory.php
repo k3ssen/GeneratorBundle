@@ -15,7 +15,7 @@ class MetaInterfaceFactory
         $this->metaInterfaceClass = $class;
     }
 
-    public function createMetaInterface(MetaEntityInterface $metaEntity, string $namespace, string $interfaceUsage = null): MetaInterfaceInterface
+    public function createMetaInterface(MetaEntityInterface $metaEntity, $namespace, string $interfaceUsage = null): MetaInterfaceInterface
     {
         return new $this->metaInterfaceClass($metaEntity, $namespace, $interfaceUsage);
     }

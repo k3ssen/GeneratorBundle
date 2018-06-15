@@ -1,9 +1,13 @@
 GeneratorBundle
 =====================
 
-Symfony 4 bundle for quickly generating/prototyping a CRUD application:
+A Symfony 4 bundle for quickly generating/prototyping a CRUD application.
+It is similar to Symfony's [MakerBundle](https://github.com/symfony/maker-bundle),
+except that this bundle is built to be much more extensible.
+
+Features:
 * Generate entities using interactive commands.  
-  Included features:
+  Included:
     - Define properties with their types (string, int, array, etc) and attributes (length, nullable, unique, etc) 
     - Types also include relationship-types
         - ManyToOne, OneToMany, ManyToMany, OneToOne
@@ -11,19 +15,20 @@ Symfony 4 bundle for quickly generating/prototyping a CRUD application:
         - creates target entity if it does'nt exist yet.
     - Add validations (annotations like `@Assert\Length`)
     - Add fields to existing entities
+    - Add traits
     - Read existing entities and interactively add/edit/remove properties.
-* Generate Controller and templates file.
-* Generate FormType for controller actions (new, edit)
-* Optionally use/generate Datatables
-* Optionally use/generate Voters
+* Generate CRUD based on entities, including:
+    - Controller (optionally use subdirectories)
+    - Template (twig) files
+    - Form
+    - Voter (optional)
 
-This bundle is highly customizable for simple usage:
+This bundle is highly customizable:
 - Enable/disable questions that you do or don't need  
 - Specify defaults
 - All files are generated through twig files, which you can override by
 using identical files in `/templates/bundles/GeneratorBundle/...`
-To make things simpler, you can use the command `generate:templates` to
-add files to this directory that extend the generatorBundle. 
-
-For complex usage, the bundle is built in a very extensible way, allowing
+To make things simpler, you can use the command `generate:templates` to 
+have this done automatically for you.
+- For complex usage, the bundle is built in a very extensible way, allowing
 you to override nearly everything independently.

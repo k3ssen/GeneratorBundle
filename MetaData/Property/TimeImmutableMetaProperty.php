@@ -8,6 +8,6 @@ use Doctrine\DBAL\Types\Type;
 class TimeImmutableMetaProperty extends AbstractPrimitiveMetaProperty implements TimeMetaPropertyInterface
 {
     public const ORM_TYPE = Type::TIME_IMMUTABLE;
-    public const ORM_TYPE_ALIAS = 'ti';
+    public const ORM_TYPE_ALIAS = 'tim';
     public const RETURN_TYPE = '\DateTimeImmutable';
 }

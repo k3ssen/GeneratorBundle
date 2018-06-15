@@ -12,28 +12,29 @@ This bundle consist of two main parts:
 To start generating an entity, use `php bin/console generator:entity:create` in your console. 
 
 The interactive command will ask you the following information:
-- entity name
-- what traits to use (only if there are traits configured in generator-setting)
-- what properties to add:
-    - property name
-    - property type
-    - attributes, such as 'length', 'nullable', 'unique'
+- Entity name
+- What bundle to use (optional)
+- What traits to use (only if there are traits configured in generator-setting)
+- What properties to add:
+    - Property name
+    - Property type
+    - Attributes, such as 'length', 'nullable', 'unique'
     (questions are based on type)
-    - what validations to use
-- which property to use in '__toString' method.    
+    - What validations to use
+- Which property to use in '__toString' method.    
 
 The interactive command is built in such way that it lets you edit your choices
 if you made any mistake.
 
 Additionally, you can provide the `--savepoint` option to continue editing the
 last entity you were building. This can be convenient when you accidentally 
-close the command (by hitting something like ctrl+c or closing the console).
+cancel the command.
 
 #### Relationships
 
 The property-types you can use include relationships, such as ManyToOne.
 
-A required part of relationships is that you provide an targetEntity.
+A required part of relationships is that you provide a targetEntity.
 
 The command will provide you existing options, but also allows you to provide an
 entity that does'nt exist yet. 
@@ -76,17 +77,15 @@ By using `php bin/console generator:crud` the generator will create files that h
 the application.
 
 The interactive command will ask you the following information:
-- what entity to use
-- a subdirectory for you controller (optional)
-- if you want to use write actions (new, edit, delete)
-- if you want to generate (and use) a voter class
-- if you want to generate (and use) a datatable class
+- What entity to use
+- A subdirectory for you controller (optional)
+- If you want to use write actions (new, edit, delete)
+- If you want to generate (and use) a voter class
 
 
 The generator will then create the following:
 - `[bundlePath]`/Controller/`[subdirectory]`/`[EntityName]`**Controller.php**
 - `[bundlePath]`/Form/**`[EntityName]`Type.php** (only if 'write actions' is true)
-- `[bundlePath]`/Datatable/`[EntityName]`**Datatable.php** (only is 'using datatable is true)
 - `[bundlePath]`/Security/`[EntityName]`**Voter.php** (only if 'using voter' is true)
 - templates/[subdirectory]/`[entity_name]`
     - **index.html.twig**

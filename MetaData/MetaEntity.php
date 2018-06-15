@@ -326,7 +326,6 @@ class MetaEntity implements MetaEntityInterface
         return $this;
     }
 
-
     public function __toString()
     {
         return $this->getShortcutNotation();

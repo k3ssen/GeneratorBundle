@@ -9,5 +9,5 @@ class DateTimeImmutableMetaProperty extends AbstractPrimitiveMetaProperty implem
 {
     public const ORM_TYPE = Type::DATETIME_IMMUTABLE;
     public const RETURN_TYPE = '\DateTimeImmutable';
-    public const ORM_TYPE_ALIAS = 'dti';
+    public const ORM_TYPE_ALIAS = 'dtim';
 }

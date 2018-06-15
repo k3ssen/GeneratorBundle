@@ -10,9 +10,13 @@ Unfortunately that bundle has been outdated for a while and as of Symfony 4 that
 is not supported. 
 
 Symfony's alternative, the [MakerBundle](https://symfony.com/doc/1.0/bundles/SymfonyMakerBundle/index.html),
-let's you generate some bare files, but they contain just too little.
+is nice for a start, but (depending on what you want) it is too basic.
 
-To fill the gap this GeneratorBundle is created. It helps you quickly create (CRUD) applications 
+> **Note:** as of writing, the MakerBundle has gotten lots of extra's and is less bare than
+it has been in its early stage. You might want to check it out. 
+> The existing 'makers' (e.g. the MakeEntity) are still not suitable for extending though.  
+
+To fill more needs for generating this GeneratorBundle is created. It helps you quickly create (CRUD) applications 
 by letting you generate the following:
 
 - **Entities**  (including relationships and validations)
@@ -30,8 +34,7 @@ by letting you generate the following:
     - **new.html.twig**
     - **edit.html.twig**
     - **delete.html.twig**
-- **Voters** if you have some different roles to take into account.
-- **Datatables** for showing table for multiple records, with sorting, search and pagination. To be used in the indexAction. 
+- **Voters** if you have some different roles to take into account. 
 
 By default, generated files will use php 7.1+ and take 
 [Symfony's best practises](https://symfony.com/doc/4.2/best_practices/templates.html) into account

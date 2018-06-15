@@ -1,15 +1,40 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}
 {% set entity_singularized = meta_entity.name|tabalize %}
-{% autoescape false %}
+{% set subdir = generate_options.controllerSubdirectory %}
+{% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
+{% block vars %}
+{{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
+{% endblock %}
+{% block extends %}
 {{ "{% extends 'base.html.twig' %}" }}
+{% endblock %}
 
+{% block title %}
 {{ "{% set title = '"~meta_entity.name~"' %}" }}
-{% if meta_entity.displayProperty %}
-    {{ "{% set sub_title = "~entity_singularized~" %}" }}
-{% endif %}
+{{ "{% set sub_title = 'Edit" ~ (meta_entity.displayProperty ? ' - \' ~' ~entity_singularized : '\'')~" %}" }}
+{% endblock %}
 
-{{ "{% block content %}" }}
-    {{ "{% include '@BaseAdmin/components/entity_form_box.html.twig' with {title: 'Edit', entity: "~entity_singularized~",vote: "~(generate_options.usingVoters?'true':'false')~"} %}"  }}
+{% block body %}
+{{ "{% block body %}" }}
+{% block form %}
+    {{ "{{ form_start(form) }}" }}
+    {{ "{{ form_widget(form) }}" }}
+    <button class="btn btn-primary">Save</button>
+    {{ "{{ form_end(form) }}" }}
+{% endblock %}
+
+{% block actions %}
+    <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
+        Overview
+    </a>
+    <a href="{{ "{{ path('"~route_prefix ~"_show', "~route_param~") }}" }}" class="btn btn-secondary">
+        Details
+    </a>
+    <a href="{{ "{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
+        Delete
+    </a>
+{% endblock %}
 {{ "{% endblock %}" }}
-{% endautoescape %}
+{% endblock %}

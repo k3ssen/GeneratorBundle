@@ -4,9 +4,13 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\Command\EntityQuestion;
 
 use K3ssen\GeneratorBundle\Command\Helper\CommandInfo;
+use K3ssen\GeneratorBundle\Generator\EntityGenerateOptions;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceFactory;
+use K3ssen\GeneratorBundle\MetaData\Interfaces\MetaInterfaceInterface;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\MetaData\ClassAnnotation\MetaAnnotationFactory;
 use K3ssen\GeneratorBundle\MetaData\Traits\MetaTraitFactory;
+use K3ssen\GeneratorBundle\MetaData\Traits\MetaTraitInterface;
 
 class TraitsQuestion implements EntityQuestionInterface
 {
@@ -21,23 +25,30 @@ class TraitsQuestion implements EntityQuestionInterface
      */
     protected $metaAnnotationFactory;
     /**
-     * @var bool
+     * @var EntityGenerateOptions
      */
-    protected $askTraits;
+    protected $entityGenerateOptions;
+    /**
+     * @var MetaInterfaceFactory
+     */
+    protected $metaInterfaceFactory;
 
-    protected $traitOptions = [];
-
-    public function __construct(MetaTraitFactory $metaTraitFactory, MetaAnnotationFactory $metaAnnotationFactory, bool $askTraits, array $traitOptions)
+    public function __construct(
+        MetaTraitFactory $metaTraitFactory,
+        MetaAnnotationFactory $metaAnnotationFactory,
+        EntityGenerateOptions $entityGenerateOptions,
+        MetaInterfaceFactory $metaInterfaceFactory
+    )
     {
-        $this->askTraits = $askTraits;
         $this->metaTraitFactory = $metaTraitFactory;
         $this->metaAnnotationFactory = $metaAnnotationFactory;
-        $this->traitOptions = $traitOptions;
+        $this->entityGenerateOptions = $entityGenerateOptions;
+        $this->metaInterfaceFactory = $metaInterfaceFactory;
     }
 
     public function addActions(CommandInfo $commandInfo, array &$actions)
     {
-        if ($this->askTraits) {
+        if ($this->entityGenerateOptions->getAskTraits()) {
             $actions['Set traits'] = function () use ($commandInfo) {
                 $this->doQuestion($commandInfo);
             };
@@ -46,40 +57,76 @@ class TraitsQuestion implements EntityQuestionInterface
 
     public function doQuestion(CommandInfo $commandInfo)
     {
-        if (!$this->askTraits) {
+        if (!$this->entityGenerateOptions->getAskTraits()) {
             return;
         }
+
         $metaEntity =  $commandInfo->getMetaEntity();
         $commandInfo->getIo()->text('What traits should be used?');
-        foreach ($this->traitOptions as $description => $namespace) {
-            if (!$namespace) {
+        foreach ($this->entityGenerateOptions->getTraitOptions() as $traitKey => $options) {
+            if (($options['default'] === false && $options['ask'] === false) || !$metaTrait = $this->createMetaTrait($commandInfo, $traitKey, $options)) {
                 continue;
             }
-            if (!trait_exists($namespace)) {
-                $commandInfo->getIo()->text(sprintf('Cannot ask trait "%s"; trait not found', $namespace));
-                continue;
-            }
-            if ($commandInfo->getIo()->confirm($description)) {
-                $metaTrait = $this->metaTraitFactory->createMetaTrait($metaEntity, $namespace);
+            $metaInterface = $this->createMetaInterfaceIfDefined($commandInfo, $traitKey, $options);
+
+            if ($options['ask'] === false || $commandInfo->getIo()->confirm($traitKey, $options['default'])) {
                 $metaEntity->addTrait($metaTrait);
-                $this->addSpecialOptions($metaEntity, $description, $namespace);
+                $this->addSpecialOptions($metaEntity, $traitKey, $options);
+                if (isset($metaInterface)) {
+                    $metaEntity->addInterface($metaInterface);
+                }
             } else {
-                $this->removeTraitIfExists($metaEntity, $namespace);
-                $this->undoSpecialOptions($metaEntity, $description, $namespace);
+                $this->removeTraitIfExists($metaTrait);
+                if (isset($metaInterface)) {
+                    $this->removeInterfaceIfExists($metaInterface);
+                }
+                $this->undoSpecialOptions($metaEntity, $traitKey, $options);
             }
         }
     }
 
-    protected function addSpecialOptions(MetaEntityInterface $metaEntity, $description, $namespace)
+    protected function createMetaTrait(CommandInfo $commandInfo, string $traitKey, array $options): ?MetaTraitInterface
     {
-        if (stripos ($description.$namespace, 'softdelete') !== false) {
+        $namespace = $options['namespace'];
+        if (!trait_exists($namespace)) {
+            $commandInfo->getIo()->text(sprintf('Cannot ask trait "%s"; namespace "%s" not found', $traitKey, $namespace));
+            return null;
+        }
+        $metaEntity = $commandInfo->getMetaEntity();
+        if ($namespaceAlias = $options['namespace_alias'] ?? null) {
+            $namespace = [$namespace => $namespaceAlias];
+        }
+        return $this->metaTraitFactory->createMetaTrait($metaEntity, $namespace);
+    }
+
+    protected function createMetaInterfaceIfDefined(CommandInfo $commandInfo, string $traitKey, array $options): ?MetaInterfaceInterface
+    {
+        $metaEntity = $commandInfo->getMetaEntity();
+        $interfaceNamespace = $options['interface_namespace'] ?? null;
+        if (!$interfaceNamespace) {
+            return null;
+        }
+        $interfaceAlias = $options['interface_alias'] ?? null;
+        if (!interface_exists($interfaceNamespace)) {
+            $commandInfo->getIo()->text(sprintf('Cannot ask trait "%s"; Interface "%s" not found', $traitKey, $interfaceNamespace));
+            return null;
+        }
+        if ($interfaceNamespace) {
+            return $this->metaInterfaceFactory->createMetaInterface($metaEntity, [$interfaceNamespace => $interfaceAlias]);
+        }
+        return null;
+    }
+
+    protected function addSpecialOptions(MetaEntityInterface $metaEntity, $traitKey, array $options)
+    {
+        if (stripos ($traitKey.$options['namespace'], 'softdelete') !== false) {
             $this->addSoftDeleteAnnotation($metaEntity);
         }
     }
 
-    protected function undoSpecialOptions(MetaEntityInterface $metaEntity, $description, $namespace)
+    protected function undoSpecialOptions(MetaEntityInterface $metaEntity, $traitKey, array $options)
     {
-        if (stripos ($description.$namespace, 'softdelete') !== false) {
+        if (stripos ($traitKey.$options['namespace'], 'softdelete') !== false) {
             $this->removeSoftDeleteAnnotation($metaEntity);
         }
     }
@@ -107,11 +154,21 @@ class TraitsQuestion implements EntityQuestionInterface
         }
     }
 
-    protected function removeTraitIfExists(MetaEntityInterface $metaEntity, string $namespace)
+    protected function removeTraitIfExists(MetaTraitInterface $metaTrait)
     {
-        $metaTrait = $metaEntity->getTraits()[$namespace] ?? null;
+        $metaEntity = $metaTrait->getMetaEntity();
+        $metaTrait = $metaEntity->getTraits()[$metaTrait->getTraitUsage()] ?? null;
         if ($metaTrait) {
             $metaEntity->removeTrait($metaTrait);
+        }
+    }
+
+    protected function removeInterfaceIfExists(MetaInterfaceInterface $metaInterface)
+    {
+        $metaEntity = $metaInterface->getMetaEntity();
+        $metaInterface = $metaEntity->getInterfaces()[$metaInterface->getInterfaceUsage()] ?? null;
+        if ($metaInterface) {
+            $metaEntity->removeInterface($metaInterface);
         }
     }
 }
