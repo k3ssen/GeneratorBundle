@@ -14,8 +14,13 @@ GeneratorBundle
 
 Run `composer require k3ssen/generator:dev-master --dev` in your console. 
 
-
 Symfony Flex should add the bundle automatically to your `config/bundles.php`.
+
+If installation fails due to minumum-stability, you could add the 
+following settings to your composer.json file first:
+    
+    "minimum-stability": "dev",
+    "prefer-stable": true 
 
 ### Required/Recommended bundles
 
