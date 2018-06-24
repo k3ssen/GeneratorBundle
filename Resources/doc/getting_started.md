@@ -1,7 +1,7 @@
 GeneratorBundle
 =====================
 
- [Introduction](Introduction.md#generatorbundle)
+ [Introduction](introduction.md#generatorbundle)
 | **Getting started]**
 | [Usage](usage.md#generatorbundle)
 | [Configuration](configuration.md#generatorbundle)
