@@ -1,13 +1,13 @@
 GeneratorBundle
 ===============
 
- [Introduction](Introduction.md#GeneratorBundle)
-| [Getting started](getting_started.md#GeneratorBundle)
+ [Introduction](Introduction.md#generatorbundle)
+| [Getting started](getting_started.md#generatorbundle)
 | **Usage**
-| [Configuration](configration.md#GeneratorBundle)
-| [Templates](templates.md#GeneratorBundle)
-| [Metadata](metadata.md#GeneratorBundle)
-| [Questions](questions.md#GeneratorBundle)
+| [Configuration](configuration.md#generatorbundle)
+| [Templates](templates.md#generatorbundle)
+| [Metadata](metadata.md#generatorbundle)
+| [Questions](questions.md#generatorbundle)
 
 ## Usage
 
