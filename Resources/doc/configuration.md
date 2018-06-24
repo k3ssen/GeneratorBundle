@@ -1,6 +1,14 @@
 GeneratorBundle
 ===============
 
+ [Introduction](Introduction.md#GeneratorBundle)
+| [Getting started](getting_started.md#GeneratorBundle)
+| [Usage](usage.md#GeneratorBundle)
+| **Configuration**
+| [templates](templates.md#GeneratorBundle)
+| [Metadata](metadata.md#GeneratorBundle)
+| [Questions](questions.md#GeneratorBundle)
+
 ## Configuration settings
 
 Changes are that the defaults of this bundle are not to your liking. 

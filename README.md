@@ -32,3 +32,14 @@ To make things simpler, you can use the command `generate:templates` to
 have this done automatically for you.
 - For complex usage, the bundle is built in a very extensible way, allowing
 you to override nearly everything independently.
+
+
+## Documenation
+
+* [Introduction](Resources/doc/introduction.md#GeneratorBundle)
+* [Getting started](Resources/doc/getting_started.md#GeneratorBundle)
+* [Usage](Resources/doc/usage.md#GeneratorBundle)
+* [Configuration](Resources/doc/configration.md#GeneratorBundle)
+* [Templates](Resources/doc/templates.md#GeneratorBundle)
+* [Metadata](Resources/doc/metadata.md#GeneratorBundle)
+* [Questions](Resources/doc/questions.md#GeneratorBundle)

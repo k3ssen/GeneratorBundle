@@ -1,6 +1,14 @@
 GeneratorBundle
 ===============
 
+ [Introduction](Introduction.md#GeneratorBundle)
+| [Getting started](getting_started.md#GeneratorBundle)
+| [Usage](usage.md#GeneratorBundle)
+| [Configuration](configration.md#GeneratorBundle)
+| **Templates**
+| [Metadata](metadata.md#GeneratorBundle)
+| [Questions](questions.md#GeneratorBundle)
+
 ## Templates
 
 Every generated file is rendered through twig. This enables you to override any

@@ -1,28 +1,21 @@
 GeneratorBundle
 =====================
 
+ [Introduction](Introduction.md#GeneratorBundle)
+| **Getting started]**
+| [Usage](usage.md#GeneratorBundle)
+| [Configuration](configration.md#GeneratorBundle)
+| [templates](templates.md#GeneratorBundle)
+| [Metadata](metadata.md#GeneratorBundle)
+| [Questions](questions.md#GeneratorBundle)
+
+
 ## Getting Started
 
-Add this git repository to your `composer.json` file:
+Run `composer require k3ssen/generator:dev-master --dev` in your console. 
 
-    //...
-    "repositories": [
-        {
-            "type": "git",
-            "url": "https://github.com/k3ssen/GeneratorBundle.git"
-        }
-    ],
-    
-After saving your composer.json, run `composer require k3ssen/generator:dev-master --dev` in your console.
 
 Symfony Flex should add the bundle automatically to your `config/bundles.php`.
-To make sure, open this file and check if the following line 
-is added to the array:
-
-    
-    K3ssen\GeneratorBundle\GeneratorBundle::class => ['dev' => true],
-
-
 
 ### Required/Recommended bundles
 
