@@ -17,19 +17,18 @@ class GeneratorExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader->load('services.yaml');
+
+        array_unshift($configs, ['trait_options' => $container->getParameter('default_trait_options')]);
+
         $configuration = new Configuration();
         $config = $this->processConfigs($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        $loader->load('services.yaml');
 
         foreach ($config as $key => $value) {
             $container->setParameter('generator.'.$key, $value);
         }
-
-        $defaultTraitOptions = $container->getParameter('default_trait_options');
-        $configuredAttributes = $container->getParameter('generator.trait_options');
-        $container->setParameter('generator.trait_options', array_replace_recursive($defaultTraitOptions, $configuredAttributes));
 
         $defaultAttributes = $container->getParameter('default_attributes');
         $configuredAttributes = $container->getParameter('generator.attributes');
@@ -52,8 +51,8 @@ class GeneratorExtension extends Extension
 
     protected function processConfigs(ConfigurationInterface $configuration, array $configs)
     {
-        // The processConfiguration doesn't preserve all keys, so we merge the configs beforehand
-        $mergedConfig = array_merge_recursive(...$configs);
+        // The processConfiguration doesn't preserve all keys, so we merge/replace the configs beforehand
+        $mergedConfig = array_replace_recursive(...$configs);
         return parent::processConfiguration($configuration, [$mergedConfig]);
     }
 }

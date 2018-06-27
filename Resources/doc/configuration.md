@@ -19,18 +19,25 @@ In `config/services.yaml` or in `config/packages/generator.yaml`) you can
 alter the following settings. Below the default settings are displayed.
 ```yaml
 generator:
-    default_bundle: null #using 'null' resolves to the 'App' namespace.
-    ask_bundle: true  #use false if you're always using the default_bundle.
-    ask_display_field: true #use false if you don't want to be bothered what field to use for __toString in entities.
-    ask_entity_subdirectory: true #use false if you're not planning on using subdirectories for entities.
+    default_bundle: null              #using 'null' resolves to the 'App' namespace.
+    ask_bundle: true                  #use false if you're always using the default_bundle.
+    ask_display_field: true           #use false if you don't want to be bothered what field to use for __toString in entities.
+    ask_entity_subdirectory: true     #use false if you're not planning on using subdirectories for entities.
     default_entity_subdirectory: null #what default subdirectory should be used for entities?
-    ask_traits: true  #use false if you don't want trait-questions.
-    trait_options: # Note that trait_options won't matter if 'ask_traits' is set to false.
-        # You can alter the trait namespace (must refer to a trait) if you want to use a different one.
-        # If you don't want to use a trait-option, you can set the namespace to null.
-        Blameable: 'Gedmo\Blameable\Traits\BlameableEntity'
-        SoftDeleteable: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
-        Timestampable: 'Gedmo\Timestampable\Traits\TimestampableEntity'
+    ask_traits: true                  #use false if you don't want trait-questions.
+    trait_options: 
+        Blameable:
+            ask: true                 #use false to not ask for Blameable
+            default: true             #default choice-value (also used when aks is set to false)
+            namespace: 'Gedmo\Blameable\Traits\BlameableEntity'
+        SoftDeleteable:
+            ask: true
+            default: true
+            namespace: 'Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity'
+        Timestampable:
+            ask: true
+            default: true
+            namespace: 'Gedmo\Timestampable\Traits\TimestampableEntity'
         # You can add more traits if you want.
     
     # Overwriting attribute-settings are part of a special usecase.
@@ -39,14 +46,14 @@ generator:
     attributes:
         nullable:
             default: false
-        # You can add more attributes to your liking.   
+        # You can add custom attributes   
         
-    ask_use_voter: true  #use false if you don't want to be bothered with this question.
-    use_voter_default: true #Default option for whether or not voters should be used.
-    ask_use_write_actions: true  #use false if you don't want to be bothered with this question.
-    use_write_actions_default: true #Default option for whether or not write actions (new, edit, delete) should be used.
-    ask_controller_subdirectory: true  #use false if you don't want to be bothered with the question what subdirectory a controller should use
-    controller_subdirectory_default: null  #what subdirectory controllers should use by default.
+    ask_use_voter: true                     #use false if you don't want to be bothered with this question.
+    use_voter_default: true                 #Default option for whether or not voters should be used.
+    ask_use_write_actions: true             #use false if you don't want to be bothered with this question.
+    use_write_actions_default: true         #Default option for whether or not write actions (new, edit, delete) should be used.
+    ask_controller_subdirectory: true       #use false if you don't want to be bothered with the question what subdirectory a controller should use
+    controller_subdirectory_default: null   #what subdirectory controllers should use by default.
 ```
 
 Note that some options have dependencies on other bundles.

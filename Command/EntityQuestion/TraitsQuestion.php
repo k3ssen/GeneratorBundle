@@ -87,7 +87,7 @@ class TraitsQuestion implements EntityQuestionInterface
 
     protected function createMetaTrait(CommandInfo $commandInfo, string $traitKey, array $options): ?MetaTraitInterface
     {
-        $namespace = $options['namespace'];
+        $namespace = $options['namespace'] ?? $traitKey;
         if (!trait_exists($namespace)) {
             $commandInfo->getIo()->text(sprintf('Cannot ask trait "%s"; namespace "%s" not found', $traitKey, $namespace));
             return null;

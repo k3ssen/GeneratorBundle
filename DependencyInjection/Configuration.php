@@ -54,7 +54,8 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->booleanNode('ask')->defaultTrue()->end()
                             ->booleanNode('default')->defaultTrue()->end()
-                            ->scalarNode('namespace')->isRequired()->end()
+                            // Namespace should have 'isRequired', but this cases problems when just overwriting an existing trait (like Blameable) without overwriting namespace
+                            ->scalarNode('namespace')->defaultNull()->end()
                             ->scalarNode('namespace_alias')->defaultNull()->end()
                             ->scalarNode('interface_namespace')->defaultNull()->end()
                             ->scalarNode('interface_alias')->defaultNull()->end()
