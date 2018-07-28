@@ -22,6 +22,7 @@ class ValidationsQuestion implements PropertyQuestionInterface
     /** @var MetaValidationFactory */
     protected $metaValidationFactory;
 
+    // TODO: use ask_validations configuration
     public function __construct(MetaValidationFactory $metaValidationFactory)
     {
         $this->metaValidationFactory = $metaValidationFactory;
