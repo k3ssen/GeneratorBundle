@@ -8,7 +8,7 @@
      */
 {% endblock %}
 {% block index_action_method_definition %}
-    public function index({{ meta_entity.name }}Repository $repo): Response
+    public function index({{ meta_entity.name }}{% if generate_options.useDatatable %}Datatable $datatable{% else %}Repository $repo{% endif %}): Response
 {% endblock %}
     {
 {% block index_actions_security_check %}
@@ -19,7 +19,14 @@
 {% endblock %}
 {% block index_action_return_response %}
         return $this->render('{{ view_prefix }}/index.html.twig', [
+    {%- if generate_options.useDatatable %}
+
+            'datatable' => $datatable->buildDatatable(),
+    {%- else %}
+
             '{{ meta_entity.name | pluralize | tabalize }}' => $repo->findAll(),
+    {%- endif %}
+
         ]);
 {% endblock %}
     }

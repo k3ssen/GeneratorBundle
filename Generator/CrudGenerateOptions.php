@@ -23,6 +23,13 @@ class CrudGenerateOptions
     protected $useWriteActions;
 
     /** @var bool */
+    protected $askUseDatatable;
+    /** @var bool */
+    protected $useDatatableDefault;
+    /** @var bool */
+    protected $useDatatable;
+
+    /** @var bool */
     protected $askControllerSubdirectory;
     /** @var string */
     protected $controllerSubdirectoryDefault;
@@ -106,6 +113,46 @@ class CrudGenerateOptions
     public function setUseWriteActions(bool $useWriteActions)
     {
         $this->useWriteActions = $useWriteActions;
+        return $this;
+    }
+
+
+    public function getAskUseDatatable(): bool
+    {
+        return $this->askUseDatatable;
+    }
+
+    /**
+     * @required
+     */
+    public function setAskUseDatatable(bool $askUseDatatable): self
+    {
+        $this->askUseDatatable = $askUseDatatable;
+        return $this;
+    }
+
+    public function getUseDatatableDefault(): ?bool
+    {
+        return $this->useDatatableDefault;
+    }
+
+    /**
+     * @required
+     */
+    public function setUseDatatableDefault(bool $useDatatableDefault): self
+    {
+        $this->useDatatableDefault = $useDatatableDefault;
+        return $this;
+    }
+
+    public function getUseDatatable(): bool
+    {
+        return $this->useDatatable ?? $this->getUseDatatableDefault();
+    }
+
+    public function setUseDatatable(bool $useDatatable)
+    {
+        $this->useDatatable = $useDatatable;
         return $this;
     }
 

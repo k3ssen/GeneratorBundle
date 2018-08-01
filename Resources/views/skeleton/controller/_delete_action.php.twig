@@ -17,14 +17,10 @@
 {% endif %}
 {% endblock %}
 {% block delete_action_form_creation %}
-        $form = $this->createFormBuilder(${{ entity_variable }})->setMethod('DELETE')->getForm();
+        $form = $this->createDeleteForm(${{ entity_variable }});
 {% endblock %}
 {% block delete_action_form_handling %}
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove(${{ entity_variable }});
-            $em->flush();
+        if ($this->handleDeleteForm($form, $request)) {
 {% block delete_action_redirect_response %}
             return $this->redirectToRoute('{{ route_prefix }}_index');
 {% endblock %}

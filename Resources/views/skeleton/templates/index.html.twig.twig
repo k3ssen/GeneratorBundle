@@ -16,12 +16,27 @@
 
 {% block body %}
 {{ "{% block body %}" }}
-    <h1>{{ meta_entity.name }} <small>Overview</small></h1>
 {% block index_table %}
+{% if generate_options.useDatatable %}
+    {{ " {{ sg_datatables_render_html(datatable) }}" }}
+{% else %}
 {{ parent() }}
+{% endif %}
 {% endblock %}
 {% block actions %}
-    <a href="{{"{{ path('"~route_prefix ~"_new') }}" }}" class="btn btn-success">New</a>
+    <div class="mt-5">
+        <a href="{{"{{ path('"~route_prefix ~"_new') }}" }}" class="btn btn-success">New</a>
+    </div>
 {% endblock %}
 {{ "{% endblock %}" }}
+{% endblock %}
+
+{% block javascripts %}
+{% if generate_options.useDatatable %}
+{{ "{% block javascripts %}" }}
+    {{ "{{ parent() }}" }}
+    {{ "{{ sg_datatables_render_js(datatable) }}" }}
+{{ "{% endblock %}" }}
+
+{% endif %}
 {% endblock %}

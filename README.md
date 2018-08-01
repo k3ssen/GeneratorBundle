@@ -19,17 +19,23 @@ Features:
     - Read existing entities and interactively add/edit/remove properties.
 * Generate CRUD based on entities, including:
     - Controller (optionally use subdirectories)
+    - AbstractController (generated once to be used by Controllers)
     - Template (twig) files
     - Form
     - Voter (optional)
+    - AbstractVoter (generated once to be used by Voters)
+    - Datatable (optional)
+    - AbstractDatatable (generated once to be used by Datatables)
 
 This bundle is highly customizable:
+- Files are generated through twig files, which you can override by
+using identical files in `/templates/bundles/GeneratorBundle/...`.
+    - To make things simpler, you can use the command `generate:templates` to 
+have this done automatically for you.
+    - By using the `meta_entity` and `generate_options` parameters in twig you'll have
+lots of options to make your files perfectly suited for your application.
 - Enable/disable questions that you do or don't need  
 - Specify defaults
-- All files are generated through twig files, which you can override by
-using identical files in `/templates/bundles/GeneratorBundle/...`
-To make things simpler, you can use the command `generate:templates` to 
-have this done automatically for you.
 - For complex usage, the bundle is built in a very extensible way, allowing
 you to override nearly everything independently.
 
@@ -40,6 +46,7 @@ you to override nearly everything independently.
 * [Getting started](Resources/doc/getting_started.md#GeneratorBundle)
 * [Usage](Resources/doc/usage.md#GeneratorBundle)
 * [Configuration](Resources/doc/configration.md#GeneratorBundle)
+* [Abstract classes](Resources/doc/abstract_classes.md#generatorbundle)
 * [Templates](Resources/doc/templates.md#GeneratorBundle)
 * [Metadata](Resources/doc/metadata.md#GeneratorBundle)
 * [Questions](Resources/doc/questions.md#GeneratorBundle)

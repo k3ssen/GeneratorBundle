@@ -14,6 +14,10 @@
                 'attr' => [
                     'data-role' => 'select2',
                 ],
+                {%- if 'OneToMany' in property.ormType %}
+
+                'by_reference' => false,
+                {%- endif %}
                 {%- endif %}
 
             ])

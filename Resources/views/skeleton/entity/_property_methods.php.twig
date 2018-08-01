@@ -37,16 +37,25 @@
 
     public function add{{ property.name | singularize | classify }}({{ property.targetEntity.name }} ${{ property.name | singularize }}): self
     {
-        $this->{{ property.name }}->add(${{ property.name | singularize }});
+        if (!$this->{{ property.name }}->contains(${{ property.name | singularize }})) {
+            $this->{{ property.name }}->add(${{ property.name | singularize }});
 {% if property.mappedBy %}
-        ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}($this);
+            ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}($this);
 {% endif %}
+        }
         return $this;
     }
 
     public function remove{{ property.name | singularize | classify }}({{ property.targetEntity.name }} ${{ property.name | singularize }}): self
     {
-        $this->{{ property.name }}->removeElement(${{ property.name | singularize }});
+        if ($this->{{ property.name }}->contains(${{ property.name | singularize }})) {
+            $this->{{ property.name }}->removeElement(${{ property.name | singularize }});
+        }
+{% if property.mappedBy %}
+        if (${{ property.name | singularize }}->get{{ property.mappedBy | classify }}() === $this) {
+            ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}(null);
+        }
+{% endif %}
         return $this;
     }
 {% endblock %}

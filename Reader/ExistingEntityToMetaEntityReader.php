@@ -47,6 +47,13 @@ class ExistingEntityToMetaEntityReader
         $this->metaValidationFactory = $metaValidationFactory;
     }
 
+    public function createMetaEntityFromClass(string $className): MetaEntityInterface
+    {
+        $metaEntity = $this->metaEntityFactory->createByClassName($className);
+        $this->extractExistingClassToMetaEntity($metaEntity);
+        return $metaEntity;
+    }
+
     public function extractExistingClassToMetaEntity(MetaEntityInterface $metaEntity)
     {
         if (!class_exists($metaEntity->getFullClassName())){

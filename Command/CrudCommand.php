@@ -58,6 +58,7 @@ class CrudCommand extends Command
             ->addArgument('entity', InputArgument::OPTIONAL, 'Argument description')
             ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
             ->addOption('use-voter', null,InputOption::VALUE_OPTIONAL)
+            ->addOption('use-datatable', null,InputOption::VALUE_OPTIONAL)
             ->addOption('use-write-actions', null,InputOption::VALUE_OPTIONAL)
         ;
     }
@@ -108,6 +109,7 @@ class CrudCommand extends Command
         $this->determineControllerSubDirectory($input, $output);
         $this->determineUseWriteActions($input, $output);
         $this->determineUseVoter($input, $output);
+        $this->determineUseDatatable($input, $output);
     }
 
     protected function determineUseWriteActions(InputInterface $input, OutputInterface $output)
@@ -149,5 +151,20 @@ class CrudCommand extends Command
             $useVoter = false;
         }
         $this->generateOptions->setUseVoter($useVoter);
+    }
+
+    protected function determineUseDatatable(InputInterface $input, OutputInterface $output)
+    {
+        $io = new CommandStyle($input, $output);
+        $useDatatable = $input->getOption('use-datatable') ?? $this->generateOptions->getUseDatatableDefault();
+        if ($this->bundleProvider->isEnabled('SgDatatablesBundle')) {
+            if ($this->generateOptions->getAskUseDatatable()) {
+                $useDatatable = $io->confirm('Generate Datatable class?', $useDatatable);
+            }
+        } elseif ($useDatatable) {
+            $io->warning('Cannot generate datatable: SgDatatablesBundle is not enabled.');
+            $useDatatable = false;
+        }
+        $this->generateOptions->setUseDatatable($useDatatable);
     }
 }

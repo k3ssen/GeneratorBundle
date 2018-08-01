@@ -5,6 +5,7 @@ GeneratorBundle
 | **Getting started]**
 | [Usage](usage.md#generatorbundle)
 | [Configuration](configuration.md#generatorbundle)
+| [Abstract classes](abstract_classes.md#generatorbundle)
 | [templates](templates.md#generatorbundle)
 | [Metadata](metadata.md#generatorbundle)
 | [Questions](questions.md#generatorbundle)
@@ -33,3 +34,8 @@ The generator includes questions for using SoftDeleteable, Timestampable and
 Blameable behaviours. 
 If you don't have StofDoctrineExtensionsBundle enabled, these questions will
 be skipped.
+- [DatatablesBundle](https://github.com/stwe/DatatablesBundle)
+for datatables.  
+Generated Datatable classes needs this bundle to work. Without this bundle enabled
+no question will be asked for using datatables. The generated index-action will
+then use a plain table instead.

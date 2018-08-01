@@ -1,0 +1,26 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{% block result_action %}
+{% if generate_options.useDatatable %}
+
+{% block result_action_annotations %}
+    /**
+     * @Route("/result", name="{{ route_prefix }}_result")
+     */
+{% endblock %}
+{% block result_action_method_definition %}
+    public function result({{ meta_entity.name }}Datatable $datatable): Response
+{% endblock %}
+    {
+{% block result_actions_security_check %}
+{%- if generate_options.useVoter %}
+        $this->denyAccessUnlessGranted({{ meta_entity.name }}Voter::SEARCH);
+
+{% endif %}
+{% endblock %}
+{% block result_action_return_response %}
+        return $datatable->getResponse();
+{% endblock %}
+    }
+{% endif %}
+{% endblock result_action %}

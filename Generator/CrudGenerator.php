@@ -49,10 +49,16 @@ class CrudGenerator
         $this->setTwigEscapeStrategy();
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
+        $files[] = $this->createBaseClassIfMissing('Controller', 'AbstractController');
         $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $this->generateOptions->getControllerSubdirectory());
         $files[] = $this->createFile($metaEntity,'Form', 'Type');;
         if ($this->generateOptions->getUseVoter()) {
+            $files[] = $this->createBaseClassIfMissing('Security', 'AbstractVoter');
             $files[] = $this->createFile($metaEntity,'Security', 'Voter');
+        }
+        if ($this->generateOptions->getUseDatatable()) {
+            $files[] = $this->createBaseClassIfMissing('Datatable', 'AbstractDatatable');
+            $files[] = $this->createFile($metaEntity,'Datatable', 'Datatable');
         }
         $files[] = $this->createViewTemplate($metaEntity, 'index');
         $files[] = $this->createViewTemplate($metaEntity, 'show');
@@ -95,6 +101,20 @@ class CrudGenerator
         ;
         $this->getFileSystem()->dumpFile($targetFile, $fileContent);
 
+        return $targetFile;
+    }
+
+    protected function createBaseClassIfMissing(string $dirName, string $fileSuffixName): ?string
+    {
+        $defaultBundlePath = $this->bundleProvider->getDefaultBundlePath();
+        $targetFile = $defaultBundlePath.'/'.$dirName.'/'.$fileSuffixName.'.php';
+        if ($this->getFileSystem()->exists($targetFile)) {
+            return null;
+        }
+        $fileContent = $this->twig->render('@Generator/skeleton/'.strtolower($dirName).'/'.$fileSuffixName.'.php.twig', [
+            'generate_options' => $this->generateOptions,
+        ]);
+        $this->getFileSystem()->dumpFile($targetFile, $fileContent);
         return $targetFile;
     }
 

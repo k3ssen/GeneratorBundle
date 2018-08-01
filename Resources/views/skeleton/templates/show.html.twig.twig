@@ -58,15 +58,17 @@
 {% endfor %}
 
 {% block actions %}
-<a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
-    Overview
-</a>
-<a href="{{"{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
-    Delete
-</a>
-<a href="{{ "{{ path('"~route_prefix ~"_edit', "~route_param~") }}" }}" class="btn btn-warning">
-    Edit
-</a>
+    <div class="mt-5">
+        <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
+            Overview
+        </a>
+        <a href="{{"{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
+            Delete
+        </a>
+        <a href="{{ "{{ path('"~route_prefix ~"_edit', "~route_param~") }}" }}" class="btn btn-warning">
+            Edit
+        </a>
+    </div>
 {% endblock %}
 {{ "{% endblock %}" }}
 {% endblock %}

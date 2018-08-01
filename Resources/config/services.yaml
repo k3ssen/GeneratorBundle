@@ -92,7 +92,7 @@ services:
         public: false
         bind:
             $attributes: '%generator.attributes%'
-            $useCustomRepository: true #'%entity_generator.use_custom_repository%' //TODO: make configurable
+            $useCustomRepository: '%generator.use_custom_repository%'
             $bundlesMetaData: '%kernel.bundles_metadata%'
             $entityQuestions: !tagged generator.entity_question
             $propertyQuestions: !tagged generator.property_question
@@ -103,6 +103,8 @@ services:
             $askTraits: '%generator.ask_traits%'
             $askUseVoter: '%generator.ask_use_voter%'
             $useVoterDefault: '%generator.use_voter_default%'
+            $askUseDatatable: '%generator.ask_use_datatable%'
+            $useDatatableDefault: '%generator.use_datatable_default%'
             $askUseWriteActions: '%generator.ask_use_write_actions%'
             $useWriteActionsDefault: '%generator.use_write_actions_default%'
             $defaultEntitySubdirectory: '%generator.default_entity_subdirectory%'

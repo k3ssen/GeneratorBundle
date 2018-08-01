@@ -5,6 +5,7 @@ GeneratorBundle
 | [Getting started](getting_started.md#generatorbundle)
 | [Usage](usage.md#generatorbundle)
 | **Configuration**
+| [Abstract classes](abstract_classes.md#generatorbundle)
 | [templates](templates.md#generatorbundle)
 | [Metadata](metadata.md#generatorbundle)
 | [Questions](questions.md#generatorbundle)

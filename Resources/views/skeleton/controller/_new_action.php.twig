@@ -23,14 +23,9 @@
         $form = $this->createForm({{ meta_entity.name }}Type::class, ${{ entity_variable }});
 {% endblock %}
 {% block new_action_form_handling %}
-
-        $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist(${{ entity_variable }});
-            $em->flush();
+        if ($this->handleForm($form, $request)) {
 {% block new_action_redirect_response %}
-            return $this->redirectToRoute('{{ route_prefix }}_show', ['{{ id_name }}' => ${{ entity_variable }}->{{ id_getter }}]);
+            return $this->redirectToRoute('{{ route_prefix }}_index');
 {% endblock %}
         }
 {% endblock %}

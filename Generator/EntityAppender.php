@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Generator;
 
-use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
+use K3ssen\GeneratorBundle\Reader\ExistingEntityToMetaEntityReader;
 use Symfony\Component\HttpKernel\Config\FileLocator;
 
 class EntityAppender
@@ -13,16 +13,17 @@ class EntityAppender
 
     /** @var \Twig_Environment */
     protected $twig;
-
-    /** @var MetaEntityFactory */
-    protected $metaEntityFactory;
+    /**
+     * @var ExistingEntityToMetaEntityReader
+     */
+    protected $existingEntityToMetaEntityReader;
 
     public function __construct(
-        MetaEntityFactory $metaEntityFactory,
+        ExistingEntityToMetaEntityReader $existingEntityToMetaEntityReader,
         FileLocator $fileLocator,
         \Twig_Environment $twig
     ) {
-        $this->metaEntityFactory = $metaEntityFactory;
+        $this->existingEntityToMetaEntityReader = $existingEntityToMetaEntityReader;
         $this->fileLocator = $fileLocator;
         $this->twig = $twig;
     }
@@ -44,13 +45,17 @@ class EntityAppender
 
     protected function getMetaEntityDiff(MetaEntityInterface $pseudoMetaEntity): MetaEntityInterface
     {
-        $currentMetaEntity = $this->metaEntityFactory->createByClassName($pseudoMetaEntity->getFullClassName());
+        $currentMetaEntity = $this->existingEntityToMetaEntityReader->createMetaEntityFromClass($pseudoMetaEntity->getFullClassName());
         $diffMetaEntity = clone $pseudoMetaEntity;
         foreach ($currentMetaEntity->getUsages() as $usage) {
             $diffMetaEntity->removeUsage($usage);
         }
         foreach ($currentMetaEntity->getProperties() as $property) {
-            $diffMetaEntity->removeProperty($property);
+            foreach ($diffMetaEntity->getProperties() as $diffProperty) {
+                if ($diffProperty->getName() === $property->getName()) {
+                    $diffMetaEntity->removeProperty($diffProperty);
+                }
+            }
         }
         return $diffMetaEntity;
     }

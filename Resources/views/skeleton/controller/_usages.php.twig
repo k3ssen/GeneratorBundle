@@ -13,10 +13,11 @@ use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Security\\'}) }}Vote
 {% endif %}
 {% endblock %}
 {% block use_repository %}
+{% if generate_options.useDatatable %}
+use {{ meta_entity.fullClassName | replace({'\\Entity\\':'\\Datatable\\'}) }}Datatable;
+{% else %}
 use {{ meta_entity.repositoryFullClassName }};
-{% endblock %}
-{% block use_extended_controller %}
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+{% endif %}
 {% endblock %}
 {% block use_route %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -26,5 +27,10 @@ use Symfony\Component\HttpFoundation\Request;
 {% endblock %}
 {% block use_response %}
 use Symfony\Component\HttpFoundation\Response;
+{% endblock %}
+{% block use_extended_controller %}
+{% if subdir or meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
+use {{ generate_options.defaultBundleNamespace }}\Controller\AbstractController;
+{% endif %}
 {% endblock %}
 {% endblock %}

@@ -1,10 +1,14 @@
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}
 {% use '@Generator/skeleton/controller/_index_action.php.twig' %}
+{% use '@Generator/skeleton/controller/_result_action.php.twig' %}
 {% use '@Generator/skeleton/controller/_show_action.php.twig' %}
 {% use '@Generator/skeleton/controller/_new_action.php.twig' %}
 {% use '@Generator/skeleton/controller/_edit_action.php.twig' %}
 {% use '@Generator/skeleton/controller/_delete_action.php.twig' %}
 {% block actions %}
 {% block index_action %}{{ parent() }}{% endblock %}
+{% block result_action %}{{ parent() }}{% endblock %}
 {% block show_action %}{{ parent() }}{% endblock %}
 {% block new_action %}{{ parent() }}{% endblock %}
 {% block edit_action %}{{ parent() }}{% endblock %}

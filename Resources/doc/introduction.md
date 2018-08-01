@@ -5,6 +5,7 @@ GeneratorBundle
 | [Getting started](getting_started.md#generatorbundle)
 | [Usage](usage.md#generatorbundle)
 | [Configuration](configuration.md#generatorbundle)
+| [Abstract classes](abstract_classes.md#generatorbundle)
 | [Templates](templates.md#generatorbundle)
 | [Metadata](metadata.md#generatorbundle)
 | [Questions](questions.md#generatorbundle)
@@ -48,8 +49,6 @@ By default, generated files will use php 7.1+ and take
 [Symfony's best practises](https://symfony.com/doc/4.2/best_practices/templates.html) into account
 (there may be a few minor exceptions).
 
-The many forks of SensioGeneratorBundle clarify that no generator will fit
-everyone's exact needs.
 Extra effort is put in making this GeneratorBundle as extensible as possible, so that even if
 this bundle doesn't fit your needs, it might still provide an excellent base for creating your
 own generator.

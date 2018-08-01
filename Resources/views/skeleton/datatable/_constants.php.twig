@@ -1,0 +1,17 @@
+{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
+{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
+{% block constants %}
+{%- if generate_options.useVoter %}
+
+    protected const USE_VOTER_CHECK = true;
+{% endif %}
+{%- if generate_options.useWriteActions == false %}
+
+    protected const DELETE_ACTION = false;
+    protected const EDIT_ACTION = false;
+{% endif %}
+{%- if meta_entity.idProperty and meta_entity.idProperty.name != 'id' %}
+
+    protected const ID_NAME = '{{ meta_entity.idProperty.name }}';
+{% endif %}
+{% endblock %}

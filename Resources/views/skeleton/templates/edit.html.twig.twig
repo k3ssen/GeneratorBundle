@@ -26,15 +26,17 @@
 {% endblock %}
 
 {% block actions %}
-    <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
-        Overview
-    </a>
-    <a href="{{ "{{ path('"~route_prefix ~"_show', "~route_param~") }}" }}" class="btn btn-secondary">
-        Details
-    </a>
-    <a href="{{ "{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
-        Delete
-    </a>
+    <div class="mt-5">
+        <a href="{{"{{ path('"~route_prefix ~"_index') }}" }}" class="btn btn-secondary">
+            Overview
+        </a>
+        <a href="{{ "{{ path('"~route_prefix ~"_show', "~route_param~") }}" }}" class="btn btn-secondary">
+            Details
+        </a>
+        <a href="{{ "{{ path('"~route_prefix ~"_delete', "~route_param~") }}" }}" class="btn btn-danger">
+            Delete
+        </a>
+    </div>
 {% endblock %}
 {{ "{% endblock %}" }}
 {% endblock %}
