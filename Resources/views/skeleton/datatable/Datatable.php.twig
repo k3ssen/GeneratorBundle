@@ -1,6 +1,6 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}
-{% set route_prefix = (meta_entity.subDir ? meta_entity.subDir|tabalize~'_': '') ~ (meta_entity.name| tabalize)  %}
+{% set route_prefix = (meta_entity.subDir ? meta_entity.subDir|tableize~'_': '') ~ (meta_entity.name| tableize)  %}
 {% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}
 {% use '@Generator/skeleton/datatable/_namespace.php.twig' %}
 {% use '@Generator/skeleton/datatable/_usages.php.twig' %}

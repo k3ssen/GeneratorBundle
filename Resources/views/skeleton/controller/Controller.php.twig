@@ -1,8 +1,8 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {% set subdir = generate_options.controllerSubdirectory %}
-{% set view_prefix = (subdir ? subdir|tabalize~'/': '') ~ (meta_entity.name| tabalize)  %}
+{% set view_prefix = (subdir ? subdir|tableize~'/': '') ~ (meta_entity.name| tableize)  %}
 {% set route_prefix = view_prefix | replace({'/':'_'}) %}
-{% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tabalize : 'id' %}
+{% set id_name = meta_entity.idProperty ? meta_entity.idProperty.name | tableize : 'id' %}
 {% set entity_variable = meta_entity.name | camelize %}
 {% set id_getter = 'get' ~ (id_name|classify) ~ '()' %}
 {% use '@Generator/skeleton/_strict_types_declaration.php.twig' %}

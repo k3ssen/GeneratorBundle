@@ -10,7 +10,7 @@ class InflectorExtension extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('tabalize', [$this, 'tabalize']),
+            new \Twig_SimpleFilter('tableize', [$this, 'tableize']),
             new \Twig_SimpleFilter('pluralize', [$this, 'pluralize']),
             new \Twig_SimpleFilter('singularize', [$this, 'singularize']),
             new \Twig_SimpleFilter('camelize', [$this, 'camelize']),
@@ -18,7 +18,7 @@ class InflectorExtension extends \Twig_Extension
         ];
     }
 
-    public function tabalize($string)
+    public function tableize($string)
     {
         return Inflector::tableize($string);
     }

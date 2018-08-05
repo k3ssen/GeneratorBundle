@@ -24,7 +24,7 @@
             'datatable' => $datatable->buildDatatable(),
     {%- else %}
 
-            '{{ meta_entity.name | pluralize | tabalize }}' => $repo->findAll(),
+            '{{ meta_entity.name | pluralize | tableize }}' => $repo->findAll(),
     {%- endif %}
 
         ]);

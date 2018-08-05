@@ -31,7 +31,7 @@
 {% endblock %}
 {% block new_action_return_response %}
         return $this->render('{{ view_prefix }}/new.html.twig', [
-            '{{ meta_entity.name | tabalize }}' => ${{ entity_variable }},
+            '{{ meta_entity.name | tableize }}' => ${{ entity_variable }},
             'form' => $form->createView(),
         ]);
 {% endblock %}

@@ -1,8 +1,8 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
-{% set entity_singularized = meta_entity.name|tabalize %}
+{% set entity_singularized = meta_entity.name|tableize %}
 {% set subdir = generate_options.controllerSubdirectory %}
-{% set route_prefix = (subdir ? subdir | tabalize ~  '_': '') ~ entity_singularized %}
+{% set route_prefix = (subdir ? subdir | tableize ~  '_': '') ~ entity_singularized %}
 {% set route_param = '{' ~ meta_entity.idProperty|default('id') ~ ': ' ~ entity_singularized ~ '.' ~ meta_entity.idProperty|default('id') ~ '}' %}
 {% block vars %}
 {{ "{# @var "~entity_singularized~" \\"~meta_entity.fullClassName~" #}" }}
@@ -25,13 +25,13 @@
             {{ property.name }}
         </label>
         <div class="col-md-10">
-{# @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
+{#- @var property \K3ssen\GeneratorBundle\MetaData\Property\MetaPropertyInterface #}
     {%- set getter = entity_singularized ~ '.' ~ property.name %}
     {%- if property.ormType in 'OneToManyToMany' %}
 
             <ul>
-                {{ '{% for ' ~ property.name|singularize|tabalize ~ ' in ' ~ getter ~ ' %}' }}
-                <li>{{ '{{ ' ~ property.name|singularize|tabalize ~ ' }}' }}</li>
+                {{ '{% for ' ~ property.name|singularize|tableize ~ ' in ' ~ getter ~ ' %}' }}
+                <li>{{ '{{ ' ~ property.name|singularize|tableize ~ ' }}' }}</li>
                 {{ '{% endfor %}' }}
             </ul>
     {%- else %}

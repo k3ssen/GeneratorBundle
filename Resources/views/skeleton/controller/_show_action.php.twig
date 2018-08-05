@@ -19,7 +19,7 @@
 {% endblock %}
 {% block show_actions_return_response %}
         return $this->render('{{ view_prefix }}/show.html.twig', [
-            '{{ meta_entity.name | tabalize }}' => ${{ entity_variable }},
+            '{{ meta_entity.name | tableize }}' => ${{ entity_variable }},
         ]);
 {% endblock %}
     }
