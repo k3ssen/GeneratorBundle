@@ -1,6 +1,6 @@
 {
-    "name": "k3ssen/generator",
-    "description": "Generate content for your symfony4 project",
+    "name": "k3ssen/extended-generator",
+    "description": "Example symfony4 project that uses the GeneratorBundle",
     "keywords": ["generator", "crud","entity", "entities", "meta", "metadata", "symfony", "symfony4"],
     "type": "symfony-bundle",
     "license": "MIT",
