@@ -21,15 +21,22 @@ class ValidationsQuestion implements PropertyQuestionInterface
 
     /** @var MetaValidationFactory */
     protected $metaValidationFactory;
+    /**
+     * @var bool
+     */
+    protected $askValidations;
 
-    // TODO: use ask_validations configuration
-    public function __construct(MetaValidationFactory $metaValidationFactory)
+    public function __construct(MetaValidationFactory $metaValidationFactory, bool $askValidations)
     {
         $this->metaValidationFactory = $metaValidationFactory;
+        $this->askValidations = $askValidations;
     }
 
     public function doQuestion(CommandInfo $commandInfo, MetaPropertyInterface $metaProperty)
     {
+        if ($this->askValidations === false) {
+            return;
+        }
         $commandInfo->saveTemporaryFile();
         $actionChoices = [
             static::ACTION_VALIDATION_STOP => null,

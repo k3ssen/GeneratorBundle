@@ -112,6 +112,7 @@ services:
             $controllerSubdirectoryDefault: '%generator.controller_subdirectory_default%'
             $askControllerSubdirectory: '%generator.ask_controller_subdirectory%'
             $askDisplayField: '%generator.ask_display_field%'
+            $askValidations: '%generator.ask_validations%'
             $traitOptions: '%generator.trait_options%'
 
     K3ssen\GeneratorBundle\:

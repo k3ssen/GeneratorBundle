@@ -16,6 +16,8 @@ class EntityGenerateOptions
     /** @var bool */
     protected $askDisplayField;
     /** @var bool */
+    protected $askValidations;
+    /** @var bool */
     protected $useCustomRepository;
     /** @var bool */
     protected $askEntitySubdirectory;
@@ -81,6 +83,19 @@ class EntityGenerateOptions
     public function getAskDisplayField(): bool
     {
         return $this->askDisplayField;
+    }
+
+    /**
+     * @required
+     */
+    public function isAskValidations(): ?bool
+    {
+        return $this->askValidations;
+    }
+
+    public function setAskValidations(bool $askValidations)
+    {
+        $this->askValidations = $askValidations;
     }
 
     /**
