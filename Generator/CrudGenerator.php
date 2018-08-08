@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Generator;
 
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\Reader\BundleProvider;
 use Symfony\Component\Filesystem\Filesystem;
@@ -46,7 +46,6 @@ class CrudGenerator
 
     public function createCrud(MetaEntityInterface $metaEntity): array
     {
-        $this->setTwigEscapeStrategy();
         $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
 
         $files[] = $this->createBaseClassIfMissing('Controller', 'AbstractController');
@@ -70,15 +69,6 @@ class CrudGenerator
         return array_filter($files);
     }
 
-    protected function setTwigEscapeStrategy()
-    {
-        /** @var \Twig_Extension_Escaper $escaper */
-        $escaper = $this->twig->getExtension(\Twig_Extension_Escaper::class);
-        // Set escape strategy to false, so that we don't need '{% autoescape false %} for many statements.
-        // We're generating raw code after all, so escaping is rarely needed in this case.
-        $escaper->setDefaultStrategy(false);
-    }
-
     protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string
     {
         $targetDir = '/'.$dirName. ($subDirName ? '/'.Inflector::classify($subDirName) : '');
@@ -91,7 +81,7 @@ class CrudGenerator
 
     protected function createViewTemplate(MetaEntityInterface $metaEntity, $action): string
     {
-        $fileContent = $this->render('templates/'.$action.'.html.twig.twig', $metaEntity);
+        $fileContent = $this->render('templates/'.$action.'.txt.twig', $metaEntity);
 
         $targetSubdir = $this->generateOptions->getControllerSubdirectory();
         $targetFile = $this->projectDir .'/templates/'.

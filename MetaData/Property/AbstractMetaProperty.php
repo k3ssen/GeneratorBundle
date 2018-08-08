@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Doctrine\Common\Collections\ArrayCollection;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;

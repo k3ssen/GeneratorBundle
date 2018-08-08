@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace K3ssen\GeneratorBundle\Twig;
 
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 
 class InflectorExtension extends \Twig_Extension
 {

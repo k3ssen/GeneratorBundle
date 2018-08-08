@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 
 abstract class AbstractRelationMetaProperty extends AbstractMetaProperty implements RelationMetaPropertyInterface

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Command\PropertyQuestion;
 
-use Doctrine\Common\Util\Inflector;
+use Doctrine\Common\Inflector\Inflector;
 use Doctrine\DBAL\Types\Type;
 use K3ssen\GeneratorBundle\Command\Helper\CommandInfo;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityFactory;
@@ -42,6 +42,7 @@ class NameAndTypeQuestion implements PropertyQuestionInterface
     public function doQuestion(CommandInfo $commandInfo, MetaPropertyInterface $metaProperty = null)
     {
         if ($metaProperty) {
+            /** @var string $fieldName */
             $fieldName = $commandInfo->getIo()->ask('Field name', $metaProperty->getName());
             $metaProperty->setName($fieldName);
         } else {
