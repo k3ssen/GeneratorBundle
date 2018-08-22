@@ -22,9 +22,9 @@ abstract class AbstractController implements ContainerAwareInterface
     use ContainerAwareTrait;
     use ControllerTrait;
 
-    protected const MESSAGE_SAVED = 'Entry has been saved.';
-    protected const MESSAGE_DELETED = 'Entry has been deleted.';
-    protected const MESSAGE_CANNOT_BE_DELETED = 'Entry cannot be deleted, because other entries depend on this entry.';
+    protected const MESSAGE_SAVED = 'Data has been saved successfully.';
+    protected const MESSAGE_DELETED = 'Data has been deleted successfully.';
+    protected const MESSAGE_CANNOT_BE_DELETED = 'Failed to delete data, because of other dependencies.';
 
     protected function getParameter(string $name)
     {
@@ -65,28 +65,41 @@ abstract class AbstractController implements ContainerAwareInterface
         ;
     }
 
-    protected function handleForm(FormInterface $form, Request $request): bool
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @param string $successMessage #TranslationKey
+     * @return bool
+     */
+    protected function handleForm(FormInterface $form, Request $request, string $successMessage = null): bool
     {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->saveObject($form->getData());
-            $this->addFlash('success', static::MESSAGE_SAVED);
+            $this->addFlash('success', $successMessage ?: static::MESSAGE_SAVED);
             return true;
         }
         return false;
     }
 
-    protected function handleDeleteForm(FormInterface $form, Request $request): bool
+    /**
+     * @param FormInterface $form
+     * @param Request $request
+     * @param string $successMessage #TranslationKey
+     * @param string $failedMessage #TranslationKey
+     * @return bool
+     */
+    protected function handleDeleteForm(FormInterface $form, Request $request, string $successMessage = null, string $failedMessage = null): bool
     {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $object = $form->getData();
             if ($this->isDeletable($object)) {
                 $this->deleteObject($object);
-                $this->addFlash('success', static::MESSAGE_DELETED);
+                $this->addFlash('success', $successMessage ?: static::MESSAGE_DELETED);
                 return true;
             } else {
-                $this->addFlash('danger', static::MESSAGE_CANNOT_BE_DELETED);
+                $this->addFlash('danger', $failedMessage ?: static::MESSAGE_CANNOT_BE_DELETED);
             }
         }
         return false;

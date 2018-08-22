@@ -7,7 +7,7 @@
         {%- for property in meta_entity.properties %}
 
             ->add('{{ property.name }}', null, [
-                'label' => '{{ property.name }}',
+                'label' => '{{ property.name|humanize }}',
                 {#- Only relationship properties like 'OneToMany' contain 'To' in their ormType -#}
                 {%- if 'To' in property.ormType %}
 

@@ -42,7 +42,7 @@ abstract class AbstractRelationMetaProperty extends AbstractMetaProperty impleme
     public function setInversedBy(?string $inversedBy)
     {
         if ($this->getMappedBy()) {
-            throw new \RuntimeException(sprintf('Cannot set inversedBy on property with name "%s"; The mappedBy has already been set', $this->getName()));
+            $this->setMappedBy(null);
         }
         return $this->setAttribute('inversedBy', $inversedBy);
     }
@@ -55,7 +55,7 @@ abstract class AbstractRelationMetaProperty extends AbstractMetaProperty impleme
     public function setMappedBy(?string $mappedBy)
     {
         if ($this->getInversedBy()) {
-            throw new \RuntimeException(sprintf('Cannot set mappedBy on property with name "%s"; The inversedBy has already been set', $this->getName()));
+            $this->setInversedBy(null);
         }
         return $this->setAttribute('mappedBy', $mappedBy);
     }

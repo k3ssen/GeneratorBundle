@@ -4,7 +4,7 @@
 
 {% block show_actions_annotations %}
     /**
-     * @Route("/{{ '{' ~ id_name ~ '}' }}/show", name="{{ route_prefix }}_show")
+     * @Route("/{{ '{' ~ id_name ~ '}' }}", name="{{ route_prefix }}_show", requirements={"id":"\d+"})
      */
 {% endblock %}
 {% block show_actions_method_definition %}
