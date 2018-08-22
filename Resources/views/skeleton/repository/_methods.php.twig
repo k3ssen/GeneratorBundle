@@ -6,8 +6,8 @@
         parent::__construct($registry, {{ meta_entity.name }}::class);
     }
 
-    public function createBasicQueryBuilder($alias = self::DEFAULT_ALIAS)
+    public function createBasicQueryBuilder(): QueryBuilder
     {
-        return parent::createQueryBuilder($alias);
+        return parent::createQueryBuilder('{{ meta_entity.name | tableize }}');
     }
 {% endblock %}

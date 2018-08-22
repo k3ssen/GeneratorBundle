@@ -6,7 +6,7 @@ use {{ meta_entity.fullClassName }};
 use {{ generate_options.defaultBundleNamespace }}\Datatable\AbstractDatatable;
 {% endif %}
 use Sg\DatatablesBundle\Datatable\Column\Column;
-{%- for property in meta_entity.properties if property.ormType in 'datetime' and break is not defined %}
+{%- for property in meta_entity.properties if 'date' in property.ormType and break is not defined %}
 
 use Sg\DatatablesBundle\Datatable\Column\DateTimeColumn;
 {% set break = true %}

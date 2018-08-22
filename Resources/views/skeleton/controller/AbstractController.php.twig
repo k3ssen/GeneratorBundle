@@ -9,7 +9,6 @@ namespace {{ generate_options.defaultBundleNamespace }}\Controller;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManager;
-use K3ssen\GeneratorBundle\Model\SoftDeleteableInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -117,7 +116,7 @@ abstract class AbstractController implements ContainerAwareInterface
         $em->beginTransaction();
         try {
             // if an object is softdeleteable, then set 'deletedAt' first, so that a 'hard-delete' will be attempted.
-            if ($object instanceof SoftDeleteableInterface) {
+            if (method_exists($object, 'setDeletedAt')) {
                 $object->setDeletedAt(new \DateTime());
             }
             $em->remove($object);
