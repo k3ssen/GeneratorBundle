@@ -28,9 +28,9 @@
 {% block property_collection_methods %}
 {# @var property \K3ssen\GeneratorBundle\MetaData\Property\AbstractRelationshipProperty #}
     /**
-     * @return Collection|ArrayCollection|{{ property.targetEntity.name }}[]
+     * @return ArrayCollection|{{ property.targetEntity.name }}[]
      */
-    public function get{{ property.name | classify }}(): ?Collection
+    public function get{{ property.name | classify }}(): Collection
     {
         return $this->{{ property.name }};
     }

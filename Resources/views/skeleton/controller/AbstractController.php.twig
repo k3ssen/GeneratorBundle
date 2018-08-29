@@ -125,19 +125,24 @@ abstract class AbstractController implements ContainerAwareInterface
      */
     protected function isDeletable($object): bool
     {
-        $em = $this->getEntityManager();
-        $em->beginTransaction();
         try {
-            // if an object is softdeleteable, then set 'deletedAt' first, so that a 'hard-delete' will be attempted.
-            if (method_exists($object, 'setDeletedAt')) {
-                $object->setDeletedAt(new \DateTime());
-            }
-            $em->remove($object);
-            $em->flush();
+            $em = $this->getEntityManager();
+
+            $em->beginTransaction();
+
+            // Use query instead of $em->remove()
+            // With $em->remove, the object's id will become null, which will make it hard to manage afterwards.
+            $em->createQueryBuilder()
+                ->delete(get_class($object), 'o')
+                ->where('o = :object')
+                ->setParameter('object', $object)
+                ->getQuery()
+                ->execute()
+            ;
+
             $em->rollback();
             return true;
-        } catch (ForeignKeyConstraintViolationException $exception) {
-            $em->rollback();
+        } catch (ForeignKeyConstraintViolationException $e) {
             return false;
         }
     }
