@@ -3,84 +3,62 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use K3ssen\GeneratorBundle\Command\Style\CommandStyle;
+use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
 
-class TemplatesCommand extends Command
+class TemplatesCommand extends CrudCommand
 {
+    protected const TITLE = 'Generate Templates (twig view files)';
+
+    protected const VALID_ACTIONS = ['index', 'show', 'new', 'edit', 'delete'];
+
     protected static $defaultName = 'generator:templates';
 
-    protected $projectDir;
-
-    public function __construct(?string $name = null, string $projectDir)
-    {
-        parent::__construct($name);
-        $this->projectDir = $projectDir;
-    }
+    protected $selectedActions;
 
     protected function configure()
     {
-        $this
-            ->setDescription('Add template files to quickly override the skeleton')
+        $this->setDescription('Generate templates (twig view files) for existing entity')
+            ->addArgument('entity', InputArgument::OPTIONAL, 'Entity name you want to create templates for')
+            ->addArgument('actions', InputArgument::IS_ARRAY, 'Actions to generate files for (index, show, new, edit, delete). Defaults to all actions')
+            ->addOption('controller-subdirectory', null,InputOption::VALUE_OPTIONAL, 'Subdirectory for controller')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function generateFiles(MetaEntityInterface $metaEntity): array
     {
-        $io = new SymfonyStyle($input, $output);
+        $actions = $this->selectedActions ?: static::VALID_ACTIONS;
+        $files = [];
+        foreach ($actions as $action) {
+            $files[] = $this->crudGenerator->createViewTemplate($metaEntity, $action);
+        }
+        return $files;
+    }
 
-        $fs = new Filesystem();
-
-        $originDir = $this->getOriginDirectory();
-        $targetDir = $this->getTargetDirectory();
-
-        $finder = new Finder();
-        $finder->files()->in($originDir);
-
-        foreach ($finder as $file) {
-            $relativePathname = $file->getRelativePathname();
-
-            $content = $this->createContentForFile($file);
-            $targetPath = $targetDir.$relativePathname;
-            if ($fs->exists($targetPath)) {
-                $io->text(sprintf('file %s already exists', $targetPath));
-            } else {
-                $fs->dumpFile($targetPath, $content);
-                $io->text(sprintf('Created file %s', $targetPath));
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $this->selectedActions = $input->getArgument('actions') ?: [];
+        foreach ($this->selectedActions as $action) {
+            if (!in_array($action, static::VALID_ACTIONS, true)) {
+                $io = new CommandStyle($input, $output);
+                $io->warning(sprintf('Action "%s" is not valid; Valid actions are: %s', $action, implode(', ', static::VALID_ACTIONS)));
             }
         }
-    }
-
-    protected function createContentForFile(SplFileInfo $file): string
-    {
-        $relativePathname = $file->getRelativePathname();
-
-        $content = "{# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}";
-        // With the exception of the entity and repository all files should have 'generate_options'
-        if (stripos($relativePathname, 'entity') === false && stripos($relativePathname, 'repository') === false) {
-            $content .= "\n{# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions#}";
+        $inputChoice = $input->getArgument('entity');
+        if (in_array($inputChoice, static::VALID_ACTIONS)) {
+            $input->setArgument('entity', null);
+            array_unshift ($this->selectedActions, $inputChoice);
         }
 
-        if ($file->getFilename()[0] === '_') {
-            $content .= "\n{% use '@!Generator/".$relativePathname."' %}";
-        } else {
-            $content .= "\n{% extends '@!Generator/".$relativePathname."' %}";
-        }
-        return $content;
+        return parent::execute($input, $output);
     }
 
-    protected function getOriginDirectory(): string
+    protected function askQuestions(InputInterface $input, OutputInterface $output): void
     {
-        return __DIR__ . '/../Resources/views';
-    }
-
-    protected function getTargetDirectory(): string
-    {
-        return $this->projectDir  . '/templates/bundles/GeneratorBundle/';
+        $this->determineControllerSubDirectory($input, $output);
     }
 }

@@ -15,10 +15,11 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 class CrudCommand extends Command
 {
+    protected const TITLE = 'Generate CRUD';
+
     protected static $defaultName = 'generator:crud';
 
     /** @var ExistingEntityToMetaEntityReader */
@@ -70,7 +71,7 @@ class CrudCommand extends Command
         if (!$metaEntity) {
             return;
         }
-        $this->askCrudQuestions($input, $output);
+        $this->askQuestions($input, $output);
         $this->process($input, $output, $metaEntity);
     }
 
@@ -79,32 +80,42 @@ class CrudCommand extends Command
         $io = new CommandStyle($input, $output);
         $this->existingEntityToMetaEntityReader->extractExistingClassToMetaEntity($metaEntity);
 
-        $files = $this->crudGenerator->createCrud($metaEntity);
+        $files = $this->generateFiles($metaEntity);
         foreach ($files as $file) {
             $io->success(sprintf('Created/Updated file %s', $file));
         }
     }
 
-    protected function showStartInfo(InputInterface $input, OutputInterface $output)
+    protected function generateFiles(MetaEntityInterface $metaEntity): array
+    {
+        return $this->crudGenerator->createCrud($metaEntity);
+    }
+
+    protected function showStartInfo(InputInterface $input, OutputInterface $output): void
     {
         $io = new CommandStyle($input, $output);
-        $io->title('Generate CRUD');
+        $io->title(static::TITLE);
     }
 
     protected function chooseEntity(InputInterface $input, OutputInterface $output): ?MetaEntityInterface
     {
         $io = new CommandStyle($input, $output);
-        $choices = $this->metaEntityFactory->getEntityOptions();
+        $choices = $this->metaEntityFactory->getEntityOptionsAsStrings();
         if (count($choices) === 0) {
             $io->error('No entities found; Add some entities first.');
             return null;
         }
-        $choice = $io->choice('Entity', $choices, $input->getArgument('entity'));
+        $inputChoice = $input->getArgument('entity');
+        if ($inputChoice && !in_array($inputChoice, $choices, true)) {
+            $io->warning(sprintf('No entity found for "%s"', $inputChoice));
+            $inputChoice = null;
+        }
+        $choice = $io->choice('Entity', $choices, $inputChoice);
+
         return $this->metaEntityFactory->getMetaEntityByChosenOption($choice);
     }
 
-
-    protected function askCrudQuestions(InputInterface $input, OutputInterface $output)
+    protected function askQuestions(InputInterface $input, OutputInterface $output): void
     {
         $this->determineControllerSubDirectory($input, $output);
         $this->determineUseWriteActions($input, $output);
@@ -144,7 +155,7 @@ class CrudCommand extends Command
         $useVoter = $input->getOption('use-voter') ?? $this->generateOptions->getUseVoterDefault();
         if ($this->bundleProvider->isEnabled('SecurityBundle')) {
             if ($this->generateOptions->getAskUseVoter()) {
-                $useVoter = $io->confirm('Generate Voter class?', $useVoter);
+                $useVoter = $io->confirm('Use Voter?', $useVoter);
             }
         } elseif ($useVoter) {
             $io->warning('Cannot use voter: SecurityBundle is not enabled.');
@@ -159,7 +170,7 @@ class CrudCommand extends Command
         $useDatatable = $input->getOption('use-datatable') ?? $this->generateOptions->getUseDatatableDefault();
         if ($this->bundleProvider->isEnabled('SgDatatablesBundle')) {
             if ($this->generateOptions->getAskUseDatatable()) {
-                $useDatatable = $io->confirm('Generate Datatable class?', $useDatatable);
+                $useDatatable = $io->confirm('Use Datatable?', $useDatatable);
             }
         } elseif ($useDatatable) {
             $io->warning('Cannot generate datatable: SgDatatablesBundle is not enabled.');

@@ -111,7 +111,7 @@ class MetaEntityFactory
     }
 
     /**
-     * Retrieves list of existing entities as MetaEntities (only fullClassName is set on these MetaEntities)
+     * Retrieves list of existing entities as MetaEntities (only if fullClassName is set on these MetaEntities)
      * @return array|MetaEntityInterface[]
      */
     public function getEntityOptions(): array
@@ -127,6 +127,19 @@ class MetaEntityFactory
             $entities[] = $this->createByClassName($meta->getName());
         }
         return $this->existingEntities = $entities;
+    }
+
+    /**
+     * Retrieves list of existing entities as strings (only if fullClassName is set on the corresponding MetaEntities)
+     * @return array|string[]
+     */
+    public function getEntityOptionsAsStrings(): array
+    {
+        $options = $this->getEntityOptions();
+        foreach ($options as $key => $option) {
+            $options[$key] = (string) $option;
+        }
+        return $options;
     }
 
     public function getMetaEntityByChosenOption($choice): ?MetaEntityInterface

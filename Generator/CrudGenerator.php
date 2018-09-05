@@ -34,6 +34,7 @@ class CrudGenerator
         $this->projectDir = $projectDir;
         $this->bundleProvider = $bundleProvider;
         $this->generateOptions = $generateOptions;
+        $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
     }
 
     protected function getFileSystem(): Filesystem
@@ -46,18 +47,14 @@ class CrudGenerator
 
     public function createCrud(MetaEntityInterface $metaEntity): array
     {
-        $this->generateOptions->setDefaultBundleNamespace($this->bundleProvider->getDefaultBundleNameSpace());
+        $files = $this->createController($metaEntity);
 
-        $files[] = $this->createBaseClassIfMissing('Controller', 'AbstractController');
-        $files[] = $this->createFile($metaEntity,'Controller', 'Controller', $this->generateOptions->getControllerSubdirectory());
-        $files[] = $this->createFile($metaEntity,'Form', 'Type');;
+        $files = array_merge($files, $this->createForm($metaEntity));
         if ($this->generateOptions->getUseVoter()) {
-            $files[] = $this->createBaseClassIfMissing('Security', 'AbstractVoter');
-            $files[] = $this->createFile($metaEntity,'Security', 'Voter');
+            $files = array_merge($files, $this->createVoter($metaEntity));
         }
         if ($this->generateOptions->getUseDatatable()) {
-            $files[] = $this->createBaseClassIfMissing('Datatable', 'AbstractDatatable');
-            $files[] = $this->createFile($metaEntity,'Datatable', 'Datatable');
+            $files = array_merge($files, $this->createDatatable($metaEntity));
         }
         $files[] = $this->createViewTemplate($metaEntity, 'index');
         $files[] = $this->createViewTemplate($metaEntity, 'show');
@@ -69,17 +66,36 @@ class CrudGenerator
         return array_filter($files);
     }
 
-    protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string
+    public function createController(MetaEntityInterface $metaEntity): array
     {
-        $targetDir = '/'.$dirName. ($subDirName ? '/'.Inflector::classify($subDirName) : '');
-        $targetFile = str_replace(['/Entity', '.php'], [$targetDir, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
-        $fileContent = $this->render(strtolower($dirName).'/'.$fileSuffixName.'.php.twig', $metaEntity);
-        $this->getFileSystem()->dumpFile($targetFile, $fileContent);
-
-        return $targetFile;
+        return [
+            $this->createBaseClassIfMissing('Controller', 'AbstractController'),
+            $this->createFile($metaEntity,'Controller', 'Controller', $this->generateOptions->getControllerSubdirectory()),
+        ];
     }
 
-    protected function createViewTemplate(MetaEntityInterface $metaEntity, $action): string
+    public function createForm(MetaEntityInterface $metaEntity): array
+    {
+        return [$this->createFile($metaEntity,'Form', 'Type')];
+    }
+
+    public function createVoter(MetaEntityInterface $metaEntity): array
+    {
+        return [
+            $this->createBaseClassIfMissing('Security', 'AbstractVoter'),
+            $this->createFile($metaEntity,'Security', 'Voter'),
+        ];
+    }
+
+    public function createDatatable(MetaEntityInterface $metaEntity): array
+    {
+        return [
+            $this->createBaseClassIfMissing('Datatable', 'AbstractDatatable'),
+            $this->createFile($metaEntity,'Datatable', 'Datatable'),
+        ];
+    }
+
+    public function createViewTemplate(MetaEntityInterface $metaEntity, $action): string
     {
         $fileContent = $this->render('templates/'.$action.'.txt.twig', $metaEntity);
 
@@ -89,6 +105,16 @@ class CrudGenerator
             Inflector::tableize($metaEntity->getName()). '/'.
             $action.'.html.twig';
         ;
+        $this->getFileSystem()->dumpFile($targetFile, $fileContent);
+
+        return $targetFile;
+    }
+
+    protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string
+    {
+        $targetDir = '/'.$dirName. ($subDirName ? '/'.Inflector::classify($subDirName) : '');
+        $targetFile = str_replace(['/Entity', '.php'], [$targetDir, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
+        $fileContent = $this->render(strtolower($dirName).'/'.$fileSuffixName.'.php.twig', $metaEntity);
         $this->getFileSystem()->dumpFile($targetFile, $fileContent);
 
         return $targetFile;

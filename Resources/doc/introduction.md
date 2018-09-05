@@ -22,10 +22,9 @@ Symfony's alternative, the [MakerBundle](https://symfony.com/doc/1.0/bundles/Sym
 is nice for a start, but (depending on what you want) it is too basic.
 
 > **Note:** as of writing, the MakerBundle has gotten lots of extra's and is less bare than
-it has been in its early stage. You might want to check it out. 
-> The existing 'makers' (e.g. the MakeEntity) are still not suitable for extending though.  
+it has been in its early stage. You might want to check it out.  
 
-To fill more needs for generating this GeneratorBundle is created. It helps you quickly create (CRUD) applications 
+To fill more needs for generation this GeneratorBundle is created. It helps you quickly create (CRUD) applications 
 by letting you generate the following:
 
 - **Entities**  (including relationships and validations)

@@ -108,3 +108,17 @@ if no bundle is used.
 `[subdirectory]` is the subdirectory provided for the controller. If none is provided, then
 there will be no subdirectory.  
 `[EntityName]` the class name of the selected entity.
+
+
+#### Generating individual parts
+
+Rather than generating all CRUD files at once, you can also generate a single part by using one of the
+following commands:
+
+* **`generator:crud:form`**   
+* **`generator:crud:voter`**  
+* **`generator:crud:datatable`**  
+* **`generator:crud:controller`**  
+* **`generator:crud:templates`**  
+   Optionally you can provide names of actions you want to generate files for. 
+   E.g. `generator:crud:templates index show` will only generate the index.html.twig and show.html. twig files.
