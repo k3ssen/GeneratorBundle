@@ -7,11 +7,18 @@
 namespace {{ generate_options.defaultBundleNamespace }}\Security;
 
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-abstract class AbstractVoter implements VoterInterface
+/**
+ * AbstractVoter to share some common methods in all your voters.
+ *
+ * Implementing VoterInterface instead of extending Symfony's Voter class would be a more logical choice.
+ * Unfortunatelyphpsy, the Symfony Plugin in PhpStorm requirers the Voters class to be extended, which
+ * makes this a more practical choice.
+ */
+abstract class AbstractVoter extends Voter
 {
     /** @var TokenInterface */
     protected $token;
@@ -41,7 +48,7 @@ abstract class AbstractVoter implements VoterInterface
                 continue;
             }
 
-            $vote = $this->voteOnAttribute($attribute, $subject);
+            $vote = $this->voteOnAttribute($attribute, $subject, $token);
             if ($vote === true) {
                 return self::ACCESS_GRANTED;
             } elseif ($vote === false) {
@@ -57,8 +64,6 @@ abstract class AbstractVoter implements VoterInterface
     {
         return in_array($attribute, (new \ReflectionClass($this))->getConstants(), true);
     }
-
-    abstract protected function voteOnAttribute($attribute, $subject = null): ?bool;
 
     protected function isSuperAdmin(): bool
     {

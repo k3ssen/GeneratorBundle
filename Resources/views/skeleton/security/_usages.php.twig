@@ -1,6 +1,7 @@
 {# @var meta_entity \K3ssen\GeneratorBundle\MetaData\MetaEntityInterface #}
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block usages %}
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 {% if meta_entity.namespace | replace({'\\Entity': ''}) != generate_options.defaultBundleNamespace %}
 use {{ generate_options.defaultBundleNamespace }}\Security\AbstractVoter;
 {% endif %}

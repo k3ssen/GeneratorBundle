@@ -69,7 +69,7 @@ abstract class AbstractDatatable extends SgDatatable
         return $this->responseService->getResponse();
     }
 
-    public function modifyQueryBuilder(QueryBuilder $qb)
+    protected function modifyQueryBuilder(QueryBuilder $qb)
     {
         //Can be overridden to modify queryBuilder
     }

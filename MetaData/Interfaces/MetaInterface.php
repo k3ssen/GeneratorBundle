@@ -55,7 +55,7 @@ class MetaInterface implements MetaInterfaceInterface
 
     public function getMetaEntity(): MetaEntityInterface
     {
-        return $this->getMetaEntity();
+        return $this->metaEntity;
     }
 
     public function getNamespace(): string

@@ -2,7 +2,7 @@
 {# @var generate_options \K3ssen\GeneratorBundle\Generator\CrudGenerateOptions #}
 {% block methods %}
 
-    protected function voteOnAttribute($attribute, $subject = null): ?bool
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): ?bool
     {
         switch ($attribute) {
             case self::INDEX:
