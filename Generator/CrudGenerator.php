@@ -99,7 +99,7 @@ class CrudGenerator
     {
         $fileContent = $this->render('templates/'.$action.'.txt.twig', $metaEntity);
 
-        $templatesTargetDir = $this->generateOptions->getTemplatesDirectory() ?: $this->projectDir .'/templates/';
+        $templatesTargetDir = rtrim($this->generateOptions->getTemplatesDirectory() ?: $this->projectDir .'/templates', '/') . '/';
 
         $targetSubdir = $this->generateOptions->getControllerSubdirectory();
         $targetFile = $templatesTargetDir.

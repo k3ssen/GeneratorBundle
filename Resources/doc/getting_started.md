@@ -44,12 +44,12 @@ class AppKernel extends Kernel
 }
 ```
 
-You'll probably want to add the following configuration to you `app/config.yaml`:
+You'll probably want to add the following configuration to you `app/config.yml`:
 
 ```yaml
 generator:
     default_bundle: AppBundle
-    templates_dir: '%kernel.root_dir%/resources/views'
+    templates_directory: '%kernel.root_dir%/resources/views'
 ```
 
 

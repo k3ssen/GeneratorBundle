@@ -123,6 +123,11 @@ class MetaEntity implements MetaEntityInterface
     public function setBundleNamespace(?string $bundleNamespace)
     {
         $this->bundleNamespace = $bundleNamespace;
+        foreach ($this->getEntityAnnotations() as $entityAnnotation) {
+            if ($entityAnnotation->getAnnotationName() === 'ORM\Entity') {
+                $entityAnnotation->addAnnotationAttribute('repositoryClass', $this->getRepositoryFullClassName());
+            }
+        }
         return $this;
     }
 
@@ -134,6 +139,11 @@ class MetaEntity implements MetaEntityInterface
     public function setSubDir(?string $subDir)
     {
         $this->subDir = $subDir ? Inflector::classify($subDir) : null;
+        foreach ($this->getEntityAnnotations() as $entityAnnotation) {
+            if ($entityAnnotation->getAnnotationName() === 'ORM\Entity') {
+                $entityAnnotation->addAnnotationAttribute('repositoryClass', $this->getRepositoryFullClassName());
+            }
+        }
         return $this;
     }
 
