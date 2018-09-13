@@ -1,13 +1,14 @@
 GeneratorBundle
 =====================
 
-A Symfony 4 bundle for quickly generating/prototyping a CRUD application.
-It is similar to Symfony's [MakerBundle](https://github.com/symfony/maker-bundle),
-except that this bundle is built to be much more extensible.
+A Symfony bundle for quickly generating/prototyping a CRUD application. Compatible with
+Symfony 3.4 and Symfony 4.
+
+This bundle is similar to Symfony's [MakerBundle](https://github.com/symfony/maker-bundle),
+except that this bundle is built to be more extensible.
 
 Features:
-* Generate entities using interactive commands.  
-  Included:
+* Generate entities using interactive commands:
     - Define properties with their types (string, int, array, etc) and attributes (length, nullable, unique, etc) 
     - Types also include relationship-types
         - ManyToOne, OneToMany, ManyToMany, OneToOne

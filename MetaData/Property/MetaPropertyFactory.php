@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\Type;
 use K3ssen\GeneratorBundle\MetaData\MetaEntityInterface;
 use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeFactory;
 use K3ssen\GeneratorBundle\MetaData\PropertyAttribute\MetaAttributeInterface;
@@ -24,7 +25,7 @@ class MetaPropertyFactory
     public function addMetaPropertyClass(string $class)
     {
         $ormType = call_user_func([$class, 'getOrmType']);
-        if (!array_key_exists($ormType, $this->metaPropertyClasses)) {
+        if (!array_key_exists($ormType, $this->metaPropertyClasses) && Type::hasType($ormType)) {
             $this->metaPropertyClasses[$ormType] = $class;
         }
     }

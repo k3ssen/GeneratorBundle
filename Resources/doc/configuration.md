@@ -48,7 +48,8 @@ generator:
         nullable:
             default: false
         # You can add custom attributes   
-        
+    
+    templates_directory: null               #Define directory for twig-templates (null results in 'templates' directory in your projectroot)
     ask_use_voter: true                     #use false if you don't want to be bothered with this question.
     use_voter_default: true                 #Default option for whether or not voters should be used.
     ask_use_write_actions: true             #use false if you don't want to be bothered with this question.

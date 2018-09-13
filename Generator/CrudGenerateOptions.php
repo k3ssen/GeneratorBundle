@@ -8,6 +8,9 @@ class CrudGenerateOptions
     /** @var string|null */
     protected $defaultBundleNamespace;
 
+    /** @var string|null */
+    protected $templatesDirectory;
+
     /** @var bool */
     protected $askUseVoter;
     /** @var bool */
@@ -55,6 +58,20 @@ class CrudGenerateOptions
     public function getUseVoterDefault(): bool
     {
         return $this->useVoterDefault;
+    }
+
+    /**
+     * @required
+     */
+    public function setTemplatesDirectory(string $templatesDirectory)
+    {
+        $this->templatesDirectory = $templatesDirectory;
+        return $this;
+    }
+
+    public function getTemplatesDirectory(): ?string
+    {
+        return $this->templatesDirectory;
     }
 
     /**

@@ -3,6 +3,6 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\MetaData\Property;
 
-interface SimpleArrayMetaPropertyInterface extends PrimitiveMetaPropertyInterface
+interface ArrayMetaPropertyInterface extends PrimitiveMetaPropertyInterface
 {
 }

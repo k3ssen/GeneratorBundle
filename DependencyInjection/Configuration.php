@@ -98,6 +98,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('controller_subdirectory_default')
                     ->defaultNull()
                 ->end()
+                ->scalarNode('templates_directory')
+                    ->defaultNull()
+                ->end()
             ->end()
         ;
         return $treeBuilder;

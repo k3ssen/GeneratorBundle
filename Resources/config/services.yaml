@@ -99,6 +99,7 @@ services:
             $attributeQuestions: !tagged generator.attribute_question
             $projectDir: '%kernel.project_dir%'
             $defaultBundle: '%generator.default_bundle%'
+            $templatesDirectory: '%generator.templates_directory%'
             $askBundle: '%generator.ask_bundle%'
             $askTraits: '%generator.ask_traits%'
             $askUseVoter: '%generator.ask_use_voter%'

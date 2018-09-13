@@ -15,13 +15,43 @@ GeneratorBundle
 
 Run `composer require k3ssen/generator:dev-master --dev` in your console. 
 
-Symfony Flex should add the bundle automatically to your `config/bundles.php`.
-
 If installation fails due to minumum-stability, you could add the 
 following settings to your composer.json file first:
     
     "minimum-stability": "dev",
     "prefer-stable": true 
+
+
+Symfony Flex should add the bundle automatically to your `config/bundles.php`.
+
+### Without Flex
+
+If you're not using symfony flex, make sure you add this bundle to your AppKernel:
+
+```php
+<?php
+// app/AppKernel.php
+
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new K3ssen\GeneratorBundle\GeneratorBundle(),
+        );
+    }
+}
+```
+
+You'll probably want to add the following configuration to you `app/config.yaml`:
+
+```yaml
+generator:
+    default_bundle: AppBundle
+    templates_dir: '%kernel.root_dir%/resources/views'
+```
+
 
 ### Required/Recommended bundles
 

@@ -49,7 +49,7 @@ class RepositoryCommand extends Command
         $io = new CommandStyle($input, $output);
 
         $io->title('Generate Repository');
-        $choices = $this->metaEntityFactory->getEntityOptions();
+        $choices = $this->metaEntityFactory->getEntityOptionsAsStrings();
         if (count($choices) === 0) {
             $io->error('No entities found; Add some entities first.');
             return;
