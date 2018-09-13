@@ -63,7 +63,7 @@ class CrudGenerateOptions
     /**
      * @required
      */
-    public function setTemplatesDirectory(string $templatesDirectory)
+    public function setTemplatesDirectory(?string $templatesDirectory)
     {
         $this->templatesDirectory = $templatesDirectory;
         return $this;

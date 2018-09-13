@@ -10,6 +10,13 @@ class CommandStyle extends SymfonyStyle
 {
     public function askQuestion(Question $question)
     {
+        if (!$question->getValidator()) {
+            // Set validator to return null if nothing is set -> this will allow providing no value without getting
+            // the message "[ERROR] A value is required."
+            $question->setValidator(function ($value) {
+                return $value ?? null;
+            });
+        }
         $answer = parent::askQuestion($question);
         return $answer === 'null' || $answer === '~' ? null : $answer;
     }
