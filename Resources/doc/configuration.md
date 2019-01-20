@@ -16,7 +16,7 @@ No configuration is required, but changes are that the defaults of this bundle a
 Perhaps you don't need to be bothered with 
 certain questions for which your answer will always be the same.
 
-In `config/services.yaml` or in `config/packages/generator.yaml`) you can
+In `config/config.yml` or in `config/packages/generator.yaml`) you can
 alter the following settings. Below the default settings are displayed.
 ```yaml
 generator:
