@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=7.1"
+        "php": ">=5.5.9"
     },
     "require-dev": {
         "symfony/yaml": "~3.4|~4.0",
