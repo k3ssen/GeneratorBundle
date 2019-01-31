@@ -25,7 +25,7 @@ class MetaPropertyFactory
     public function addMetaPropertyClass(string $class)
     {
         $ormType = call_user_func([$class, 'getOrmType']);
-        if (!array_key_exists($ormType, $this->metaPropertyClasses) && Type::hasType($ormType)) {
+        if (!array_key_exists($ormType, $this->metaPropertyClasses) && (Type::hasType($ormType) || $this->isRelationshipType($ormType))) {
             $this->metaPropertyClasses[$ormType] = $class;
         }
     }
@@ -33,6 +33,17 @@ class MetaPropertyFactory
     public function getTypes()
     {
         return $this->metaPropertyClasses;
+    }
+
+    public function isRelationshipType(string $ormType): bool
+    {
+        $relationshipTypes = [
+            ManyToOneMetaPropertyInterface::ORM_TYPE,
+            ManyToManyMetaPropertyInterface::ORM_TYPE,
+            OneToManyMetaPropertyInterface::ORM_TYPE,
+            OneToOneMetaPropertyInterface::ORM_TYPE
+        ];
+        return in_array($ormType, $relationshipTypes, true);
     }
 
     public static function getInversedType($type): string
