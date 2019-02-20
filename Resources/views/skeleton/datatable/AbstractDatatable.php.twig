@@ -167,7 +167,7 @@ abstract class AbstractDatatable extends SgDatatable
             'icon' => static::DELETE_ACTION_ICON,
             'attributes' => [
                 'rel' => 'tooltip',
-                'title' => $this->translator->trans(static::DELETE_ACTION_TITLE),
+                'title' => $this->trans(static::DELETE_ACTION_TITLE),
                 'class' => static::DELETE_ACTION_STYLE,
                 'role' => 'button'
             ],
@@ -186,7 +186,7 @@ abstract class AbstractDatatable extends SgDatatable
             'icon' => static::EDIT_ACTION_ICON,
             'attributes' => [
                 'rel' => 'tooltip',
-                'title' => $this->translator->trans(static::EDIT_ACTION_TITLE),
+                'title' => $this->trans(static::EDIT_ACTION_TITLE),
                 'class' => static::EDIT_ACTION_STYLE,
                 'role' => 'button'
             ],
@@ -205,7 +205,7 @@ abstract class AbstractDatatable extends SgDatatable
             'icon' => static::SHOW_ACTION_ICON,
             'attributes' => [
                 'rel' => 'tooltip',
-                'title' => $this->translator->trans(static::SHOW_ACTION_TITLE),
+                'title' => $this->trans(static::SHOW_ACTION_TITLE),
                 'class' => static::SHOW_ACTION_STYLE,
                 'role' => 'button'
             ],
@@ -221,6 +221,14 @@ abstract class AbstractDatatable extends SgDatatable
             strtoupper($this->getRoute($voterSuffix)),
             $this->getEntityManager()->getReference($this->getEntity(), $entryId)
         );
+    }
+
+    /**
+     * @param string $text #TranslationKey
+     */
+    protected function trans(string $text, array $parameters = [], string $domain = null, string $locale = null): string
+    {
+        return $this->translator->trans($text, $parameters, $domain, $locale);
     }
 
     protected function getRoute($suffix): string

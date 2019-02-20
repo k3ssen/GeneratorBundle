@@ -26,7 +26,7 @@
 {% endblock %}
 
 {% block property_collection_methods %}
-{# @var property \K3ssen\GeneratorBundle\MetaData\Property\AbstractRelationshipProperty #}
+{# @var property \K3ssen\GeneratorBundle\MetaData\Property\RelationMetaPropertyInterface #}
     /**
      * @return ArrayCollection|{{ property.targetEntity.name }}[]
      */
@@ -39,7 +39,9 @@
     {
         if (!$this->{{ property.name }}->contains(${{ property.name | singularize }})) {
             $this->{{ property.name }}->add(${{ property.name | singularize }});
-{% if property.mappedBy %}
+{% if property.ormType == 'ManyToMany' and (property.inversedBy or property.mappedBy) %}
+            ${{ property.name | singularize }}->add{{ (property.inversedBy|default(property.mappedBy)) | singularize | classify }}($this);
+{% elseif property.mappedBy %}
             ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}($this);
 {% endif %}
         }
@@ -50,10 +52,13 @@
     {
         if ($this->{{ property.name }}->contains(${{ property.name | singularize }})) {
             $this->{{ property.name }}->removeElement(${{ property.name | singularize }});
+{% if property.ormType == 'ManyToMany' and (property.inversedBy or property.mappedBy) %}
+            ${{ property.name | singularize }}->remove{{ (property.inversedBy|default(property.mappedBy)) | singularize | classify }}($this);
+{% endif %}
         }
-{% if property.mappedBy %}
-        if (${{ property.name | singularize }}->get{{ property.mappedBy | classify }}() === $this) {
-            ${{ property.name | singularize }}->set{{ property.mappedBy | classify }}(null);
+{% if property.ormType != 'ManyToMany' and (property.mappedBy or property.inversedBy) %}
+        if (${{ property.name | singularize }}->get{{ (property.inversedBy|default(property.mappedBy)) | classify }}() === $this) {
+            ${{ property.name | singularize }}->set{{ (property.inversedBy|default(property.mappedBy)) | classify }}(null);
         }
 {% endif %}
         return $this;

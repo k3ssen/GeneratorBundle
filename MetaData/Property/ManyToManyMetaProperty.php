@@ -44,14 +44,15 @@ class ManyToManyMetaProperty extends AbstractRelationMetaProperty implements Man
         if (!$this->getMappedBy()) {
             $entityId = $this->getMetaEntity()->getIdProperty() ? $this->getMetaEntity()->getIdProperty()->getName() : 'id';
 
-            $tableName = Inflector::pluralize(Inflector::tableize($this->getName())).'_'.Inflector::pluralize(Inflector::tableize($this->getTargetEntity()->getName()));
+            $tableName = Inflector::pluralize(Inflector::tableize($this->getMetaEntity()->getName())).'_'.Inflector::pluralize(Inflector::tableize($this->getTargetEntity()->getName()));
             $annotationLines[] = '@ORM\JoinTable(name="'.$tableName.'",';
             $annotationLines[] = '  joinColumns={';
             $annotationLines[] = '    @ORM\JoinColumn(name="'.Inflector::tableize($this->getMetaEntity()->getName()).'_'.$entityId.'", referencedColumnName="'.$entityId.'", onDelete="CASCADE")';
-            $annotationLines[] = '  }';
+            $annotationLines[] = '  },';
             $annotationLines[] = '  inverseJoinColumns={';
             $annotationLines[] = '    @ORM\JoinColumn(name="'.Inflector::tableize($this->getTargetEntity()->getName()).'_'.$this->getReferencedColumnName().'" , referencedColumnName="'.$this->getReferencedColumnName().'", onDelete="CASCADE")';
             $annotationLines[] = '  }';
+            $annotationLines[] = ')';
         }
 
         return array_merge($annotationLines, parent::getAnnotationLines());

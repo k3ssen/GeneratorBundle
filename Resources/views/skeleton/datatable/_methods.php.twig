@@ -9,14 +9,14 @@
             {%- if meta_entity.idProperty is null %}
 
             ->add('id', Column::class, [
-                'title' => '#'
+                'title' => '#',
             ])
             {%- endif %}
             {#- only add properties that are no relationship-type (ormType that contains 'To' are a relationtype, like ManyToOne) #}
             {%- for property in meta_entity.properties if 'To' not in property.ormType %}
 
             ->add('{{ property.name }}', {{ 'date' in property.ormType ? 'DateTimeColumn::class' : 'Column::class' }}, [
-                'title' => '{{ property.name|humanize }}'
+                'title' => '{{ property.name|humanize }}',
             ])
             {%- endfor %}
 
@@ -32,7 +32,7 @@
 
     public function getRoute($suffix): string
     {
-        return '{{ generate_options.controllerSubdirectory }}_'.parent::getRoute($suffix);
+        return '{{ generate_options.controllerSubdirectory|lower }}_'.parent::getRoute($suffix);
     }
     {%- endif %}
 {% endblock %}
