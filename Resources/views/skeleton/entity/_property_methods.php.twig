@@ -11,15 +11,15 @@
 {% for property in meta_entity.properties %}
 
 {% if 'Collection' in property.returnType %}{{ block('property_collection_methods') }}{% else %}
+    public function get{{ property.name | classify }}(): ?{{ property.returnType(property) }}
+    {
+        return $this->{{ property.name }};
+    }
+
     public function set{{ property.name | classify }}({{ property.nullable ? '?' : '' }}{{ property.returnType(property) }} ${{ property.name }}): self
     {
         $this->{{ property.name }} = ${{ property.name }};
         return $this;
-    }
-
-    public function get{{ property.name | classify }}(): ?{{ property.returnType(property) }}
-    {
-        return $this->{{ property.name }};
     }
 {% endif %}
 {% endfor %}
