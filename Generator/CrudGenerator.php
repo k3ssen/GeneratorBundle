@@ -115,7 +115,7 @@ class CrudGenerator
     protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string
     {
         $targetDir = '/'.$dirName. ($subDirName ? '/'.Inflector::classify($subDirName) : '');
-        $targetFile = str_replace(['/Entity', '.php'], [$targetDir, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
+        $targetFile = str_replace([DIRECTORY_SEPARATOR.'Entity', '.php'], [$targetDir, $fileSuffixName.'.php'], $this->getTargetFile($metaEntity));
         $fileContent = $this->render(strtolower($dirName).'/'.$fileSuffixName.'.php.twig', $metaEntity);
         $this->getFileSystem()->dumpFile($targetFile, $fileContent);
 

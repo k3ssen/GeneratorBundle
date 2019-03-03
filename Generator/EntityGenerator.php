@@ -92,7 +92,7 @@ class EntityGenerator
     public function createRepository(MetaEntityInterface $metaEntity): string
     {
         $repoFileData = $this->getRepositoryContent($metaEntity);
-        $targetFile = str_replace(['/Entity', '.php'], ['/Repository', 'Repository.php'], $this->getTargetFile($metaEntity));
+        $targetFile = str_replace([DIRECTORY_SEPARATOR.'Entity', '.php'], [DIRECTORY_SEPARATOR.'Repository', 'Repository.php'], $this->getTargetFile($metaEntity));
 
         $fs = new Filesystem();
         $fs->dumpFile($targetFile, $repoFileData);
