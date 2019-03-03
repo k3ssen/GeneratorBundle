@@ -1,0 +1,20 @@
+# Tests/config.yml
+parameters:
+    locale: en
+
+framework:
+    secret: test
+    test: true
+    templating:
+        engines:
+            - twig
+doctrine:
+    dbal:
+        types:
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+generator:
+    default_bundle: 'K3ssen\GeneratorBundle\Tests'
