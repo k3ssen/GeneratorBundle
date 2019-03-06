@@ -1,0 +1,86 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Table(name="libraries")
+ * @ORM\Entity(repositoryClass="App\Repository\LibraryBuildingRepository")
+ */
+class LibraryBuilding
+{
+    /**
+    * @var int
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $id;
+
+    /**
+     * @var string
+     * @ORM\Column(name="name", type="string", unique=true, length=100)
+     * @Assert\NotBlank
+     */
+    private $name;
+
+    /**
+     * @var bool
+     * @ORM\Column(name="public", type="boolean")
+     * @Assert\NotNull
+     */
+    private $public;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="open_at", type="time")
+     */
+    private $openAt;
+
+    public function __toString(): string
+    {
+        return $this->getName() ?: static::class;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(?bool $public): self
+    {
+        $this->public = $public;
+        return $this;
+    }
+
+    public function getOpenAt(): ?\DateTime
+    {
+        return $this->openAt;
+    }
+
+    public function setOpenAt(?\DateTime $openAt): self
+    {
+        $this->openAt = $openAt;
+        return $this;
+    }
+}

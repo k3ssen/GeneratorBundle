@@ -10,11 +10,25 @@ framework:
             - twig
 doctrine:
     dbal:
-        types:
+        # configure these for your database server
+        driver: 'pdo_mysql'
+        server_version: '5.7'
+        charset: utf8mb4
+        default_table_options:
+            charset: utf8mb4
+            collate: utf8mb4_unicode_ci
+        url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.root_dir%\Entity'
+                prefix: 'App\Entity'
+                alias: App
 
-generator:
-    default_bundle: 'K3ssen\GeneratorBundle\Tests'
+#generator:
+#    default_bundle: 'K3ssen\GeneratorBundle\Tests'

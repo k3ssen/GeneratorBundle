@@ -1,0 +1,110 @@
+Append fields to entity
+=======================
+
+ Entity:
+  [0] Library
+ > Library
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > openAt
+
+ Field type [datetime]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ > datetime
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [no]:
+ >
+
+ Nullable (yes/no) [no]:
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > openUntil
+
+ Field type [string]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ > datetime
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [no]:
+ >
+
+ Nullable (yes/no) [no]:
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ >
+
+ [OK] Created/Updated file
+#cannot actually show path to directory, since this is different per system.
+ App\Entity\Library.php

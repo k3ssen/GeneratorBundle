@@ -6,7 +6,7 @@ namespace App;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 
-class TestKernel extends Kernel
+class GeneratorTestKernel extends Kernel
 {
     public function getProjectDir()
     {

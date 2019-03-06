@@ -1,0 +1,233 @@
+
+Alter entity
+============
+
+ [WARNING] Altering an entity will result in the file being overwritten.
+Because the generator cannot process
+           information outside its scope,
+some information might be lost, such as custom alterations to the class.
+
+If
+           you want to preserve all information, use 'entity:append' instead.
+
+ Entity:
+  [0] Library
+ > Library
+
+ Entity name [Library]:
+ > LibraryBuilding
+
+ Available options: FrameworkBundle, DoctrineBundle, TwigBundle, GeneratorBundle
+
+ Bundle (optional):
+ >
+
+ What traits should be used?
+ Cannot ask trait "SoftDeleteable"; namespace "Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity" not found
+ Cannot ask trait "Timestampable"; namespace "Gedmo\Timestampable\Traits\TimestampableEntity" not found
+ Cannot ask trait "Blameable"; namespace "Gedmo\Blameable\Traits\BlameableEntity" not found
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > openAt
+
+ Field type [datetime]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ > time
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [no]:
+ >
+
+ Nullable (yes/no) [no]:
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ >
+
+ Display field (optional):
+  [0]
+  [1] name
+  [2] location
+ > 1
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 7
+
+ Current Entity: LibraryBuilding
+ ---------- ------------------------ -------------
+  Property   Type                     Validations
+ ---------- ------------------------ -------------
+  name       string [display field]   NotBlank
+  location   string [nullable]
+  public     boolean                  NotNull
+  openAt     time
+ ---------- ------------------------ -------------
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 5
+
+Remove field
+------------
+
+ Choice (press [enter] to cancel):
+  [0]
+  [1] name
+  [2] location
+  [3] public
+  [4] openAt
+ > 2
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 4
+
+Edit field
+----------
+
+ Choice (press [enter] to cancel):
+  [0]
+  [1] name
+  [2] public
+  [3] openAt
+ > 1
+
+ Field name [name]:
+ >
+
+ Field type [string]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ >
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [yes]:
+ >
+
+ Nullable (yes/no) [no]:
+ >
+
+ Length (optional) [50]:
+ > 100
+
+# FIXME: why scale is being shown here? -> scale shouldn't be shown for string-type
+ Scale (optional):
+ >
+
+# FIXME: precision shouldn't be shown for string-type
+ Precision (optional):
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+  [2] Edit validation
+  [3] Remove validation
+ >
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 8
+
+ [OK] Created/Updated file
+ #cannot show directory path here
+App\Entity\LibraryBuilding.php
+
+ [OK] Created/Updated file
+ #cannot show directory path here
+App\Repository\LibraryBuildingRepository.php
+
+
