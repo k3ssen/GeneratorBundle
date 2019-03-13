@@ -1,0 +1,49 @@
+Create new entity
+=================
+
+ Entity name:
+ > Bare
+
+ Available options: FrameworkBundle, DoctrineBundle, SecurityBundle, TwigBundle, SgDatatablesBundle, GeneratorBundle
+
+ Bundle (optional):
+ >
+
+ What traits should be used?
+
+ SoftDeleteable (yes/no) [no]:
+ >
+
+ Timestampable (yes/no) [yes]:
+ > no
+
+ Blameable (yes/no) [yes]:
+ > no
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ >
+
+ ! [NOTE] Currently, there are no properties suitable for using as display field.
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 8
+
+ [OK] Created/updated file
+ App\Entity\Bare.php
+
+ [OK] Created/updated file
+ App\Repository\BareRepository.php
+
+ ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.

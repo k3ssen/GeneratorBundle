@@ -18,7 +18,9 @@ class GeneratorTestKernel extends Kernel
         return [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new \Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
+            new \Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new \Symfony\Bundle\TwigBundle\TwigBundle(),
+            new \Sg\DatatablesBundle\SgDatatablesBundle(),
             new \K3ssen\GeneratorBundle\GeneratorBundle(),
         ];
     }

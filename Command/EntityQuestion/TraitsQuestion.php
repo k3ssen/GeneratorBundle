@@ -76,10 +76,10 @@ class TraitsQuestion implements EntityQuestionInterface
                     $metaEntity->addInterface($metaInterface);
                 }
             } else {
-                $this->removeTraitIfExists($metaTrait);
                 if (isset($metaInterface)) {
                     $this->removeInterfaceIfExists($metaInterface);
                 }
+                $this->removeTraitIfExists($metaTrait);
                 $this->undoSpecialOptions($metaEntity, $traitKey, $options);
             }
         }
@@ -157,9 +157,12 @@ class TraitsQuestion implements EntityQuestionInterface
     protected function removeTraitIfExists(MetaTraitInterface $metaTrait)
     {
         $metaEntity = $metaTrait->getMetaEntity();
+        $metaTraitNamespace = $metaTrait->getNamespace();
         $metaTrait = $metaEntity->getTraits()[$metaTrait->getTraitUsage()] ?? null;
         if ($metaTrait) {
             $metaEntity->removeTrait($metaTrait);
+        } elseif(array_key_exists($metaTraitNamespace, $metaEntity->getUsages())) {
+            $metaEntity->removeUsage($metaTraitNamespace);
         }
     }
 

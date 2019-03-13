@@ -7,6 +7,8 @@ class EntityCommandTest extends AbstractCommandTest
 {
     public function testGenerateEntitiesWithRelationships()
     {
+        $this->generateEntityAndAssertCommand('Bare');
+        $this->assertEntityMatchesFile('Bare');
         $this->generateEntityAndAssertCommand('Library');
         $this->assertEntityMatchesFile('Library');
         $this->generateEntityAndAssertCommand('Book');

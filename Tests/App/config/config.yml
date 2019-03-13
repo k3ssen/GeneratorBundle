@@ -5,9 +5,21 @@ parameters:
 framework:
     secret: test
     test: true
+    session:
+        handler_id: ~
     templating:
         engines:
             - twig
+    router:
+        strict_requirements: true
+        resource: ~
+    default_locale: 'en'
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks:
+            - 'en'
+
+
 doctrine:
     dbal:
         # configure these for your database server
@@ -32,3 +44,12 @@ doctrine:
 
 #generator:
 #    default_bundle: 'K3ssen\GeneratorBundle\Tests'
+
+# see https://symfony.com/doc/master/bundles/FOSUserBundle/index.html#step-4-configure-your-application-s-security-yml
+security:
+    firewalls:
+        main:
+            pattern: ^/
+            security: false
+    access_control:
+        - { path: ^/, role: ROLE_USER }
