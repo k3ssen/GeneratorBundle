@@ -27,13 +27,12 @@ class EntityCommandTest extends AbstractCommandTest
         // restart kernel, to make sure entity manager will be refreshed (otherwise the Library entity won't be found)
         static::ensureKernelShutdown();
         static::bootKernel();
-        $this->generateAlterEntityAndAssertCommand('Library-append');
+        $this->generateAppendEntityAndAssertCommand('Library-append');
         $this->assertEntityMatchesFile('Library', 'Library-after-append');
     }
 
     public function testGenerateEntitiesWithAlter()
     {
-
         $this->generateEntityAndAssertCommand('Library');
         $this->assertEntityMatchesFile('Library');
         // restart kernel, to make sure entity manager will be refreshed (otherwise the Library entity won't be found)

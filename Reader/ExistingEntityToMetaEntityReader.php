@@ -127,7 +127,13 @@ class ExistingEntityToMetaEntityReader
             $this->setAttributesByAssociationMapping($metaProperty, $classMetadata);
             return;
         }
+        $attributes = $this->metaPropertyFactory->getAttributesForType($metaProperty->getOrmType())->toArray();
         foreach ($mapping as $attributeName => $value) {
+            // Skip attributes that exists as MetaAttribute, but aren't assigned to this type.
+            // E.g. 'precision' exists as MetaAttribute, but is not assigned to boolean, so this should be skipped.
+            if ($this->metaAttributeFactory->attributeExists($attributeName) && !array_key_exists($attributeName, $attributes)) {
+                continue;
+            }
             if (!$metaProperty->hasAttribute($attributeName)) {
                 $attribute = $this->metaAttributeFactory->createMetaAttribute($attributeName, ['value' => $value]);
                 $metaProperty->addMetaAttribute($attribute);

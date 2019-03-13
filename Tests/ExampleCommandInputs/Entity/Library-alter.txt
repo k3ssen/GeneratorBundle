@@ -195,14 +195,6 @@ Edit field
  Length (optional) [50]:
  > 100
 
-# FIXME: why scale is being shown here? -> scale shouldn't be shown for string-type
- Scale (optional):
- >
-
-# FIXME: precision shouldn't be shown for string-type
- Precision (optional):
- >
-
  Validations (press [enter] to stop):
   [0]
   [1] Add new validation
