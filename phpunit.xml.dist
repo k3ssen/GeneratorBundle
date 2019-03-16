@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+        bootstrap="./Tests/bootstrap.php"
+>
+    <php>
+        <server name="KERNEL_CLASS" value="App\GeneratorTestKernel" />
+        <env name="APP_ENV" value="test" />
+        <env name="DATABASE_URL" value="mysql://user:password@domain:3306/generator" />
+        <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test" />
+    </php>
+    <testsuites>
+        <testsuite name="K3ssen\GeneratorBundle">
+            <directory suffix="Test.php">./Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./</directory>
+            <exclude>
+                <directory>./Resources</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

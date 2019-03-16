@@ -1,0 +1,272 @@
+Create new entity
+=================
+
+ Entity name:
+ > Library
+
+ Available options: FrameworkBundle, DoctrineBundle, SecurityBundle, TwigBundle, SgDatatablesBundle, GeneratorBundle
+
+ Bundle (optional):
+ >
+
+ What traits should be used?
+
+ SoftDeleteable (yes/no) [no]:
+ >
+ Timestampable (yes/no) [yes]:
+ >
+ Blameable (yes/no) [yes]:
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > name
+
+ Field type [string]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ > str
+
+ Id (yes/no) [no]:
+ > n
+
+ Unique (yes/no) [no]:
+ > y
+
+ Nullable (yes/no) [no]:
+ >
+
+ Length (optional):
+ > 50
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ > 1
+
+ Available options: Bic, Blank, CardScheme, Choice, Country, Currency, DivisibleBy, Email, EqualTo, Expression, File, GreaterThan, GreaterThanOrEqual, Iban, IdenticalTo, Image, Ip, IsNull, Isbn, Issn, Langu
+age, Length, LessThan, LessThanOrEqual, Locale, Luhn, NotBlank, NotEqualTo, NotIdenticalTo, NotNull, Regex, Required, Type, Url, Uuid
+
+ Add validation (optional):
+ > NotBlank
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+  [2] Edit validation
+  [3] Remove validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > location
+
+ Field type [string]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ >
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [no]:
+ >
+
+ Nullable (yes/no) [no]:
+ > yes
+
+ Length (optional):
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ > public
+
+ Field type [string]:
+  [arr   ] array
+  [bint  ] bigint
+  [bool  ] boolean
+  [dim   ] date_immutable
+  [dint  ] dateinterval
+  [date  ] date
+  [dtim  ] datetime_immutable
+  [dt    ] datetime
+  [dttzim] datetimetz_immutable
+  [dttz  ] datetimetz
+  [dec   ] decimal
+  [int   ] integer
+  [json  ] json
+  [m2m   ] ManyToMany
+  [m2o   ] ManyToOne
+  [obj   ] object
+  [o2m   ] OneToMany
+  [o2o   ] OneToOne
+  [sarr  ] simple_array
+  [sint  ] smallint
+  [str   ] string
+  [txt   ] text
+  [tim   ] time_immutable
+  [time  ] time
+ > bool
+
+ Id (yes/no) [no]:
+ >
+
+ Unique (yes/no) [no]:
+ >
+
+ Nullable (yes/no) [no]:
+ >
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+ > 1
+
+ Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenti
+calTo, NotNull, Required, Type
+
+ Add validation (optional):
+ > NotNull
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+  [2] Edit validation
+  [3] Remove validation
+ > 1
+
+ Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenti
+calTo, NotNull, Required, Type
+
+ Add validation (optional):
+ > IsFalse
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+  [2] Edit validation
+  [3] Remove validation
+ > 3
+
+ Edit validation:
+  [0] Symfony\Component\Validator\Constraints\Symfony\Component\Validator\Constraints\NotNull
+  [1] Symfony\Component\Validator\Constraints\Symfony\Component\Validator\Constraints\IsFalse
+ > 1
+
+ Validations (press [enter] to stop):
+  [0]
+  [1] Add new validation
+  [2] Edit validation
+  [3] Remove validation
+ >
+
+Add new field
+-------------
+
+ Field name (press [enter] to stop):
+ >
+
+ Display field (optional):
+  [0]
+  [1] name
+  [2] location
+ > name
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 7
+
+ Current Entity: Library
+ ---------- ------------------------ -------------
+  Property   Type                     Validations
+ ---------- ------------------------ -------------
+  name       string [display field]   NotBlank
+  location   string [nullable]
+  public     boolean                  NotNull
+ ---------- ------------------------ -------------
+
+ Next action:
+  [0] Edit entity name
+  [1] Edit bundle
+  [2] Set traits
+  [3] New field
+  [4] Edit field
+  [5] Remove field
+  [6] Edit display field
+  [7] Show info
+  [8] All done! Generate entity!
+ > 8
+
+ [OK] Created/updated file
+#Note that we can't test the actualy file-location, since this depends on the system.
+ GeneratorBundle\Tests\App\Entity\Library.php
+#Note that we can't test the actualy file-location, since this depends on the system.
+ [OK] Created/updated file
+ GeneratorBundle\Tests\App\Repository\LibraryRepository.php
+
+ ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.
+

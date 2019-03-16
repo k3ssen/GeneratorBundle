@@ -116,6 +116,10 @@ services:
             $askValidations: '%generator.ask_validations%'
             $traitOptions: '%generator.trait_options%'
 
+
     K3ssen\GeneratorBundle\:
         resource: '../../*'
-        exclude: '../../{Entity,Migrations,Tests}'
+        exclude: '../../{Entity,Migrations,Tests,vendor,Resources,var}'
+
+
+#    Twig_Environment: '@twig'

@@ -1,0 +1,27 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="bares")
+ * @ORM\Entity(repositoryClass="App\Repository\BareRepository")
+ */
+class Bare
+{
+    /**
+    * @var int
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $id;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+}

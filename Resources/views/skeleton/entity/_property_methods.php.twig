@@ -16,7 +16,7 @@
         return $this->{{ property.name }};
     }
 
-    public function set{{ property.name | classify }}({{ property.nullable ? '?' : '' }}{{ property.returnType(property) }} ${{ property.name }}): self
+    public function set{{ property.name | classify }}(?{{ property.returnType(property) }} ${{ property.name }}): self
     {
         $this->{{ property.name }} = ${{ property.name }};
         return $this;

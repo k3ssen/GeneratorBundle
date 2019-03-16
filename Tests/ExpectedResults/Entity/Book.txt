@@ -1,0 +1,191 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity as Timestampable;
+use Gedmo\Blameable\Traits\BlameableEntity as Blameable;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * @ORM\Table(name="books")
+ * @ORM\Entity(repositoryClass="App\Repository\BookRepository")
+ */
+class Book
+{
+    use Timestampable;
+    use Blameable;
+
+    /**
+    * @var int
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
+    private $id;
+
+    /**
+     * @var string
+     * @ORM\Column(name="title", type="string")
+     */
+    private $title;
+
+    /**
+     * @var int
+     * @ORM\Column(name="nr_of_pages", type="integer")
+     * @Assert\GreaterThan(1)
+     */
+    private $nrOfPages;
+
+    /**
+     * @var string
+     * @ORM\Column(name="rent_price", type="decimal", nullable=true, length=11, scale=2)
+     * @Assert\GreaterThanOrEqual(0)
+     */
+    private $rentPrice;
+
+    /**
+     * @var Library
+     * @ORM\ManyToOne(targetEntity="App\Entity\Library", inversedBy="books", cascade={"persist"})
+     * @ORM\JoinColumn(name="library_id", referencedColumnName="id", nullable=false)
+     */
+    private $library;
+
+    /**
+     * @var Collection|ArrayCollection|Tenant[]
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tenant", inversedBy="books", cascade={"persist"})
+     * @ORM\JoinTable(name="books_tenants",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="book_id", referencedColumnName="id", onDelete="CASCADE")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="tenant_id" , referencedColumnName="id", onDelete="CASCADE")
+     *   }
+     * )
+     */
+    private $tenants;
+
+    /**
+     * @var int
+     * @ORM\Column(name="stock", type="integer")
+     */
+    private $stock;
+
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="publication_date", type="date")
+     * @Assert\LessThanOrEqual("today")
+     */
+    private $publicationDate;
+
+    public function __construct()
+    {
+        $this->tenants = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->getTitle() ?: static::class;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    public function getNrOfPages(): ?int
+    {
+        return $this->nrOfPages;
+    }
+
+    public function setNrOfPages(?int $nrOfPages): self
+    {
+        $this->nrOfPages = $nrOfPages;
+        return $this;
+    }
+
+    public function getRentPrice(): ?string
+    {
+        return $this->rentPrice;
+    }
+
+    public function setRentPrice(?string $rentPrice): self
+    {
+        $this->rentPrice = $rentPrice;
+        return $this;
+    }
+
+    public function getLibrary(): ?Library
+    {
+        return $this->library;
+    }
+
+    public function setLibrary(?Library $library): self
+    {
+        $this->library = $library;
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection|Tenant[]
+     */
+    public function getTenants(): Collection
+    {
+        return $this->tenants;
+    }
+
+    public function addTenant(Tenant $tenant): self
+    {
+        if (!$this->tenants->contains($tenant)) {
+            $this->tenants->add($tenant);
+            $tenant->addBook($this);
+        }
+        return $this;
+    }
+
+    public function removeTenant(Tenant $tenant): self
+    {
+        if ($this->tenants->contains($tenant)) {
+            $this->tenants->removeElement($tenant);
+            $tenant->removeBook($this);
+        }
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(?int $stock): self
+    {
+        $this->stock = $stock;
+        return $this;
+    }
+
+    public function getPublicationDate(): ?\DateTime
+    {
+        return $this->publicationDate;
+    }
+
+    public function setPublicationDate(?\DateTime $publicationDate): self
+    {
+        $this->publicationDate = $publicationDate;
+        return $this;
+    }
+}

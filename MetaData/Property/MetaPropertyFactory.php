@@ -77,8 +77,27 @@ class MetaPropertyFactory
         }
         /** @var MetaPropertyInterface $typeClass */
         $typeClass = $this->getTypes()[$type];
+        $metaAttributes = $this->getAttributesForType($type);
+        $metaProperty = new $typeClass($metaEntity, $metaAttributes, $name);
+        foreach ($metaAttributes as $metaAttribute) {
+            $metaAttribute->setMetaProperty($metaProperty);
+        }
+        return $metaProperty;
+    }
+
+    /**
+     * @param string $ormType
+     * @return ArrayCollection|MetaAttributeInterface[] where keys are the attribute-name
+     */
+    public function getAttributesForType(string $ormType)
+    {
         /** @var MetaAttributeInterface[]|ArrayCollection $metaAttributes */
         $metaAttributes = new ArrayCollection();
+        if (!array_key_exists($ormType, $this->getTypes())) {
+            return $metaAttributes;
+        }
+        /** @var MetaPropertyInterface $typeClass */
+        $typeClass = $this->getTypes()[$ormType];
 
         foreach ($this->metaAttributeFactory->getAttributesList() as $attributeName => $attributeInfo) {
             $classes = $attributeInfo['meta_properties'] ?? [];
@@ -95,10 +114,6 @@ class MetaPropertyFactory
                 }
             }
         }
-        $metaProperty = new $typeClass($metaEntity, $metaAttributes, $name);
-        foreach ($metaAttributes as $metaAttribute) {
-            $metaAttribute->setMetaProperty($metaProperty);
-        }
-        return $metaProperty;
+        return $metaAttributes;
     }
 }
