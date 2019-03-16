@@ -26,7 +26,8 @@ Add new field
  Field name (press [enter] to stop):
  >
 
- ! [NOTE] Currently, there are no properties suitable for using as display field.
+ ! [NOTE] Currently, there are no properties suitable for using as
+ #display field.
 
  Next action:
   [0] Edit entity name
