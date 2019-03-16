@@ -36,7 +36,7 @@ Add new field
   [txt   ] text
   [tim   ] time_immutable
   [time  ] time
- > datetime
+ >  datetime
 
  Id (yes/no) [no]:
  >

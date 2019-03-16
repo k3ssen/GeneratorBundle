@@ -17,7 +17,7 @@ If
  Entity name [Library]:
  > LibraryBuilding
 
- Available options: FrameworkBundle, DoctrineBundle, SecurityBundle, TwigBundle, SgDatatablesBundle, GeneratorBundle
+ Available options:
 
  Bundle (optional):
  >

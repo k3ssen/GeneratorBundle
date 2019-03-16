@@ -8,13 +8,10 @@ Tests/logs/*
 bin/*
 .env
 
-!/Entity
-/Entity/*
-!/Entity/.gitkeep
+!Tests/App/src/Entity
+Tests/App/src/Entity/*
+!Tests/App/src/Entity/.gitkeep
 
-Tests/App/src/Controller
-Tests/App/src/Datatable
-Tests/App/src/Entity
 Tests/App/src/Form
 Tests/App/src/Repository
 Tests/App/src/Security

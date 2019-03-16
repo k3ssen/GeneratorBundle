@@ -129,7 +129,7 @@ abstract class AbstractCommandTest extends WebTestCase
             // lines that start with '>' are those where answers are provided.
             if (strpos($line, '>') === 0) {
                 $input = str_replace('>', '', $line);
-                $inputAnswers[] = trim($input);
+                $inputAnswers[] = $input;
                 // If a line start with a '#', then consider this a comment in the file that can be ignored.
             } elseif(strpos($line, '#') !== 0) {
                 $expectedOutputs[] = trim($line);
