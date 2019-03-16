@@ -151,7 +151,9 @@ abstract class AbstractCommandTest extends WebTestCase
         $output = $commandTester->getDisplay(true);
 
         foreach (array_unique($expectedOutputs) as $expectedOutput) {
-            $this->assertContains($expectedOutput, $output);
+            if ($expectedOutput) {
+                $this->assertContains($expectedOutput, $output);
+            }
         }
     }
 }
