@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\Tests;
 
-class CrudCommandTest extends AbstractCommandTest
+class TemplatesCommandTest extends AbstractCommandTest
 {
     public function testGenerateCommand()
     {
@@ -11,12 +11,7 @@ class CrudCommandTest extends AbstractCommandTest
         // restart kernel, to make sure entity manager will be refreshed (otherwise the Library entity won't be found)
         static::ensureKernelShutdown();
         static::bootKernel();
-        $this->generateCrudAndAssertCommand('Library');
-
-        $this->assertControllerMatchesFile('Library', null, 'Admin');
-        $this->assertDatatableMatchesFile('Library');
-        $this->assertFormMatchesFile('Library');
-        $this->assertVoterMatchesFile('Library', 'LibraryVoter-admin');
+        $this->generateTemplatesAndAssertCommand('Library');
 
         $this->assertTemplateMatchesFile('admin/library', 'delete');
         $this->assertTemplateMatchesFile('admin/library', 'edit');
@@ -25,8 +20,8 @@ class CrudCommandTest extends AbstractCommandTest
         $this->assertTemplateMatchesFile('admin/library', 'new');
     }
 
-    protected function generateCrudAndAssertCommand(string $fileName)
+    protected function generateTemplatesAndAssertCommand(string $fileName)
     {
-        $this->generateAndAssertCommand('generator:crud', 'Crud', $fileName);
+        $this->generateAndAssertCommand('generator:templates', 'Templates', $fileName);
     }
 }
