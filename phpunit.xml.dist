@@ -7,6 +7,7 @@
         <env name="APP_ENV" value="test" />
         <env name="DATABASE_URL" value="mysql://user:password@domain:3306/generator" />
         <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
     <testsuites>
         <testsuite name="K3ssen\GeneratorBundle">

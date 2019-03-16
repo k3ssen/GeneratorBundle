@@ -5,8 +5,8 @@ Alter entity
  [WARNING] Altering an entity will result in the file being overwritten.
 #Because the generator cannot process information outside its scope,
 #some information might be lost, such as custom alterations to the class.
-
-If you want to preserve all information, use 'entity:append' instead.
+#If you want
+to preserve all information, use 'entity:append' instead.
 
  Entity:
   [0] Library
