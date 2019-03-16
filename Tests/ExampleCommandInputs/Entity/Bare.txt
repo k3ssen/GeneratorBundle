@@ -42,4 +42,4 @@ Add new field
 
  [OK] Created/updated file
 
- ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.
+ ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff
