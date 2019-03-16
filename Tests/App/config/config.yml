@@ -19,7 +19,6 @@ framework:
         fallbacks:
             - 'en'
 
-
 doctrine:
     dbal:
         # configure these for your database server
@@ -47,6 +46,13 @@ doctrine:
 
 # see https://symfony.com/doc/master/bundles/FOSUserBundle/index.html#step-4-configure-your-application-s-security-yml
 security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+    providers:
+        users:
+            memory:
+                users:
+                    admin: { password: admin, roles: ['ROLE_ADMIN'] }
     firewalls:
         main:
             pattern: ^/

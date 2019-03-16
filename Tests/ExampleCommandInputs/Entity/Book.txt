@@ -119,8 +119,8 @@ Add new field
   [1] Add new validation
  > 1
 
- Available options: Blank, CardScheme, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Isbn, Issn, Language, Length, LessThan, LessThanOrEqual, Luhn, NotEqual
-To, NotIdenticalTo, NotNull, Range, Required, Type
+# Tested in Library.txt
+# Available options: Blank, CardScheme, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Isbn, Issn, Language, Length, LessThan, LessThanOrEqual, Luhn, NotEqualTo, NotIdenticalTo, NotNull, Range, Required, Type
 
  Add validation (optional):
  > GreaterThan
@@ -188,8 +188,8 @@ Add new field
   [1] Add new validation
  > 1
 
- Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, R
-equired, Type
+# see Library.txt
+#Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, Required, Type
 
  Add validation (optional):
  > GreaterThanOrEqual
@@ -398,8 +398,8 @@ Add new field
   [1] Add new validation
  > 1
 
- Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, R
-equired, Type
+# see Library.txt
+# Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsNull, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, Required, Type
 
  Add validation (optional):
  > LessThanOrEqual

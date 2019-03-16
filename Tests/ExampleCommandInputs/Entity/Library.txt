@@ -68,8 +68,43 @@ Add new field
   [1] Add new validation
  > 1
 
- Available options: Bic, Blank, CardScheme, Choice, Country, Currency, DivisibleBy, Email, EqualTo, Expression, File, GreaterThan, GreaterThanOrEqual, Iban, IdenticalTo, Image, Ip, IsNull, Isbn, Issn, Langu
-age, Length, LessThan, LessThanOrEqual, Locale, Luhn, NotBlank, NotEqualTo, NotIdenticalTo, NotNull, Regex, Required, Type, Url, Uuid
+ Available options:
+ # Not all options are available since symfony 3.4, do these are commented to not be tested
+ #Bic,
+ Blank,
+ #CardScheme,
+ Choice,
+ #Country,
+ #Currency,
+ #DivisibleBy,
+ #Email,
+ EqualTo,
+ Expression,
+ #File,
+ GreaterThan,
+ GreaterThanOrEqual,
+ #Iban,
+ IdenticalTo,
+ #Image,
+ #Ip,
+ IsNull,
+ #Isbn,
+ #Issn,
+ Language,
+ Length,
+ LessThan,
+ LessThanOrEqual,
+ #Locale,
+ #Luhn,
+ NotBlank,
+ NotEqualTo,
+ NotIdenticalTo,
+ NotNull,
+ #Regex,
+ Required,
+ Type,
+ #Url,
+ #Uuid
 
  Add validation (optional):
  > NotBlank
@@ -178,8 +213,8 @@ Add new field
   [1] Add new validation
  > 1
 
- Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenti
-calTo, NotNull, Required, Type
+# already tested above
+# Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, Required, Type
 
  Add validation (optional):
  > NotNull
@@ -191,8 +226,8 @@ calTo, NotNull, Required, Type
   [3] Remove validation
  > 1
 
- Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenti
-calTo, NotNull, Required, Type
+# already tested above
+# Available options: Blank, Choice, DivisibleBy, EqualTo, Expression, GreaterThan, GreaterThanOrEqual, IdenticalTo, IsFalse, IsNull, IsTrue, Language, Length, LessThan, LessThanOrEqual, NotEqualTo, NotIdenticalTo, NotNull, Required, Type
 
  Add validation (optional):
  > IsFalse
