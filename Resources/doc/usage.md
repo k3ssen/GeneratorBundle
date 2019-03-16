@@ -46,7 +46,7 @@ The property-types you can use include relationships, such as ManyToOne.
 A required part of relationships is that you provide a targetEntity.
 
 The command will provide you existing options, but also allows you to provide an
-entity that does'nt exist yet. 
+entity that doesn't exist yet. 
 
 - If you provide a non-existing targetEntity, the command will also generate this targetEntity.
 - If an existing targetEntity is provided, the command will update that

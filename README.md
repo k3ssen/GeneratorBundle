@@ -1,6 +1,8 @@
 GeneratorBundle
 =====================
 
+[![Build Status](https://travis-ci.com/k3ssen/GeneratorBundle.svg?branch=master)](https://travis-ci.com/k3ssen/GeneratorBundle)
+
 A Symfony bundle for quickly generating/prototyping a CRUD application. Compatible with
 Symfony 3.4 and Symfony 4.
 
