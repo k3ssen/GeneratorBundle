@@ -46,19 +46,4 @@ class EntityCommandTest extends AbstractCommandTest
         // TODO: uncomment line below after library-fix
 //        $this->assertFileNotExists(__DIR__.'/App/Entity/Library.php');
     }
-
-    protected function generateEntityAndAssertCommand(string $fileName)
-    {
-        $this->generateAndAssertCommand('generator:entity:create', 'Entity', $fileName);
-    }
-
-    protected function generateAppendEntityAndAssertCommand(string $fileName)
-    {
-        $this->generateAndAssertCommand('generator:entity:append', 'Entity', $fileName);
-    }
-
-    protected function generateAlterEntityAndAssertCommand(string $fileName)
-    {
-        $this->generateAndAssertCommand('generator:entity:alter', 'Entity', $fileName);
-    }
 }

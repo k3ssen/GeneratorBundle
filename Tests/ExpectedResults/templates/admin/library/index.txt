@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% set title = 'Library' %}
+{% set sub_title = 'Overview' %}
+
+{% block body %}
+     {{ sg_datatables_render_html(datatable) }}
+    <div class="mt-5">
+        <a href="{{ path('admin_library_new') }}" class="btn btn-success">New</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ sg_datatables_render_js(datatable) }}
+{% endblock %}
+

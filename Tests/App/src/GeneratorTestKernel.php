@@ -10,7 +10,7 @@ class GeneratorTestKernel extends Kernel
 {
     public function getProjectDir()
     {
-        return parent::getProjectDir().'/var/log';
+        return __DIR__ . '/../';
     }
 
     public function registerBundles()
@@ -27,6 +27,6 @@ class GeneratorTestKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config/config.yml');
+        $loader->load(__DIR__ . '/../config/config.yml');
     }
 }

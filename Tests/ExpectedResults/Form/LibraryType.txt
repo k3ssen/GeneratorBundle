@@ -1,0 +1,35 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Form;
+
+use App\Entity\Library;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class LibraryType extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name', null, [
+                'label' => 'Name',
+            ])
+            ->add('location', null, [
+                'label' => 'Location',
+            ])
+            ->add('public', null, [
+                'label' => 'Public',
+            ])
+        ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Library::class,
+        ]);
+    }
+}

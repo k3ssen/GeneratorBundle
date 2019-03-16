@@ -12,8 +12,10 @@ bin/*
 /Entity/*
 !/Entity/.gitkeep
 
-Tests/App/Entity
-Tests/App/Repository
-Tests/App/Voters
-Tests/App/Form
+Tests/App/src/Controller
+Tests/App/src/Datatable
+Tests/App/src/Entity
+Tests/App/src/Form
+Tests/App/src/Repository
+Tests/App/src/Security
 Tests/App/templates

@@ -262,11 +262,6 @@ Add new field
  > 8
 
  [OK] Created/updated file
-#Note that we can't test the actualy file-location, since this depends on the system.
- GeneratorBundle\Tests\App\Entity\Library.php
-#Note that we can't test the actualy file-location, since this depends on the system.
- [OK] Created/updated file
- GeneratorBundle\Tests\App\Repository\LibraryRepository.php
 
  ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.
 

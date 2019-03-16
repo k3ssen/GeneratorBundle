@@ -1,0 +1,41 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Datatable;
+
+use App\Entity\Library;
+use Sg\DatatablesBundle\Datatable\Column\Column;
+
+class LibraryDatatable extends AbstractDatatable
+{
+    protected const USE_VOTER_CHECK = true;
+
+    public function addColumns(array $options = []): void
+    {
+        $this->columnBuilder
+            ->add('id', Column::class, [
+                'title' => '#',
+            ])
+            ->add('name', Column::class, [
+                'title' => 'Name',
+            ])
+            ->add('location', Column::class, [
+                'title' => 'Location',
+            ])
+            ->add('public', Column::class, [
+                'title' => 'Public',
+            ])
+        ;
+    }
+
+    public function getEntity()
+    {
+        return Library::class;
+    }
+
+    public function getRoute($suffix): string
+    {
+        return 'admin_'.parent::getRoute($suffix);
+    }
+}

@@ -25,15 +25,30 @@ abstract class AbstractCommandTest extends WebTestCase
     protected function cleanup()
     {
         // Remove directories and their generated files to make sure these do not mess with the new tests
-        $cleanupDirNames = ['Repository', 'Voter', 'Entity', 'Form', 'templates'];
+        $cleanupDirNames = ['Repository', 'Voter', 'Entity', 'Form', '../templates'];
         foreach ($cleanupDirNames as $cleanupDirName) {
-            if (is_dir($dir = __DIR__ . '/App/' . $cleanupDirName)) {
-                array_map('unlink', glob("$dir/*.*"));
-                rmdir($dir);
+            if (is_dir($dir = __DIR__ . '/App/src/' . $cleanupDirName)) {
+                $this->rrmdir($dir);
             }
         }
         // Entity-dir must exist or locators for entity will fail (doctrine functionality; cannot be changed)
-        mkdir(__DIR__.'/App/Entity');
+        mkdir(__DIR__.'/App/src/Entity');
+    }
+
+    public function rrmdir(?string $dir): void
+    {
+        if (is_dir($dir)) {
+            $objects = scandir($dir);
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (is_dir($dir."/".$object))
+                        $this->rrmdir($dir."/".$object);
+                    else
+                        unlink($dir."/".$object);
+                }
+            }
+            rmdir($dir);
+        }
     }
 
     protected function assertFileMatchesExpectedResult(string $directory, string $className, string $expectedResultFileName = null)
@@ -41,7 +56,7 @@ abstract class AbstractCommandTest extends WebTestCase
         $expectedResultFileName = $expectedResultFileName ?? $className;
         $this->assertFileEquals(
             __DIR__.'/ExpectedResults/'.$directory.'/'.$expectedResultFileName.'.txt',
-            __DIR__.'/App/'.$directory.'/'.$className.'.php'
+            __DIR__.'/App/src/'.$directory.'/'.$className.'.php'
         );
     }
 
@@ -58,8 +73,17 @@ abstract class AbstractCommandTest extends WebTestCase
 
     protected function assertControllerMatchesFile(string $entityName, string $expectedResultFileName = null, $subdirectory = null)
     {
-        $directory = $subdirectory ? $subdirectory.'/Controller' : 'Controller';
+        $directory = $subdirectory ? 'Controller/'.$subdirectory : 'Controller';
         $this->assertFileMatchesExpectedResult($directory, $entityName.'Controller', $expectedResultFileName);
+    }
+
+    protected function assertTemplateMatchesFile(string $templateDir, string $fileName = null)
+    {
+        $directory = 'templates/'.$templateDir ;
+        $this->assertFileEquals(
+            __DIR__.'/ExpectedResults/'.$directory.'/'.$fileName.'.txt',
+            __DIR__.'/App/'.$directory.'/'.$fileName.'.html.twig'
+        );
     }
 
     protected function assertVoterMatchesFile(string $entityName, string $expectedResultFileName = null)
@@ -70,6 +94,26 @@ abstract class AbstractCommandTest extends WebTestCase
     protected function assertFormMatchesFile(string $entityName, string $expectedResultFileName = null)
     {
         $this->assertFileMatchesExpectedResult('Form', $entityName.'Type', $expectedResultFileName);
+    }
+
+    protected function assertDatatableMatchesFile(string $entityName, string $expectedResultFileName = null)
+    {
+        $this->assertFileMatchesExpectedResult('Datatable', $entityName.'Datatable', $expectedResultFileName);
+    }
+
+    protected function generateEntityAndAssertCommand(string $fileName)
+    {
+        $this->generateAndAssertCommand('generator:entity:create', 'Entity', $fileName);
+    }
+
+    protected function generateAppendEntityAndAssertCommand(string $fileName)
+    {
+        $this->generateAndAssertCommand('generator:entity:append', 'Entity', $fileName);
+    }
+
+    protected function generateAlterEntityAndAssertCommand(string $fileName)
+    {
+        $this->generateAndAssertCommand('generator:entity:alter', 'Entity', $fileName);
     }
 
     protected function generateAndAssertCommand(string $commandName, string $commandSubdirectory, string $fileName)

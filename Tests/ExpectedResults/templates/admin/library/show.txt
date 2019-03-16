@@ -1,0 +1,46 @@
+{# @var library \App\Entity\Library #}
+{% extends 'base.html.twig' %}
+
+{% set title = 'Library' %}
+{% set sub_title = 'Details' %}
+
+{% block body %}
+    <div class="form-group row">
+        <label class="col-md-2">
+            name
+        </label>
+        <div class="col-md-10">
+            {{ library.name }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">
+            location
+        </label>
+        <div class="col-md-10">
+            {{ library.location }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">
+            public
+        </label>
+        <div class="col-md-10">
+            {{ library.public ? 'Yes' : 'No' }}
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a href="{{ path('admin_library_index') }}" class="btn btn-secondary">
+            Overview
+        </a>
+        <a href="{{ path('admin_library_delete', {id: library.id}) }}" class="btn btn-danger">
+            Delete
+        </a>
+        <a href="{{ path('admin_library_edit', {id: library.id}) }}" class="btn btn-warning">
+            Edit
+        </a>
+    </div>
+{% endblock %}

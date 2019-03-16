@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Timestampable\Traits\TimestampableEntity as Timestampable;
 use Gedmo\Blameable\Traits\BlameableEntity as Blameable;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="libraries")
- * @ORM\Entity(repositoryClass="App\Repository\LibraryRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\LibraryBuildingRepository")
  */
 class LibraryBuilding
 {
@@ -19,11 +19,11 @@ class LibraryBuilding
     use Blameable;
 
     /**
-    * @var int
-    * @ORM\Column(name="id", type="integer")
-    * @ORM\Id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
+     * @var int
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
     private $id;
 
     /**

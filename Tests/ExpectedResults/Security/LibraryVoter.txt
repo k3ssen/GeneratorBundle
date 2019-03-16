@@ -1,0 +1,32 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Security;
+
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+
+class LibraryVoter extends AbstractVoter
+{
+    public const INDEX = 'ADMIN_LIBRARY_INDEX';
+    public const SEARCH = 'ADMIN_LIBRARY_SEARCH';
+    public const VIEW = 'ADMIN_LIBRARY_VIEW';
+    public const CREATE = 'ADMIN_LIBRARY_CREATE';
+    public const EDIT = 'ADMIN_LIBRARY_EDIT';
+    public const DELETE = 'ADMIN_LIBRARY_DELETE';
+
+    protected function voteOnAttribute($attribute, $subject, TokenInterface $token): ?bool
+    {
+        switch ($attribute) {
+            case self::INDEX:
+            case self::SEARCH:
+            case self::CREATE:
+                return true;
+            case self::VIEW:
+            case self::EDIT:
+            case self::DELETE:
+                return $subject !== null;
+        }
+        return null;
+    }
+}

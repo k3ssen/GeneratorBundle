@@ -1,12 +1,9 @@
 Generate CRUD
 =============
 
-
  Entity:
   [0] Library
-  [1] LibraryBuilding
  > Library
-
 
  Subdirectory for controller (optional):
  > Admin
@@ -15,48 +12,8 @@ Generate CRUD
 
  Include write actions (new, edit, delete)? (yes/no) [yes]:
  >
-
-
  Use Voter? (yes/no) [yes]:
  >
-
-
  Use Datatable? (yes/no) [yes]:
  >
-
-
  [OK] Created/Updated file
- App/Controller/AbstractController.php
-
- [OK] Created/Updated file
- App/Controller/Admin\LibraryController.php
-
- [OK] Created/Updated file C
- App/Form\LibraryType.php
-
- [OK] Created/Updated file
- App/Security/AbstractVoter.php
-
- [OK] Created/Updated file
- App/Security\LibraryVoter.php
-
- [OK] Created/Updated
- App/Datatable/AbstractDatatable.php
-
- [OK] Created/Updated file
- App/Datatable\LibraryDatatable.php
-
- [OK] Created/Updated file
- templates/admin/library/index.html.twig
-
- [OK] Created/Updated file
- templates/admin/library/show.html.twig
-
- [OK] Created/Updated file
- templates/admin/library/new.html.twig
-
- [OK] Created/Updated
- templates/admin/library/edit.html.twig
-
- [OK] Created/Updated file
- templates/admin/library/delete.html.twig

@@ -1,0 +1,25 @@
+{# @var library \App\Entity\Library #}
+{% extends 'base.html.twig' %}
+
+{% set title = 'Library' %}
+{% set sub_title = 'Delete' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <p>
+        Are you sure you want to delete this Library?
+    </p>
+    <button class="btn btn-danger">Yes, delete</button>
+    <a href="{{ path('admin_library_show', {id: library.id}) }}" class="btn btn-secondary">No, go back</a>
+    {{ form_end(form) }}
+
+    <div class="mt-5">
+        <a href="{{ path('admin_library_index') }}" class="btn btn-secondary">
+            Overview
+        </a>
+        <a href="{{ path('admin_library_show', {id: library.id}) }}" class="btn btn-secondary">
+            Details
+        </a>
+    </div>
+{% endblock %}

@@ -41,9 +41,5 @@ Add new field
  > 8
 
  [OK] Created/updated file
- App\Entity\Bare.php
-
- [OK] Created/updated file
- App\Repository\BareRepository.php
 
  ! [NOTE] Use doctrine:schema:update or doctrine:migrations:diff to add the tables to your database.

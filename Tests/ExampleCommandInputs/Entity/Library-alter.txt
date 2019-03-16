@@ -23,9 +23,13 @@ If
  >
 
  What traits should be used?
- Cannot ask trait "SoftDeleteable"; namespace "Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity" not found
- Cannot ask trait "Timestampable"; namespace "Gedmo\Timestampable\Traits\TimestampableEntity" not found
- Cannot ask trait "Blameable"; namespace "Gedmo\Blameable\Traits\BlameableEntity" not found
+
+ SoftDeleteable (yes/no) [no]:
+ >
+ Timestampable (yes/no) [yes]:
+ >
+ Blameable (yes/no) [yes]:
+ >
 
 Add new field
 -------------
@@ -215,11 +219,5 @@ Edit field
  > 8
 
  [OK] Created/Updated file
- #cannot show directory path here
-App\Entity\LibraryBuilding.php
-
- [OK] Created/Updated file
- #cannot show directory path here
-App\Repository\LibraryBuildingRepository.php
 
 

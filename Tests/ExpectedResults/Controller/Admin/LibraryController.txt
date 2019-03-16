@@ -1,0 +1,106 @@
+<?php
+//TODO: THIS FILE IS AUTO-GENERATED - REMOVE THIS COMMENT TO MAKE CLEAR THAT YOU'VE REVIEWED THIS FILE
+declare(strict_types=1);
+
+namespace App\Controller\Admin;
+
+use App\Entity\Library;
+use App\Form\LibraryType;
+use App\Security\LibraryVoter;
+use App\Datatable\LibraryDatatable;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use App\Controller\AbstractController;
+
+/**
+ * @Route("/admin/library")
+ */
+class LibraryController extends AbstractController
+{
+    /**
+     * @Route("/", name="admin_library_index")
+     */
+    public function index(LibraryDatatable $datatable): Response
+    {
+        $this->denyAccessUnlessGranted(LibraryVoter::INDEX);
+
+        return $this->render('admin/library/index.html.twig', [
+            'datatable' => $datatable->buildDatatable(),
+        ]);
+    }
+
+    /**
+     * @Route("/result", name="admin_library_result")
+     */
+    public function result(LibraryDatatable $datatable): Response
+    {
+        $this->denyAccessUnlessGranted(LibraryVoter::SEARCH);
+
+        return $datatable->getResponse();
+    }
+
+    /**
+     * @Route("/{id}", name="admin_library_show", requirements={"id":"\d+"})
+     */
+    public function show(Library $library): Response
+    {
+        $this->denyAccessUnlessGranted(LibraryVoter::VIEW, $library);
+
+        return $this->render('admin/library/show.html.twig', [
+            'library' => $library,
+        ]);
+    }
+
+    /**
+     * @Route("/new", name="admin_library_new", methods="GET|POST")
+     */
+    public function new(Request $request): Response
+    {
+        $library = new Library();
+        $this->denyAccessUnlessGranted(LibraryVoter::CREATE, $library);
+
+        $form = $this->createForm(LibraryType::class, $library);
+        if ($this->handleForm($form, $request)) {
+            return $this->redirectToRoute('admin_library_index');
+        }
+        return $this->render('admin/library/new.html.twig', [
+            'library' => $library,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/edit", name="admin_library_edit",  methods="GET|POST")
+     */
+    public function edit(Request $request, Library $library): Response
+    {
+        $this->denyAccessUnlessGranted(LibraryVoter::EDIT, $library);
+
+        $form = $this->createForm(LibraryType::class, $library);
+        if ($this->handleForm($form, $request)) {
+            return $this->redirectToRoute('admin_library_index');
+        }
+        return $this->render('admin/library/edit.html.twig', [
+            'library' => $library,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/delete", name="admin_library_delete",  methods="GET|DELETE")
+     */
+    public function delete(Request $request, Library $library): Response
+    {
+        $this->denyAccessUnlessGranted(LibraryVoter::DELETE, $library);
+
+        $form = $this->createDeleteForm($library);
+        if ($this->handleDeleteForm($form, $request)) {
+            return $this->redirectToRoute('admin_library_index');
+        }
+        return $this->render('admin/library/delete.html.twig', [
+            'library' => $library,
+            'form' => $form->createView(),
+        ]);
+    }
+}

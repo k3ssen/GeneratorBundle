@@ -106,5 +106,3 @@ Add new field
  >
 
  [OK] Created/Updated file
-#cannot actually show path to directory, since this is different per system.
- App\Entity\Library.php

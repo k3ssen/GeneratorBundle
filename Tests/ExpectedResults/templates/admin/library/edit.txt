@@ -1,0 +1,24 @@
+{# @var library \App\Entity\Library #}
+{% extends 'base.html.twig' %}
+
+{% set title = 'Library' %}
+{% set sub_title = 'Edit' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn btn-primary">Save</button>
+    {{ form_end(form) }}
+
+    <div class="mt-5">
+        <a href="{{ path('admin_library_index') }}" class="btn btn-secondary">
+            Overview
+        </a>
+        <a href="{{ path('admin_library_show', {id: library.id}) }}" class="btn btn-secondary">
+            Details
+        </a>
+        <a href="{{ path('admin_library_delete', {id: library.id}) }}" class="btn btn-danger">
+            Delete
+        </a>
+    </div>
+{% endblock %}
