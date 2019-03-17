@@ -31,15 +31,16 @@ class MetaValidationFactory
 
     public function createMetaValidation(MetaPropertyInterface $metaProperty, string $className, array $options = []): MetaValidationInterface
     {
-        if (strpos('\\', $className) === false) {
-            $className = $this->getConstraintFullClassName($className);
-        }
+        $className = $this->getConstraintFullClassName($className);
         return new $this->metaValidationClass($metaProperty, $className, $options);
     }
 
-    protected function getConstraintFullClassName($shortName): string
+    protected function getConstraintFullClassName($className): string
     {
-        return 'Symfony\\Component\\Validator\\Constraints\\'.$shortName;
+        if (strpos($className, '\\' ) === false) {
+            return 'Symfony\\Component\\Validator\\Constraints\\'.$className;
+        }
+        return $className;
     }
 
     public function getConstraintOptions(MetaPropertyInterface $metaProperty = null)
@@ -64,7 +65,7 @@ class MetaValidationFactory
     protected function getBlackListConstraints(MetaPropertyInterface $metaProperty = null)
     {
         $blackList = [
-            Constraints\AbstractComparison::class,  //This isn't an actual constaint, since it's abstractr
+            Constraints\AbstractComparison::class,  //This isn't an actual constraint, since it's abstract
             //Constraints composed of other constraints are just too complex to be used in a generator like this.
             Constraints\Composite::class,
             Constraints\All::class,

@@ -67,6 +67,7 @@ class ValidationsQuestion implements PropertyQuestionInterface
             $validationClass = $this->askValidationChoice($commandInfo, $metaProperty);
             if (!$validationClass) {
                 $this->doQuestion($commandInfo, $metaProperty);
+                return;
             }
             $validationOptions = get_class_vars($validationClass);
             $requiredOptions = $this->getValidationRequiredOptions($validationClass);
@@ -88,7 +89,7 @@ class ValidationsQuestion implements PropertyQuestionInterface
                 }
             }
         }
-        if (count($validationOptions)) {
+        if ($validationOptions) {
             do {
                 $editValidationOptionChoice = $commandInfo->getIo()->choice('Choose option to edit  (press <comment>[enter]</comment> to stop)', array_merge([null], array_keys($validationOptions)));
                 if ($editValidationOptionChoice) {
@@ -163,6 +164,14 @@ class ValidationsQuestion implements PropertyQuestionInterface
             return $choice;
         });
         $validationChoice = $commandInfo->getIo()->askQuestion($question);
-        return array_search($validationChoice, $options);
+        if (!$validationChoice) {
+            return null;
+        }
+        $choice = array_search($validationChoice, $options);
+        if ($choice === false) {
+            $commandInfo->getIo()->warning(sprintf('The provided option "%s" is not valid', $validationChoice));
+            return $this->askValidationChoice($commandInfo, $metaProperty);
+        }
+        return $choice;
     }
 }
