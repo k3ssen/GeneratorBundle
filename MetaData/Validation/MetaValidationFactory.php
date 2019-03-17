@@ -3,9 +3,11 @@ declare(strict_types=1);
 
 namespace K3ssen\GeneratorBundle\MetaData\Validation;
 
+use K3ssen\GeneratorBundle\MetaData\Property\ArrayMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\BooleanMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\DateMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\DateTimeMetaPropertyInterface;
+use K3ssen\GeneratorBundle\MetaData\Property\DecimalMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\IntegerMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\JsonMetaPropertyInterface;
 use K3ssen\GeneratorBundle\MetaData\Property\ManyToManyMetaPropertyInterface;
@@ -73,6 +75,7 @@ class MetaValidationFactory
             Constraints\Existence::class,
             Constraints\Optional::class,
             Constraints\Collection::class,
+            Constraints\Required::class,
             //What does traverse even do?
             Constraints\Traverse::class,
         ];
@@ -80,17 +83,16 @@ class MetaValidationFactory
             $blackList[] = Constraints\Bic::class;
             $blackList[] = Constraints\Currency::class;
             $blackList[] = Constraints\Iban::class;
-            $blackList[] = Constraints\Image::class;
             $blackList[] = Constraints\Locale::class;
             $blackList[] = Constraints\Country::class;
             $blackList[] = Constraints\Ip::class;
             $blackList[] = Constraints\Uuid::class;
+            $blackList[] = Constraints\Language::class;
             //File and image actually aren't suitable for any orm-type, but one might use a string to setup a file/image property
             $blackList[] = Constraints\File::class;
             $blackList[] = Constraints\Image::class;
         }
         if (!$metaProperty instanceof StringMetaPropertyInterface && !$metaProperty instanceof TextMetaPropertyInterface) {
-            $blackList[] = Constraints\NotBlank::class;
             $blackList[] = Constraints\Regex::class;
             $blackList[] = Constraints\Url::class;
             $blackList[] = Constraints\Email::class;
@@ -104,11 +106,15 @@ class MetaValidationFactory
             $blackList[] = Constraints\Issn::class;
         }
 
+        if (!$metaProperty instanceof IntegerMetaPropertyInterface && !$metaProperty instanceof DecimalMetaPropertyInterface) {
+            $blackList[] = Constraints\DivisibleBy::class;
+        }
+
         if (!$metaProperty instanceof IntegerMetaPropertyInterface
             && !$metaProperty instanceof DateTimeMetaPropertyInterface
             && !$metaProperty instanceof TimeMetaPropertyInterface
             && !$metaProperty instanceof DateMetaPropertyInterface
-            //TODO: not sure if range would work with string if decimal is used.
+            && !$metaProperty instanceof DecimalMetaPropertyInterface //TODO: not sure if range would work with decimal as string
         ) {
             $blackList[] = Constraints\Range::class;
         }
@@ -134,6 +140,7 @@ class MetaValidationFactory
         if (!$metaProperty instanceof ManyToManyMetaPropertyInterface
             && !$metaProperty instanceof OneToManyMetaPropertyInterface
             && !$metaProperty instanceof SimpleArrayMetaPropertyInterface
+            && !$metaProperty instanceof ArrayMetaPropertyInterface
             && !$metaProperty instanceof JsonMetaPropertyInterface //TODO: Not sure if json can be used as collection
         ) {
             $blackList[] = Constraints\Count::class;
