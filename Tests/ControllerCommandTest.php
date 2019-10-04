@@ -12,7 +12,7 @@ class ControllerCommandTest extends AbstractCommandTest
         static::ensureKernelShutdown();
         static::bootKernel();
         $this->generateControllerAndAssertCommand('Library');
-        $this->assertVoterMatchesFile('Library');
+        $this->assertControllerMatchesFile('Library');
     }
 
     protected function generateControllerAndAssertCommand(string $fileName)
