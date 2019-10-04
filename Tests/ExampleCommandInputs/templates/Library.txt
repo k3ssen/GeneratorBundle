@@ -1,0 +1,14 @@
+Generate Templates (twig view files)
+====================================
+
+ Entity:
+  [0] Library
+ > 0
+
+
+ Subdirectory for controller (optional):
+ > Admin
+
+ Using subdirectory "Admin"
+
+ [OK] Created/Updated

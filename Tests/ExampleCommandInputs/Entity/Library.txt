@@ -76,7 +76,6 @@ Add new field
  Choice,
  #Country,
  #Currency,
- #DivisibleBy,
  #Email,
  EqualTo,
  Expression,
@@ -101,7 +100,6 @@ Add new field
  NotIdenticalTo,
  NotNull,
  #Regex,
- Required,
  Type,
  #Url,
  #Uuid
@@ -240,8 +238,8 @@ Add new field
  > 3
 
  Edit validation:
-  [0] Symfony\Component\Validator\Constraints\Symfony\Component\Validator\Constraints\NotNull
-  [1] Symfony\Component\Validator\Constraints\Symfony\Component\Validator\Constraints\IsFalse
+  [0] Symfony\Component\Validator\Constraints\NotNull
+  [1] Symfony\Component\Validator\Constraints\IsFalse
  > 1
 
  Validations (press [enter] to stop):

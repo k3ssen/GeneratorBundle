@@ -69,3 +69,6 @@ for datatables.
 Generated Datatable classes needs this bundle to work. Without this bundle enabled
 no question will be asked for using datatables. The generated index-action will
 then use a plain table instead.
+- [SensioGeneratorBundle](https://github.com/sensiolabs/SensioGeneratorBundle) when using Symfony 3.4  
+The DatatablesBundle has its own commands for generating datatable which still relies on using the SensioGenerator.
+When commands aren't lazy-loaded, an exception will be thrown without this bundle. 

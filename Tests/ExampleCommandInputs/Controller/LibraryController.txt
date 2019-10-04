@@ -1,0 +1,17 @@
+Generate Controller
+=============
+
+ Entity:
+  [0] Library
+ > Library
+
+ Subdirectory for controller (optional):
+ >
+
+ Include write actions (new, edit, delete)? (yes/no) [yes]:
+ >n
+ Use Voter? (yes/no) [yes]:
+ >n
+ Use Datatable? (yes/no) [yes]:
+ >n
+ [OK] Created/Updated file

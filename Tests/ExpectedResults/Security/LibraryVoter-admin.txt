@@ -8,12 +8,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 class LibraryVoter extends AbstractVoter
 {
-    public const INDEX = 'LIBRARY_INDEX';
-    public const SEARCH = 'LIBRARY_SEARCH';
-    public const VIEW = 'LIBRARY_VIEW';
-    public const CREATE = 'LIBRARY_CREATE';
-    public const EDIT = 'LIBRARY_EDIT';
-    public const DELETE = 'LIBRARY_DELETE';
+    public const INDEX = 'ADMIN_LIBRARY_INDEX';
+    public const SEARCH = 'ADMIN_LIBRARY_SEARCH';
+    public const VIEW = 'ADMIN_LIBRARY_VIEW';
+    public const CREATE = 'ADMIN_LIBRARY_CREATE';
+    public const EDIT = 'ADMIN_LIBRARY_EDIT';
+    public const DELETE = 'ADMIN_LIBRARY_DELETE';
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token): ?bool
     {

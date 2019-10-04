@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DatatableCommand extends CrudCommand
 {
-    protected const TITLE = 'Generate Controller';
+    protected const TITLE = 'Generate Datatable';
 
     protected static $defaultName = 'generator:datatable';
 
