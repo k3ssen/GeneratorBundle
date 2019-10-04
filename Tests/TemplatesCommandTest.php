@@ -22,6 +22,6 @@ class TemplatesCommandTest extends AbstractCommandTest
 
     protected function generateTemplatesAndAssertCommand(string $fileName)
     {
-        $this->generateAndAssertCommand('generator:templates', 'Templates', $fileName);
+        $this->generateAndAssertCommand('generator:templates', 'templates', $fileName);
     }
 }
