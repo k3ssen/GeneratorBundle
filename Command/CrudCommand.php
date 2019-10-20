@@ -153,7 +153,7 @@ class CrudCommand extends Command
     {
         $io = new CommandStyle($input, $output);
         $useVoter = $input->getOption('use-voter') ?? $this->generateOptions->getUseVoterDefault();
-        if ($this->bundleProvider->isEnabled('SecurityBundle')) {
+        if (!$this->generateOptions->getCheckSecurityBundleEnabled() || $this->bundleProvider->isEnabled('SecurityBundle')) {
             if ($this->generateOptions->getAskUseVoter()) {
                 $useVoter = $io->confirm('Use Voter?', $useVoter);
             }
@@ -168,7 +168,7 @@ class CrudCommand extends Command
     {
         $io = new CommandStyle($input, $output);
         $useDatatable = $input->getOption('use-datatable') ?? $this->generateOptions->getUseDatatableDefault();
-        if ($this->bundleProvider->isEnabled('SgDatatablesBundle')) {
+        if (!$this->generateOptions->getCheckSgDatatablesBundleEnabled() || $this->bundleProvider->isEnabled('SgDatatablesBundle')) {
             if ($this->generateOptions->getAskUseDatatable()) {
                 $useDatatable = $io->confirm('Use Datatable?', $useDatatable);
             }

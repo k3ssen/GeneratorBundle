@@ -18,7 +18,7 @@
 {% endif %}
 {% endblock %}
 {% block show_actions_return_response %}
-        return $this->render('{{ view_prefix }}/show.html.twig', [
+        return $this->render('{{ view_prefix }}/show.{{ generate_options.templatesFileExtension | trim('.') }}', [
             '{{ meta_entity.name | tableize }}' => ${{ entity_variable }},
         ]);
 {% endblock %}

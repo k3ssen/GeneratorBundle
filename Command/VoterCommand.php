@@ -24,9 +24,9 @@ class VoterCommand extends CrudCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        if (!$this->bundleProvider->isEnabled('SgDatatablesBundle')) {
+        if ($this->generateOptions->getCheckSecurityBundleEnabled() && !$this->bundleProvider->isEnabled('SecurityBundle')) {
             $io = new CommandStyle($input, $output);
-            $io->warning('SgDatatablesBundle is not enabled.');
+            $io->warning('SecurityBundle is not enabled.');
             if (!$io->confirm('Do you still want to proceed?')) {
                 return;
             }

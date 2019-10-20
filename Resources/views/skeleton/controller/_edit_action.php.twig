@@ -27,7 +27,7 @@
         }
 {% endblock %}
 {% block edit_action_return_response %}
-        return $this->render('{{ view_prefix }}/edit.html.twig', [
+        return $this->render('{{ view_prefix }}/edit.{{ generate_options.templatesFileExtension | trim('.') }}', [
             '{{ meta_entity.name | tableize }}' => ${{ entity_variable }},
             'form' => $form->createView(),
         ]);

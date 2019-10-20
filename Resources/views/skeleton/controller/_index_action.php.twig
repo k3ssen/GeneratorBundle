@@ -18,7 +18,7 @@
 {% endif %}
 {% endblock %}
 {% block index_action_return_response %}
-        return $this->render('{{ view_prefix }}/index.html.twig', [
+        return $this->render('{{ view_prefix }}/index.{{ generate_options.templatesFileExtension | trim('.') }}', [
     {%- if generate_options.useDatatable %}
 
             'datatable' => $datatable->buildDatatable(),

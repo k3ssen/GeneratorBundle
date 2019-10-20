@@ -11,12 +11,17 @@ class CrudGenerateOptions
     /** @var string|null */
     protected $templatesDirectory;
 
+    /** @var string|null */
+    protected $templatesFileExtension;
+
     /** @var bool */
     protected $askUseVoter;
     /** @var bool */
     protected $useVoterDefault;
     /** @var bool */
     protected $useVoter;
+    /** @var bool */
+    protected $checkSecurityBundleEnabled;
 
     /** @var bool */
     protected $askUseWriteActions;
@@ -31,6 +36,8 @@ class CrudGenerateOptions
     protected $useDatatableDefault;
     /** @var bool */
     protected $useDatatable;
+    /** @var bool */
+    protected $checkSgDatatablesBundleEnabled;
 
     /** @var bool */
     protected $askControllerSubdirectory;
@@ -55,6 +62,20 @@ class CrudGenerateOptions
         return $this;
     }
 
+    public function getCheckSecurityBundleEnabled(): ?bool
+    {
+        return $this->checkSecurityBundleEnabled;
+    }
+
+    /**
+     * @required
+     */
+    public function setCheckSecurityBundleEnabled(bool $checkSecurityBundleEnabled)
+    {
+        $this->checkSecurityBundleEnabled = $checkSecurityBundleEnabled;
+        return $this;
+    }
+
     public function getUseVoterDefault(): bool
     {
         return $this->useVoterDefault;
@@ -72,6 +93,20 @@ class CrudGenerateOptions
     public function getTemplatesDirectory(): ?string
     {
         return $this->templatesDirectory;
+    }
+
+    /**
+     * @required
+     */
+    public function setTemplatesFileExtension(?string $templatesFileExtension)
+    {
+        $this->templatesFileExtension = $templatesFileExtension;
+        return $this;
+    }
+
+    public function getTemplatesFileExtension(): ?string
+    {
+        return $this->templatesFileExtension;
     }
 
     /**
@@ -133,7 +168,6 @@ class CrudGenerateOptions
         return $this;
     }
 
-
     public function getAskUseDatatable(): bool
     {
         return $this->askUseDatatable;
@@ -145,6 +179,20 @@ class CrudGenerateOptions
     public function setAskUseDatatable(bool $askUseDatatable): self
     {
         $this->askUseDatatable = $askUseDatatable;
+        return $this;
+    }
+
+    public function getCheckSgDatatablesBundleEnabled(): bool
+    {
+        return $this->checkSgDatatablesBundleEnabled;
+    }
+
+    /**
+     * @required
+     */
+    public function setCheckSgDatatablesBundleEnabled(bool $checkSgDatatablesBundleEnabled): self
+    {
+        $this->checkSgDatatablesBundleEnabled = $checkSgDatatablesBundleEnabled;
         return $this;
     }
 
