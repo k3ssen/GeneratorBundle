@@ -101,6 +101,9 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('templates_directory')
                     ->defaultNull()
                 ->end()
+                ->scalarNode('templates_file_extension')
+                    ->defaultValue('html.twig')
+                ->end()
             ->end()
         ;
         return $treeBuilder;

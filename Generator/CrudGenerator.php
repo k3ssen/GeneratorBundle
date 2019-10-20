@@ -105,11 +105,16 @@ class CrudGenerator
         $targetFile = $templatesTargetDir.
             ($targetSubdir ? Inflector::tableize($targetSubdir).'/' : '').
             Inflector::tableize($metaEntity->getName()). '/'.
-            $action.'.html.twig';
+            $this->getViewTemplateFileName($action);
         ;
         $this->getFileSystem()->dumpFile($targetFile, $fileContent);
 
         return $targetFile;
+    }
+
+    protected function getViewTemplateFileName($action): string
+    {
+        return $action . '.' . trim($this->generateOptions->getTemplatesFileExtension(), '.');
     }
 
     protected function createFile(MetaEntityInterface $metaEntity, string $dirName, string $fileSuffixName, string $subDirName = null): ?string

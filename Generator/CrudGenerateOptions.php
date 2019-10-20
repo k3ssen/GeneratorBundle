@@ -11,6 +11,9 @@ class CrudGenerateOptions
     /** @var string|null */
     protected $templatesDirectory;
 
+    /** @var string|null */
+    protected $templatesFileExtension;
+
     /** @var bool */
     protected $askUseVoter;
     /** @var bool */
@@ -72,6 +75,20 @@ class CrudGenerateOptions
     public function getTemplatesDirectory(): ?string
     {
         return $this->templatesDirectory;
+    }
+
+    /**
+     * @required
+     */
+    public function setTemplatesFileExtension(?string $templatesFileExtension)
+    {
+        $this->templatesFileExtension = $templatesFileExtension;
+        return $this;
+    }
+
+    public function getTemplatesFileExtension(): ?string
+    {
+        return $this->templatesFileExtension;
     }
 
     /**
