@@ -34,6 +34,8 @@ class CrudGenerateOptions
     protected $useDatatableDefault;
     /** @var bool */
     protected $useDatatable;
+    /** @var bool */
+    protected $checkSgDatatablesBundleEnabled;
 
     /** @var bool */
     protected $askControllerSubdirectory;
@@ -150,7 +152,6 @@ class CrudGenerateOptions
         return $this;
     }
 
-
     public function getAskUseDatatable(): bool
     {
         return $this->askUseDatatable;
@@ -162,6 +163,20 @@ class CrudGenerateOptions
     public function setAskUseDatatable(bool $askUseDatatable): self
     {
         $this->askUseDatatable = $askUseDatatable;
+        return $this;
+    }
+
+    public function getCheckSgDatatablesBundleEnabled(): bool
+    {
+        return $this->checkSgDatatablesBundleEnabled;
+    }
+
+    /**
+     * @required
+     */
+    public function setCheckSgDatatablesBundleEnabled(bool $checkSgDatatablesBundleEnabled): self
+    {
+        $this->checkSgDatatablesBundleEnabled = $checkSgDatatablesBundleEnabled;
         return $this;
     }
 

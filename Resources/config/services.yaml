@@ -106,6 +106,7 @@ services:
             $askUseVoter: '%generator.ask_use_voter%'
             $useVoterDefault: '%generator.use_voter_default%'
             $askUseDatatable: '%generator.ask_use_datatable%'
+            $checkSgDatatablesBundleEnabled: '%generator.check_sg_datatables_bundle_enabled%'
             $useDatatableDefault: '%generator.use_datatable_default%'
             $askUseWriteActions: '%generator.ask_use_write_actions%'
             $useWriteActionsDefault: '%generator.use_write_actions_default%'
