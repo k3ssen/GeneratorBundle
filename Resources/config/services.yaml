@@ -104,6 +104,7 @@ services:
             $askBundle: '%generator.ask_bundle%'
             $askTraits: '%generator.ask_traits%'
             $askUseVoter: '%generator.ask_use_voter%'
+            $checkSecurityBundleEnabled: '%generator.check_security_bundle_enabled%'
             $useVoterDefault: '%generator.use_voter_default%'
             $askUseDatatable: '%generator.ask_use_datatable%'
             $checkSgDatatablesBundleEnabled: '%generator.check_sg_datatables_bundle_enabled%'

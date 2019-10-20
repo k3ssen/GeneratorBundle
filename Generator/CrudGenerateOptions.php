@@ -20,6 +20,8 @@ class CrudGenerateOptions
     protected $useVoterDefault;
     /** @var bool */
     protected $useVoter;
+    /** @var bool */
+    protected $checkSecurityBundleEnabled;
 
     /** @var bool */
     protected $askUseWriteActions;
@@ -57,6 +59,20 @@ class CrudGenerateOptions
     public function setAskUseVoter(bool $askUseVoter)
     {
         $this->askUseVoter = $askUseVoter;
+        return $this;
+    }
+
+    public function getCheckSecurityBundleEnabled(): ?bool
+    {
+        return $this->checkSecurityBundleEnabled;
+    }
+
+    /**
+     * @required
+     */
+    public function setCheckSecurityBundleEnabled(bool $checkSecurityBundleEnabled)
+    {
+        $this->checkSecurityBundleEnabled = $checkSecurityBundleEnabled;
         return $this;
     }
 

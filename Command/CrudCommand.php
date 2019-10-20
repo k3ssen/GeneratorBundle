@@ -153,7 +153,7 @@ class CrudCommand extends Command
     {
         $io = new CommandStyle($input, $output);
         $useVoter = $input->getOption('use-voter') ?? $this->generateOptions->getUseVoterDefault();
-        if ($this->bundleProvider->isEnabled('SecurityBundle')) {
+        if (!$this->generateOptions->getCheckSecurityBundleEnabled() || $this->bundleProvider->isEnabled('SecurityBundle')) {
             if ($this->generateOptions->getAskUseVoter()) {
                 $useVoter = $io->confirm('Use Voter?', $useVoter);
             }
