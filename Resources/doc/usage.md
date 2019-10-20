@@ -94,7 +94,7 @@ The interactive command will ask you the following information:
 
 The generator will then create the following:
 - `[bundlePath]`/Controller/`[subdirectory]`/`[EntityName]`**Controller.php**
-- `[bundlePath]`/Form/**`[EntityName]`Type.php** (only if 'write actions' is true)
+- `[bundlePath]`/Form/`[EntityName]`**Type.php** (only if 'write actions' is true)
 - `[bundlePath]`/Security/`[EntityName]`**Voter.php** (only if 'using voter' is true)
 - templates/[subdirectory]/`[entity_name]`
     - **index.html.twig**
@@ -121,4 +121,4 @@ following commands:
 * **`generator:crud:controller`**  
 * **`generator:crud:templates`**  
    Optionally you can provide names of actions you want to generate files for. 
-   E.g. `generator:crud:templates index show` will only generate the index.html.twig and show.html. twig files.
+   E.g. `generator:crud:templates index show` will only generate the index.html.twig and show.html.twig files.

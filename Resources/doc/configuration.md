@@ -65,6 +65,6 @@ generator:
 
 Note that some options have dependencies on other bundles.
 For instance,  `SecurityBundle` is required to use voters. If that
-bundle isn't enabled, then no voter will be generated, no matter the configured
-settings.
+bundle isn't enabled, then normally no voter will be generated (unless you set
+`check_security_bundle_enabled` to false).
 Likewise, traits won't be generated if their namespaces can't be resolved.
