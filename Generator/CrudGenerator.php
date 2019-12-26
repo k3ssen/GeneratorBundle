@@ -13,7 +13,7 @@ class CrudGenerator
 {
     use GeneratorFileLocatorTrait;
 
-    /** @var \Twig_Environment */
+    /** @var \Twig\Environment */
     protected $twig;
     /** @var string */
     protected $projectDir;
@@ -24,7 +24,7 @@ class CrudGenerator
 
     public function __construct(
         FileLocator $fileLocator,
-        \Twig_Environment $twig,
+        \Twig\Environment $twig,
         string $projectDir,
         BundleProvider $bundleProvider,
         CrudGenerateOptions $generateOptions

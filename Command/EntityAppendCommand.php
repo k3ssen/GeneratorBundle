@@ -48,8 +48,8 @@ class EntityAppendCommand extends Command
     protected function configure()
     {
         $this->setDescription('Append fields to an existing entity')
-            ->addOption('savepoint', 's', InputOption::VALUE_NONE, false)
-            ->addOption('revert', 'r', InputOption::VALUE_NONE, false)
+            ->addOption('savepoint', 's', InputOption::VALUE_NONE)
+            ->addOption('revert', 'r', InputOption::VALUE_NONE)
         ;
     }
 

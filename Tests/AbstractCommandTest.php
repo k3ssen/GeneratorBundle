@@ -15,14 +15,14 @@ abstract class AbstractCommandTest extends WebTestCase
         static::bootKernel();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         parent::tearDown();
         // TODO: uncomment line below; currently disabled for development: it's much easier to see actually results.
 //        $this->cleanup();
     }
 
-    protected function cleanup()
+    protected function cleanup(): void
     {
         // Remove directories and their generated files to make sure these do not mess with the new tests
         $cleanupDirNames = ['Repository', 'Voter', 'Entity', 'Form', '../templates'];

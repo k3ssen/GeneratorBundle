@@ -19,14 +19,14 @@ class EntityGenerator
     /** @var EntityAppender */
     protected $entityAppender;
 
-    /** @var \Twig_Environment */
+    /** @var \Twig\Environment */
     protected $twig;
 
     public function __construct(
         MetaEntityFactory $metaEntityFactory,
         EntityAppender $entityAppender,
         FileLocator $fileLocator,
-        \Twig_Environment $twig
+        \Twig\Environment $twig
     ) {
         $this->entityAppender = $entityAppender;
         $this->metaEntityFactory = $metaEntityFactory;

@@ -11,7 +11,7 @@ class EntityAppender
 {
     use GeneratorFileLocatorTrait;
 
-    /** @var \Twig_Environment */
+    /** @var \Twig\Environment */
     protected $twig;
     /**
      * @var ExistingEntityToMetaEntityReader
@@ -21,7 +21,7 @@ class EntityAppender
     public function __construct(
         ExistingEntityToMetaEntityReader $existingEntityToMetaEntityReader,
         FileLocator $fileLocator,
-        \Twig_Environment $twig
+        \Twig\Environment $twig
     ) {
         $this->existingEntityToMetaEntityReader = $existingEntityToMetaEntityReader;
         $this->fileLocator = $fileLocator;

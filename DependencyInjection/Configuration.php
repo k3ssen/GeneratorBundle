@@ -13,8 +13,15 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('generator');
+        // Supports Symfony 4.3 +
+        if (method_exists (TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('generator');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // Supports Symfony 3.4 - 4.2
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('generator');
+        }
         $rootNode
             ->children()
                 ->arrayNode('attributes')
